@@ -9,37 +9,36 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.leoapps.findout.add.presentation.model.AddUiAction
-import com.leoapps.findout.ui.theme.GrayLight
 import com.leoapps.findout.ui.theme.Violet
 import com.leoapps.findout.ui.theme.VioletLight
 
 
 fun LazyListScope.addTitleSection(
     title: String,
-    description: String?,
+    description: String,
+    hasDescription: Boolean,
     onAction: (AddUiAction) -> Unit
 ) {
-    item {
+    item(key = "TitleSection") {
         Column {
             Text(
                 text = "Title",
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold,
+                style = MaterialTheme.typography.titleMedium,
                 modifier = Modifier.padding(horizontal = 16.dp)
             )
             OutlinedTextField(
                 value = title,
-                onValueChange = {},
+                textStyle = MaterialTheme.typography.bodyLarge,
+                onValueChange = { newValue -> onAction(AddUiAction.TitleUpdated(newValue)) },
                 shape = RoundedCornerShape(12.dp),
                 modifier = Modifier
                     .fillMaxWidth()
@@ -48,8 +47,6 @@ fun LazyListScope.addTitleSection(
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedBorderColor = VioletLight,
                     unfocusedBorderColor = VioletLight,
-                    unfocusedTextColor = GrayLight,
-                    focusedTextColor = GrayLight
                 ),
                 placeholder = {
                     Text(
@@ -58,17 +55,17 @@ fun LazyListScope.addTitleSection(
                 },
             )
             AnimatedContent(
-                targetState = description,
+                targetState = hasDescription,
                 label = "Add description animation"
-            ) { desc ->
-                if (desc.isNullOrEmpty()) {
-                    AddDescriptionButton(
-                        onClick = {}
+            ) { hasDesc ->
+                if (hasDesc) {
+                    AddDescriptionField(
+                        description = description,
+                        onChange = { newValue -> onAction(AddUiAction.DescriptionUpdated(newValue)) }
                     )
                 } else {
-                    AddDescriptionField(
-                        description = desc,
-                        onDescriptionChange = {}
+                    AddDescriptionButton(
+                        onClick = { onAction(AddUiAction.AddDescriptionClicked) }
                     )
                 }
             }
@@ -90,7 +87,8 @@ fun AddDescriptionButton(
             tint = Violet
         )
         Text(
-            text = "Add description",
+            text = "Add Description",
+            style = MaterialTheme.typography.labelLarge,
             color = Violet
         )
     }
@@ -99,26 +97,28 @@ fun AddDescriptionButton(
 @Composable
 fun AddDescriptionField(
     description: String,
-    onDescriptionChange: () -> Unit
+    onChange: (String) -> Unit
 ) {
     Column {
         Text(
             text = "Description",
-            fontSize = 18.sp,
-            fontWeight = FontWeight.Bold
+            style = MaterialTheme.typography.titleMedium,
+            modifier = Modifier
+                .padding(top = 16.dp)
+                .padding(horizontal = 16.dp)
         )
         OutlinedTextField(
             value = description,
-            onValueChange = {},
+            textStyle = MaterialTheme.typography.bodyLarge,
+            onValueChange = onChange,
             shape = RoundedCornerShape(12.dp),
             modifier = Modifier
                 .fillMaxWidth()
+                .padding(top = 8.dp)
                 .padding(horizontal = 16.dp),
             colors = OutlinedTextFieldDefaults.colors(
                 focusedBorderColor = VioletLight,
                 unfocusedBorderColor = VioletLight,
-                unfocusedTextColor = GrayLight,
-                focusedTextColor = GrayLight
             ),
             placeholder = {
                 Text(

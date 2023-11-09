@@ -1,10 +1,12 @@
 package com.leoapps.findout.add.presentation.composables
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Reorder
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -20,10 +22,14 @@ fun AddQuestionItem(
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.padding(12.dp)
+        modifier = Modifier
+            .clickable { }
+            .padding(12.dp)
+            .padding(horizontal = 16.dp)
     ) {
         Text(
             text = question.title,
+            style = MaterialTheme.typography.bodyLarge,
             modifier = Modifier.weight(1f, true)
         )
         Icon(

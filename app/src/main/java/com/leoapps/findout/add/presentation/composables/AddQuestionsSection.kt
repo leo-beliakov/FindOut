@@ -6,13 +6,12 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.leoapps.findout.add.presentation.model.AddUiAction
 import com.leoapps.findout.add.presentation.model.AddUiState
 import com.leoapps.findout.ui.theme.Violet
@@ -21,11 +20,10 @@ fun LazyListScope.addQuestionsSection(
     questions: List<AddUiState.Question>,
     onAction: (AddUiAction) -> Unit
 ) {
-    item {
+    item(key = "QuestionsTitle") {
         Text(
             text = "Questions",
-            fontSize = 18.sp,
-            fontWeight = FontWeight.Bold,
+            style = MaterialTheme.typography.titleMedium,
             modifier = Modifier.padding(horizontal = 16.dp)
         )
     }
@@ -37,7 +35,7 @@ fun LazyListScope.addQuestionsSection(
             question = it
         )
     }
-    item {
+    item(key = "AddQuestionButton") {
         AddQuestionButton(
             onClick = { onAction(AddUiAction.AddQuestionClicked) }
         )
@@ -59,6 +57,7 @@ fun AddQuestionButton(
         )
         Text(
             text = "Add Question",
+            style = MaterialTheme.typography.labelLarge,
             color = Violet
         )
     }

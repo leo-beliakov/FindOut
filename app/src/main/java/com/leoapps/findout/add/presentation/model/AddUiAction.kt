@@ -5,4 +5,11 @@ sealed interface AddUiAction {
     object AddImageClicked : AddUiAction
     object AddDescriptionClicked : AddUiAction
     object AddQuestionClicked : AddUiAction
+    data class TitleUpdated(
+        val newValue: String
+    ) : AddUiAction
+
+    data class DescriptionUpdated(
+        val newValue: String
+    ) : AddUiAction
 }

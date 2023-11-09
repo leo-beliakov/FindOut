@@ -14,15 +14,14 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Image
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.leoapps.findout.add.presentation.model.AddUiAction
 import com.leoapps.findout.ui.theme.FindOutTheme
 import com.leoapps.findout.ui.theme.Violet
@@ -33,11 +32,11 @@ fun LazyListScope.addImageSection(
     onAction: (AddUiAction) -> Unit
 ) {
     if (imageUri == null) {
-        item {
+        item(key = "ImagePlaceholder") {
             AddImagePlaceholder { onAction(AddUiAction.AddImageClicked) }
         }
     } else {
-        item {
+        item(key = "ImagePlaceholder") {
             AddImagePlaceholder { onAction(AddUiAction.AddImageClicked) }
         }
     }
@@ -65,8 +64,9 @@ private fun AddImagePlaceholder(onClick: () -> Unit) {
         )
         Text(
             text = "Add Cover Image",
-            fontSize = 18.sp,
-            fontWeight = FontWeight.SemiBold,
+            style = MaterialTheme.typography.headlineSmall,
+//            fontSize = 18.sp,
+//            fontWeight = FontWeight.SemiBold,
             color = Violet
         )
     }

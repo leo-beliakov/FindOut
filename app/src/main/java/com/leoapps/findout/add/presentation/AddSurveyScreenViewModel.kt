@@ -16,8 +16,14 @@ class AddSurveyScreenViewModel @Inject constructor() : ViewModel() {
     val state = _state.asStateFlow()
     fun onAction(action: AddUiAction) {
         when (action) {
-            AddUiAction.AddDescriptionClicked -> TODO()
-            AddUiAction.AddImageClicked -> TODO()
+            AddUiAction.AddDescriptionClicked -> {
+                _state.update { it.copy(hasDescription = true) }
+            }
+
+            AddUiAction.AddImageClicked -> {
+
+            }
+
             AddUiAction.AddQuestionClicked -> {
                 _state.update {
                     it.copy(
@@ -29,7 +35,17 @@ class AddSurveyScreenViewModel @Inject constructor() : ViewModel() {
                 }
             }
 
-            AddUiAction.BackClicked -> TODO()
+            AddUiAction.BackClicked -> {
+
+            }
+
+            is AddUiAction.DescriptionUpdated -> {
+                _state.update { it.copy(description = action.newValue) }
+            }
+
+            is AddUiAction.TitleUpdated -> {
+                _state.update { it.copy(title = action.newValue) }
+            }
         }
     }
 }

@@ -45,6 +45,7 @@ fun AddScreen(
                 addTitleSection(
                     title = state.title,
                     description = state.description,
+                    hasDescription = state.hasDescription,
                     onAction = viewModel::onAction
                 )
                 addQuestionsSection(
