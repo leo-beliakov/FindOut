@@ -7,5 +7,10 @@ data class AddUiState(
     val title: String = "",
     val description: String? = null,
     val coverUri: Uri? = null,
-    val questions: List<Any> = emptyList(),
-)
+    val questions: List<Question> = emptyList(),
+) {
+    data class Question(
+        val id: Long,
+        val title: String,
+    )
+}

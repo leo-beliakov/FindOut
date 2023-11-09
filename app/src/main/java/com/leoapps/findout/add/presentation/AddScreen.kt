@@ -1,9 +1,10 @@
 package com.leoapps.findout.add.presentation
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -11,10 +12,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.leoapps.findout.add.presentation.composables.AddImageSection
-import com.leoapps.findout.add.presentation.composables.AddQuestionsSection
-import com.leoapps.findout.add.presentation.composables.AddTitleSection
 import com.leoapps.findout.add.presentation.composables.AddTopBar
+import com.leoapps.findout.add.presentation.composables.addImageSection
+import com.leoapps.findout.add.presentation.composables.addQuestionsSection
+import com.leoapps.findout.add.presentation.composables.addTitleSection
 
 @Composable
 fun AddScreen(
@@ -30,23 +31,23 @@ fun AddScreen(
             )
         },
         content = { paddings ->
-            Column(
+            LazyColumn( //todo add content type??
+                contentPadding = PaddingValues(vertical = 16.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp),
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(paddings)
-                    .padding(16.dp)
             ) {
-                AddImageSection(
+                addImageSection(
                     imageUri = state.coverUri,
                     onAction = viewModel::onAction
                 )
-                AddTitleSection(
+                addTitleSection(
                     title = state.title,
                     description = state.description,
                     onAction = viewModel::onAction
                 )
-                AddQuestionsSection(
+                addQuestionsSection(
                     questions = state.questions,
                     onAction = viewModel::onAction
                 )

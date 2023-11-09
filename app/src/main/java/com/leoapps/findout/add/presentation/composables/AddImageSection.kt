@@ -7,7 +7,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Image
@@ -26,15 +28,18 @@ import com.leoapps.findout.ui.theme.FindOutTheme
 import com.leoapps.findout.ui.theme.Violet
 import com.leoapps.findout.ui.theme.VioletLight
 
-@Composable
-fun AddImageSection(
+fun LazyListScope.addImageSection(
     imageUri: Uri?,
     onAction: (AddUiAction) -> Unit
 ) {
     if (imageUri == null) {
-        AddImagePlaceholder { onAction(AddUiAction.AddImageClicked) }
+        item {
+            AddImagePlaceholder { onAction(AddUiAction.AddImageClicked) }
+        }
     } else {
-        AddImagePlaceholder { onAction(AddUiAction.AddImageClicked) }
+        item {
+            AddImagePlaceholder { onAction(AddUiAction.AddImageClicked) }
+        }
     }
 }
 
@@ -44,6 +49,7 @@ private fun AddImagePlaceholder(onClick: () -> Unit) {
         verticalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterVertically),
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
+            .padding(horizontal = 16.dp)
             .fillMaxWidth()
             .heightIn(min = 250.dp)
             .clip(shape = RoundedCornerShape(12.dp))

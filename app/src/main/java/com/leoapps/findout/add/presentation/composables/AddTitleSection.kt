@@ -4,6 +4,7 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -22,50 +23,54 @@ import com.leoapps.findout.ui.theme.GrayLight
 import com.leoapps.findout.ui.theme.Violet
 import com.leoapps.findout.ui.theme.VioletLight
 
-@Composable
-fun AddTitleSection(
+
+fun LazyListScope.addTitleSection(
     title: String,
     description: String?,
     onAction: (AddUiAction) -> Unit
 ) {
-    Column {
-        Text(
-            text = "Title",
-            fontSize = 18.sp,
-            fontWeight = FontWeight.Bold
-        )
-        OutlinedTextField(
-            value = title,
-            onValueChange = {},
-            shape = RoundedCornerShape(12.dp),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 8.dp),
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = VioletLight,
-                unfocusedBorderColor = VioletLight,
-                unfocusedTextColor = GrayLight,
-                focusedTextColor = GrayLight
-            ),
-            placeholder = {
-                Text(
-                    text = "Enter survey title"
-                )
-            },
-        )
-        AnimatedContent(
-            targetState = description,
-            label = "Add description animation"
-        ) { desc ->
-            if (desc.isNullOrEmpty()) {
-                AddDescriptionButton(
-                    onClick = {}
-                )
-            } else {
-                AddDescriptionField(
-                    description = desc,
-                    onDescriptionChange = {}
-                )
+    item {
+        Column {
+            Text(
+                text = "Title",
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(horizontal = 16.dp)
+            )
+            OutlinedTextField(
+                value = title,
+                onValueChange = {},
+                shape = RoundedCornerShape(12.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp)
+                    .padding(horizontal = 16.dp),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = VioletLight,
+                    unfocusedBorderColor = VioletLight,
+                    unfocusedTextColor = GrayLight,
+                    focusedTextColor = GrayLight
+                ),
+                placeholder = {
+                    Text(
+                        text = "Enter survey title"
+                    )
+                },
+            )
+            AnimatedContent(
+                targetState = description,
+                label = "Add description animation"
+            ) { desc ->
+                if (desc.isNullOrEmpty()) {
+                    AddDescriptionButton(
+                        onClick = {}
+                    )
+                } else {
+                    AddDescriptionField(
+                        description = desc,
+                        onDescriptionChange = {}
+                    )
+                }
             }
         }
     }
@@ -76,7 +81,8 @@ fun AddDescriptionButton(
     onClick: () -> Unit
 ) {
     TextButton(
-        onClick = onClick
+        onClick = onClick,
+        modifier = Modifier.padding(start = 8.dp)
     ) {
         Icon(
             imageVector = Icons.Filled.Add,
@@ -105,7 +111,9 @@ fun AddDescriptionField(
             value = description,
             onValueChange = {},
             shape = RoundedCornerShape(12.dp),
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
             colors = OutlinedTextFieldDefaults.colors(
                 focusedBorderColor = VioletLight,
                 unfocusedBorderColor = VioletLight,

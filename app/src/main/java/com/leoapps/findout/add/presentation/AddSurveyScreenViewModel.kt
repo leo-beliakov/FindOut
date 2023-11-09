@@ -6,6 +6,7 @@ import com.leoapps.findout.add.presentation.model.AddUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @HiltViewModel
@@ -17,7 +18,17 @@ class AddSurveyScreenViewModel @Inject constructor() : ViewModel() {
         when (action) {
             AddUiAction.AddDescriptionClicked -> TODO()
             AddUiAction.AddImageClicked -> TODO()
-            AddUiAction.AddQuestionClicked -> TODO()
+            AddUiAction.AddQuestionClicked -> {
+                _state.update {
+                    it.copy(
+                        questions = it.questions + AddUiState.Question(
+                            id = it.questions.size.toLong(),
+                            title = "This is a new question ${it.questions.size}"
+                        )
+                    )
+                }
+            }
+
             AddUiAction.BackClicked -> TODO()
         }
     }
