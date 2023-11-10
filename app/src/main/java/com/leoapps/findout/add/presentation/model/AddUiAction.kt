@@ -5,6 +5,8 @@ sealed interface AddUiAction {
     object AddImageClicked : AddUiAction
     object AddDescriptionClicked : AddUiAction
     object AddQuestionClicked : AddUiAction
+    object OnCreateClicked : AddUiAction
+
     data class TitleUpdated(
         val newValue: String
     ) : AddUiAction

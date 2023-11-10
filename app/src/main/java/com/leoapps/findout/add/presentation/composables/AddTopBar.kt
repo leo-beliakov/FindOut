@@ -1,5 +1,8 @@
 package com.leoapps.findout.add.presentation.composables
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
@@ -13,20 +16,30 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.leoapps.findout.add.presentation.model.AddUiAction
 
 @Composable
 fun AddTopBar(
     title: String,
+    isContentScrolled: Boolean,
     onAction: (AddUiAction) -> Unit
 ) {
+    val contentColor by animateColorAsState(
+        targetValue = if (isContentScrolled) Color.Gray else Color.White,
+        animationSpec = tween(),
+        label = "",
+    )
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
+            .background(contentColor)
             .padding(16.dp)
     ) {
         Icon(

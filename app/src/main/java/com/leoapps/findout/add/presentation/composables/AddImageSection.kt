@@ -64,9 +64,7 @@ private fun AddImagePlaceholder(onClick: () -> Unit) {
         )
         Text(
             text = "Add Cover Image",
-            style = MaterialTheme.typography.headlineSmall,
-//            fontSize = 18.sp,
-//            fontWeight = FontWeight.SemiBold,
+            style = MaterialTheme.typography.titleLarge,
             color = Violet
         )
     }

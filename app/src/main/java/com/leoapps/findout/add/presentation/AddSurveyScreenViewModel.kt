@@ -39,6 +39,10 @@ class AddSurveyScreenViewModel @Inject constructor() : ViewModel() {
 
             }
 
+            AddUiAction.OnCreateClicked -> {
+
+            }
+
             is AddUiAction.DescriptionUpdated -> {
                 _state.update { it.copy(description = action.newValue) }
             }
@@ -46,6 +50,7 @@ class AddSurveyScreenViewModel @Inject constructor() : ViewModel() {
             is AddUiAction.TitleUpdated -> {
                 _state.update { it.copy(title = action.newValue) }
             }
+
         }
     }
 }
