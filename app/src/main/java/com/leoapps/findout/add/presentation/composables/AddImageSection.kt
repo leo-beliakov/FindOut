@@ -22,22 +22,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.leoapps.findout.add.presentation.model.AddUiAction
 import com.leoapps.findout.ui.theme.FindOutTheme
 import com.leoapps.findout.ui.theme.Violet
 import com.leoapps.findout.ui.theme.VioletLight
 
 fun LazyListScope.addImageSection(
     imageUri: Uri?,
-    onAction: (AddUiAction) -> Unit
+    onClick: () -> Unit
 ) {
     if (imageUri == null) {
         item(key = "ImagePlaceholder") {
-            AddImagePlaceholder { onAction(AddUiAction.AddImageClicked) }
+            AddImagePlaceholder(onClick = onClick)
         }
     } else {
         item(key = "ImagePlaceholder") {
-            AddImagePlaceholder { onAction(AddUiAction.AddImageClicked) }
+            AddImagePlaceholder(onClick = onClick)
         }
     }
 }

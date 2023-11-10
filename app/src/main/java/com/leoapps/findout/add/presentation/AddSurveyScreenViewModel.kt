@@ -14,6 +14,7 @@ class AddSurveyScreenViewModel @Inject constructor() : ViewModel() {
 
     private val _state = MutableStateFlow(AddUiState())
     val state = _state.asStateFlow()
+
     fun onAction(action: AddUiAction) {
         when (action) {
             AddUiAction.AddDescriptionClicked -> {
