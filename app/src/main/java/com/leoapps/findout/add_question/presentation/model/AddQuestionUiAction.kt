@@ -4,8 +4,12 @@ sealed interface AddQuestionUiAction {
     object CloseClicked : AddQuestionUiAction
     object AddImageClicked : AddQuestionUiAction
     object AddDescriptionClicked : AddQuestionUiAction
-    object AddQuestionClicked : AddQuestionUiAction
+    object AddAnswerClicked : AddQuestionUiAction
     object OnAddQuestionClicked : AddQuestionUiAction
+
+    data class OnTypeSelected(
+        val type: QuestionType
+    ) : AddQuestionUiAction
 
     data class TitleUpdated(
         val newValue: String

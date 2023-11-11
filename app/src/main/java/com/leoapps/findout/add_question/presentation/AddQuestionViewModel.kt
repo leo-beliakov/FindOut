@@ -25,7 +25,7 @@ class AddQuestionViewModel @Inject constructor() : ViewModel() {
 
             }
 
-            AddQuestionUiAction.AddQuestionClicked -> {
+            AddQuestionUiAction.AddAnswerClicked -> {
 
             }
 
@@ -43,6 +43,10 @@ class AddQuestionViewModel @Inject constructor() : ViewModel() {
 
             is AddQuestionUiAction.TitleUpdated -> {
                 _state.update { it.copy(title = action.newValue) }
+            }
+
+            is AddQuestionUiAction.OnTypeSelected -> {
+//                _state.update { it.copy(title = action.newValue) }
             }
         }
     }

@@ -19,6 +19,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.leoapps.findout.add.presentation.composables.addImageSection
 import com.leoapps.findout.add.presentation.composables.addTitleSection
 import com.leoapps.findout.add_question.presentation.composbles.AddQuestionTopBar
+import com.leoapps.findout.add_question.presentation.composbles.addAnswersSection
 import com.leoapps.findout.add_question.presentation.model.AddQuestionUiAction
 import com.leoapps.findout.design_system.components.button.BOTTOM_GRADIENT_HEIGHT_DP
 import com.leoapps.findout.design_system.components.button.BottomButton
@@ -83,10 +84,14 @@ fun AddQuestionScreen(
                             )
                         },
                     )
+                    addAnswersSection(
+                        answers = emptyList(),
+                        onAction = viewModel::onAction
+                    )
                 }
                 BottomButton(
                     text = "Add Question",
-                    onClick = { viewModel.onAction(AddQuestionUiAction.AddQuestionClicked) },
+                    onClick = { viewModel.onAction(AddQuestionUiAction.OnAddQuestionClicked) },
                     modifier = Modifier.align(Alignment.BottomCenter),
                 )
             }
