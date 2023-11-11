@@ -6,6 +6,7 @@ sealed interface AddQuestionUiAction {
     object AddDescriptionClicked : AddQuestionUiAction
     object AddAnswerClicked : AddQuestionUiAction
     object OnAddQuestionClicked : AddQuestionUiAction
+    object OnDialogDismissed : AddQuestionUiAction
 
     data class OnTypeSelected(
         val type: QuestionType
@@ -17,5 +18,17 @@ sealed interface AddQuestionUiAction {
 
     data class DescriptionUpdated(
         val newValue: String
+    ) : AddQuestionUiAction
+
+    data class OnAddAnswerClicked(
+        val answer: String
+    ) : AddQuestionUiAction
+
+    data class OnAnswerClicked(
+        val answer: AddQuestionUiState.Answer
+    ) : AddQuestionUiAction
+
+    data class OnEditAnswerClicked(
+        val answer: AddQuestionUiState.Answer
     ) : AddQuestionUiAction
 }

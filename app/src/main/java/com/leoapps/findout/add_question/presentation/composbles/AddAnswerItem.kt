@@ -15,15 +15,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.leoapps.findout.add_question.presentation.model.AddQuestionUiState
 import com.leoapps.findout.ui.theme.FindOutTheme
+import java.util.UUID
 
 @Composable
 fun AddAnswerItem(
-    answer: AddQuestionUiState.Answer
+    answer: AddQuestionUiState.Answer,
+    onClick: () -> Unit,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
-            .clickable { }
+            .clickable(onClick = onClick)
             .padding(12.dp)
             .padding(horizontal = 16.dp)
     ) {
@@ -45,9 +47,10 @@ private fun AddQuestionItemPreview() {
     FindOutTheme {
         AddAnswerItem(
             answer = AddQuestionUiState.Answer(
-                id = 1,
+                id = UUID.randomUUID(),
                 title = "Who's your daddy?"
-            )
+            ),
+            onClick = {}
         )
     }
 }

@@ -32,7 +32,8 @@ fun LazyListScope.addAnswersSection(
         key = { answer -> answer.id }
     ) {
         AddAnswerItem(
-            answer = it
+            answer = it,
+            onClick = { onAction(AddQuestionUiAction.OnAnswerClicked(it)) }
         )
     }
     item(key = "AddAnswerButton") {

@@ -1,4 +1,4 @@
-package com.leoapps.findout.add_question.presentation
+package com.leoapps.findout.add_question.presentation.composbles
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
