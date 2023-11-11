@@ -9,10 +9,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -31,7 +29,6 @@ fun AddAnswerDialog(
     onAction: (AddQuestionUiAction) -> Unit,
 ) {
     var enteredAnswer by rememberSaveable { mutableStateOf(state.answerText) }
-    val isButtonEnabled by remember { derivedStateOf { enteredAnswer.isNotEmpty() } }
 //    var isCorrectAnswer by rememberSaveable {
 //        mutableStateOf(state.answer?.isCorrect ?: false)
 //    }
@@ -90,7 +87,7 @@ fun AddAnswerDialog(
                         }
                     }
                 },
-                enabled = isButtonEnabled,
+                enabled = enteredAnswer.isNotEmpty(),
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(

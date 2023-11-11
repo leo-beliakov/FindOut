@@ -10,35 +10,11 @@ data class AddQuestionUiState(
     val description: String = "",
     val hasDescription: Boolean = false,
     val coverUri: Uri? = null,
-    val answerDialogState: AnswerDialogState? = null,
+    val dialogState: AnswerDialogState? = null,
     val answers: List<Answer> = emptyList(),
-    val questionType: QuestionType = QuestionType.SINGLE_ANSWER,
-    val questionTypes: List<QuestionType> = emptyList()
+    val selectedQuestionType: QuestionType = QuestionType.SINGLE_ANSWER,
+    val avaliableQuestionTypes: List<QuestionType> = emptyList()
 ) {
-
-    sealed class QuestionBody(
-        val questionType: QuestionType
-    ) {
-        data class SingleAnswer(
-            val correctAnswerId: Long? = null,
-            val answers: List<Answer> = emptyList()
-        ) : QuestionBody(QuestionType.SINGLE_ANSWER)
-
-        data class SingleChoice(
-            val answers: List<Answer> = emptyList()
-        ) : QuestionBody(QuestionType.SINGLE_CHOICE)
-
-        data class MultipleChoices(
-            val answers: List<Answer> = emptyList()
-        ) : QuestionBody(QuestionType.MULTIPLE_CHOICES)
-
-        data class MultipleAnswer(
-            val correctAnswerIds: List<Long> = emptyList(),
-            val answers: List<Answer> = emptyList()
-        ) : QuestionBody(QuestionType.MULTIPLE_ANSWER)
-
-        object TextAnswer : QuestionBody(QuestionType.OPEN_ANSWER)
-    }
 
     data class Answer(
         val id: UUID,

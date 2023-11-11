@@ -22,6 +22,8 @@ import com.leoapps.findout.add_question.presentation.composbles.AddQuestionTopBa
 import com.leoapps.findout.add_question.presentation.composbles.addAnswersSection
 import com.leoapps.findout.add_question.presentation.composbles.addQuestionTypeSection
 import com.leoapps.findout.add_question.presentation.model.AddQuestionUiAction
+import com.leoapps.findout.add_question.presentation.model.AddQuestionUiState
+import com.leoapps.findout.add_question.presentation.model.QuestionType
 import com.leoapps.findout.design_system.components.button.BOTTOM_GRADIENT_HEIGHT_DP
 import com.leoapps.findout.design_system.components.button.BottomButton
 import com.leoapps.findout.design_system.components.input.model.InputFieldState
@@ -31,13 +33,32 @@ fun AddQuestionScreen(
     viewModel: AddQuestionViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+
+    AddQuestionScreen(
+        state = state,
+        onAction = viewModel::onAction
+    )
+
+    state.dialogState?.let {
+        AddAnswerDialog(
+            state = it,
+            onAction = viewModel::onAction
+        )
+    }
+}
+
+@Composable
+fun AddQuestionScreen(
+    state: AddQuestionUiState,
+    onAction: (AddQuestionUiAction) -> Unit
+) {
     val scrollState = rememberLazyListState()
 
     Scaffold(
         topBar = {
             AddQuestionTopBar(
                 isContentScrolled = scrollState.canScrollBackward,
-                onAction = viewModel::onAction
+                onAction = onAction
             )
         },
         content = { paddings ->
@@ -56,11 +77,12 @@ fun AddQuestionScreen(
                 ) {
                     addImageSection(
                         imageUri = state.coverUri,
-                        onClick = { viewModel.onAction(AddQuestionUiAction.AddImageClicked) }
+                        onClick = { onAction(AddQuestionUiAction.AddImageClicked) }
                     )
                     addQuestionTypeSection(
-                        selectedType = "Single Answer",
-                        onTypeSelected = {}
+                        selectedType = state.selectedQuestionType,
+                        availableTypes = state.avaliableQuestionTypes,
+                        onTypeSelected = { onAction(AddQuestionUiAction.OnTypeSelected(it)) }
                     )
                     addTitleSection(
                         titleState = InputFieldState(
@@ -74,34 +96,23 @@ fun AddQuestionScreen(
                             placeholder = "Enter question description",
                         ),
                         hasDescription = state.hasDescription,
-                        onTitleChange = { viewModel.onAction(AddQuestionUiAction.TitleUpdated(it)) },
-                        onAddDescriptionClick = { viewModel.onAction(AddQuestionUiAction.AddDescriptionClicked) },
-                        onDescriptionChange = {
-                            viewModel.onAction(
-                                AddQuestionUiAction.DescriptionUpdated(
-                                    it
-                                )
-                            )
-                        },
+                        onTitleChange = { onAction(AddQuestionUiAction.TitleUpdated(it)) },
+                        onAddDescriptionClick = { onAction(AddQuestionUiAction.AddDescriptionClicked) },
+                        onDescriptionChange = { onAction(AddQuestionUiAction.DescriptionUpdated(it)) },
                     )
-                    addAnswersSection(
-                        answers = state.answers,
-                        onAction = viewModel::onAction
-                    )
+                    if (state.selectedQuestionType != QuestionType.OPEN_ANSWER) {
+                        addAnswersSection(
+                            answers = state.answers,
+                            onAction = onAction
+                        )
+                    }
                 }
                 BottomButton(
                     text = "Add Question",
-                    onClick = { viewModel.onAction(AddQuestionUiAction.OnAddQuestionClicked) },
+                    onClick = { onAction(AddQuestionUiAction.OnAddQuestionClicked) },
                     modifier = Modifier.align(Alignment.BottomCenter),
                 )
             }
         }
     )
-
-    state.answerDialogState?.let {
-        AddAnswerDialog(
-            state = it,
-            onAction = viewModel::onAction
-        )
-    }
 }

@@ -6,12 +6,16 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.leoapps.findout.add_question.presentation.model.QuestionType
 import com.leoapps.findout.design_system.components.picker.OptionsPicker
+import com.leoapps.findout.design_system.components.picker.model.Option
 
 fun LazyListScope.addQuestionTypeSection(
-    selectedType: String,
-    onTypeSelected: (String) -> Unit
+    selectedType: QuestionType,
+    availableTypes: List<QuestionType>,
+    onTypeSelected: (QuestionType) -> Unit
 ) {
     item(key = "QuestionTypePicker") {
         Box(
@@ -20,9 +24,19 @@ fun LazyListScope.addQuestionTypeSection(
                 .padding(horizontal = 16.dp)
         ) {
             OptionsPicker(
-                selectedOption = selectedType,
-                options = listOf("Single Answer", "Multiple Answer", "Open Answer"),
-                onOptionSelected = { onTypeSelected(it) },
+                selectedOption = Option(
+                    id = selectedType.nameResId,
+                    text = stringResource(id = selectedType.nameResId)
+                ),
+                options = availableTypes.map {
+                    Option(
+                        id = it.nameResId,
+                        text = stringResource(id = it.nameResId)
+                    )
+                },
+                onOptionSelected = { option ->
+                    onTypeSelected(availableTypes.first { it.nameResId == option.id })
+                },
                 modifier = Modifier.align(Alignment.CenterStart)
             )
         }

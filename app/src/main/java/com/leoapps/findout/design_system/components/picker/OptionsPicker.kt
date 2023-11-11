@@ -24,14 +24,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.unit.dp
+import com.leoapps.findout.design_system.components.picker.model.Option
 import com.leoapps.findout.ui.theme.VioletLight
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun OptionsPicker(
-    selectedOption: String,
-    options: List<String>,
-    onOptionSelected: (String) -> Unit,
+    selectedOption: Option,
+    options: List<Option>,
+    onOptionSelected: (Option) -> Unit,
     modifier: Modifier = Modifier
 ) {
     var isExpanded by remember { mutableStateOf(false) }
@@ -52,7 +53,7 @@ fun OptionsPicker(
                 .padding(horizontal = 12.dp, vertical = 8.dp)
         ) {
             Text(
-                text = selectedOption,
+                text = selectedOption.text,
                 style = MaterialTheme.typography.labelLarge
             )
             Icon(
@@ -68,7 +69,7 @@ fun OptionsPicker(
             options.forEach { option ->
                 DropdownMenuItem(
                     text = {
-                        Text(text = option)
+                        Text(text = option.text)
                     },
                     onClick = {
                         onOptionSelected(option)

@@ -19,8 +19,8 @@ class AddQuestionViewModel @Inject constructor() : ViewModel() {
 
     private fun getInitialState(): AddQuestionUiState {
         return AddQuestionUiState(
-            questionType = QuestionType.SINGLE_CHOICE,
-            questionTypes = listOf(
+            selectedQuestionType = QuestionType.SINGLE_CHOICE,
+            avaliableQuestionTypes = listOf(
                 QuestionType.SINGLE_CHOICE,
                 QuestionType.MULTIPLE_CHOICES,
                 QuestionType.OPEN_ANSWER
@@ -42,20 +42,20 @@ class AddQuestionViewModel @Inject constructor() : ViewModel() {
 
             AddQuestionUiAction.AddAnswerClicked -> {
                 _state.update {
-                    it.copy(answerDialogState = AnswerDialogState.Create)
+                    it.copy(dialogState = AnswerDialogState.Create)
                 }
             }
 
             AddQuestionUiAction.OnDialogDismissed -> {
                 _state.update {
-                    it.copy(answerDialogState = null)
+                    it.copy(dialogState = null)
                 }
             }
 
             is AddQuestionUiAction.OnAnswerClicked -> {
                 _state.update {
                     it.copy(
-                        answerDialogState = AnswerDialogState.Edit(answer = action.answer)
+                        dialogState = AnswerDialogState.Edit(answer = action.answer)
                     )
                 }
             }
@@ -79,7 +79,7 @@ class AddQuestionViewModel @Inject constructor() : ViewModel() {
             is AddQuestionUiAction.OnTypeSelected -> {
                 _state.update {
                     it.copy(
-                        questionType = action.type
+                        selectedQuestionType = action.type
                     )
                 }
             }
@@ -92,7 +92,7 @@ class AddQuestionViewModel @Inject constructor() : ViewModel() {
                     )
                     it.copy(
                         answers = it.answers + answerModel,
-                        answerDialogState = null
+                        dialogState = null
                     )
                 }
             }
@@ -104,7 +104,7 @@ class AddQuestionViewModel @Inject constructor() : ViewModel() {
 
                     it.copy(
                         answers = updatedList,
-                        answerDialogState = null
+                        dialogState = null
                     )
                 }
             }
