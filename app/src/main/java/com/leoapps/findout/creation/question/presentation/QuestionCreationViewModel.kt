@@ -3,6 +3,8 @@ package com.leoapps.findout.creation.question.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.leoapps.findout.creation.answer.presentation.model.AnswerCreationState
+import com.leoapps.findout.creation.form.domain.FormRepository
+import com.leoapps.findout.creation.form.domain.model.Survey
 import com.leoapps.findout.creation.question.navigation.model.QuestionCreationNavCommand
 import com.leoapps.findout.creation.question.presentation.model.QuestionCreationUiAction
 import com.leoapps.findout.creation.question.presentation.model.QuestionCreationUiState
@@ -18,7 +20,9 @@ import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
-class QuestionCreationViewModel @Inject constructor() : ViewModel() {
+class QuestionCreationViewModel @Inject constructor(
+    private val repository: FormRepository
+) : ViewModel() {
 
     private val _state = MutableStateFlow(getInitialState())
 
@@ -76,6 +80,7 @@ class QuestionCreationViewModel @Inject constructor() : ViewModel() {
 
             QuestionCreationUiAction.OnAddQuestionClicked -> {
                 viewModelScope.launch {
+                    repository.addQuestion(getQuestionModel())
                     _navCommand.emit(QuestionCreationNavCommand.GoBack)
                 }
             }
@@ -120,6 +125,44 @@ class QuestionCreationViewModel @Inject constructor() : ViewModel() {
                     )
                 }
             }
+        }
+    }
+
+    private fun getQuestionModel(): Survey.Question {
+        val currentState = state.value
+        return when (currentState.selectedQuestionType) {
+            QuestionType.SINGLE_CHOICE,
+            QuestionType.MULTIPLE_CHOICES -> {
+                Survey.Question.Choice(
+                    id = UUID.randomUUID(),
+                    title = currentState.title,
+                    description = currentState.description,
+                    isSingleChoice = currentState.selectedQuestionType == QuestionType.SINGLE_CHOICE,
+                    answers = getAnswersModels(currentState.answers),
+                )
+            }
+
+            else -> {
+                Survey.Question.Open(
+                    id = UUID.randomUUID(),
+                    title = currentState.title,
+                    description = currentState.description,
+                )
+            }
+//            QuestionType.MULTIPLE_ANSWER -> TODO()
+//            QuestionType.SINGLE_ANSWER -> TODO()
+//            QuestionType.OPEN_ANSWER -> TODO()
+        }
+    }
+
+    private fun getAnswersModels(
+        answers: List<QuestionCreationUiState.Answer>
+    ): List<Survey.Question.Answer> {
+        return answers.map {
+            Survey.Question.Answer(
+                id = it.id.toString(),
+                title = it.title,
+            )
         }
     }
 }
