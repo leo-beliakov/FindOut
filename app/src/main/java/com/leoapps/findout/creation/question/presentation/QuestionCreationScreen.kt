@@ -10,7 +10,9 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -63,6 +65,12 @@ fun QuestionCreationScreen(
     onAction: (QuestionCreationUiAction) -> Unit
 ) {
     val scrollState = rememberLazyListState()
+    val isButtonEnabled by remember {
+        derivedStateOf {
+            state.title.isNotEmpty() &&
+                    (state.selectedQuestionType == QuestionType.OPEN_ANSWER || state.answers.isNotEmpty())
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -125,6 +133,7 @@ fun QuestionCreationScreen(
                 }
                 BottomButton(
                     text = "Add Question",
+                    enabled = isButtonEnabled,
                     onClick = { onAction(QuestionCreationUiAction.OnAddQuestionClicked) },
                     modifier = Modifier.align(Alignment.BottomCenter),
                 )

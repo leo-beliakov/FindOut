@@ -20,6 +20,7 @@ const val BOTTOM_GRADIENT_HEIGHT_DP = 140
 fun BottomButton(
     text: String,
     onClick: () -> Unit,
+    enabled: Boolean = true,
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -41,6 +42,7 @@ fun BottomButton(
             )
     ) {
         Button(
+            enabled = enabled,
             onClick = onClick,
             modifier = Modifier
                 .fillMaxWidth()

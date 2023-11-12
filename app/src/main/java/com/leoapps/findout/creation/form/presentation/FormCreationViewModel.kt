@@ -1,5 +1,6 @@
 package com.leoapps.findout.creation.form.presentation
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.leoapps.findout.creation.form.navigation.model.FormCreationNavCommand
@@ -66,6 +67,7 @@ class FormCreationViewModel @Inject constructor() : ViewModel() {
             }
 
             is FormCreationUiAction.TitleUpdated -> {
+                Log.d("MyTag", "FormCreationUiAction.TitleUpdated ${action.newValue}")
                 _state.update { it.copy(title = action.newValue) }
             }
         }
