@@ -1,4 +1,4 @@
-package com.leoapps.findout.design_system.components.button
+package com.leoapps.design_system.components.button
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

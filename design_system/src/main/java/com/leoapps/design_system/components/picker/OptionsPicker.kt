@@ -1,4 +1,4 @@
-package com.leoapps.findout.design_system.components.picker
+package com.leoapps.design_system.components.picker
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.border
@@ -24,8 +24,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.unit.dp
-import com.leoapps.findout.design_system.components.picker.model.Option
-import com.leoapps.findout.ui.theme.VioletLight
+import com.leoapps.design_system.components.picker.model.Option
+import com.leoapps.design_system.theme.VioletLight
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

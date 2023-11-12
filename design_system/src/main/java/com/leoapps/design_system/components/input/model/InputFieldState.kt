@@ -1,4 +1,4 @@
-package com.leoapps.findout.design_system.components.input.model
+package com.leoapps.design_system.components.input.model
 
 data class InputFieldState(
     val value: String,

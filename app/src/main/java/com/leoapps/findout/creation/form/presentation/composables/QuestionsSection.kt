@@ -14,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.leoapps.findout.creation.form.presentation.model.FormCreationUiAction
 import com.leoapps.findout.creation.form.presentation.model.FormCreationUiState
-import com.leoapps.findout.ui.theme.Violet
 
 internal fun LazyListScope.questionsSection(
     questions: List<FormCreationUiState.Question>,
@@ -53,12 +52,12 @@ fun AddQuestionButton(
         Icon(
             imageVector = Icons.Filled.Add,
             contentDescription = null,
-            tint = Violet
+            tint = com.leoapps.design_system.theme.Violet
         )
         Text(
             text = "Add Question",
             style = MaterialTheme.typography.labelLarge,
-            color = Violet
+            color = com.leoapps.design_system.theme.Violet
         )
     }
 }

@@ -8,9 +8,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.leoapps.design_system.components.picker.OptionsPicker
+import com.leoapps.design_system.components.picker.model.Option
 import com.leoapps.findout.creation.question.presentation.model.QuestionType
-import com.leoapps.findout.design_system.components.picker.OptionsPicker
-import com.leoapps.findout.design_system.components.picker.model.Option
 
 internal fun LazyListScope.questionTypeSection(
     selectedType: QuestionType,

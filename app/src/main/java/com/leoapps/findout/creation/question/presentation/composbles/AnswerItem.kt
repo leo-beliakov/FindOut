@@ -14,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.leoapps.findout.creation.question.presentation.model.QuestionCreationUiState
-import com.leoapps.findout.ui.theme.FindOutTheme
 import java.util.UUID
 
 @Composable
@@ -44,7 +43,7 @@ internal fun AnswerItem(
 @Preview
 @Composable
 private fun AddQuestionItemPreview() {
-    FindOutTheme {
+    com.leoapps.design_system.theme.FindOutTheme {
         AnswerItem(
             answer = QuestionCreationUiState.Answer(
                 id = UUID.randomUUID(),

@@ -18,11 +18,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import com.leoapps.design_system.components.input.InputField
+import com.leoapps.design_system.components.input.model.InputFieldState
 import com.leoapps.findout.R
 import com.leoapps.findout.creation.answer.presentation.model.AnswerCreationState
 import com.leoapps.findout.creation.question.presentation.model.QuestionCreationUiAction
-import com.leoapps.findout.design_system.components.input.InputField
-import com.leoapps.findout.design_system.components.input.model.InputFieldState
 
 @Composable
 fun AnswerCreationDialog(
@@ -34,9 +34,7 @@ fun AnswerCreationDialog(
 //        mutableStateOf(state.answer?.isCorrect ?: false)
 //    }
 
-    Dialog(
-        onDismissRequest = { onAction(QuestionCreationUiAction.OnDialogDismissed) }
-    ) {
+    Dialog(onDismissRequest = { onAction(QuestionCreationUiAction.OnDialogDismissed) }) {
         Column(
             verticalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier
@@ -87,9 +85,7 @@ fun AnswerCreationDialog(
                             )
                         }
                     }
-                },
-                enabled = enteredAnswer.isNotEmpty(),
-                modifier = Modifier.fillMaxWidth()
+                }, enabled = enteredAnswer.isNotEmpty(), modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
                     text = stringResource(id = state.buttonTextResId)

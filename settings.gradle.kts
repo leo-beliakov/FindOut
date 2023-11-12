@@ -15,4 +15,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "FindOut"
 include(":app")
- 
+include(":design_system")

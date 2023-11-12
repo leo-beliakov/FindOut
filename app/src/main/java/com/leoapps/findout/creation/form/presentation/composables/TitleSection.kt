@@ -14,9 +14,8 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.leoapps.findout.design_system.components.input.InputField
-import com.leoapps.findout.design_system.components.input.model.InputFieldState
-import com.leoapps.findout.ui.theme.Violet
+import com.leoapps.design_system.components.input.InputField
+import com.leoapps.design_system.components.input.model.InputFieldState
 
 internal fun LazyListScope.titleSection(
     titleState: InputFieldState,
@@ -70,12 +69,12 @@ fun AddDescriptionButton(
         Icon(
             imageVector = Icons.Filled.Add,
             contentDescription = null,
-            tint = Violet
+            tint = com.leoapps.design_system.theme.Violet
         )
         Text(
             text = "Add Description",
             style = MaterialTheme.typography.labelLarge,
-            color = Violet
+            color = com.leoapps.design_system.theme.Violet
         )
     }
 }

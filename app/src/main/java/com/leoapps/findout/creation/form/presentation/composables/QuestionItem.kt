@@ -14,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.leoapps.findout.creation.form.presentation.model.FormCreationUiState
-import com.leoapps.findout.ui.theme.FindOutTheme
 
 @Composable
 internal fun QuestionItem(
@@ -42,7 +41,7 @@ internal fun QuestionItem(
 @Preview
 @Composable
 private fun AddQuestionItemPreview() {
-    FindOutTheme {
+    com.leoapps.design_system.theme.FindOutTheme {
         QuestionItem(
             question = FormCreationUiState.Question(
                 id = 1,

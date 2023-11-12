@@ -14,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.leoapps.findout.creation.question.presentation.model.QuestionCreationUiAction
 import com.leoapps.findout.creation.question.presentation.model.QuestionCreationUiState
-import com.leoapps.findout.ui.theme.Violet
 
 internal fun LazyListScope.answersSection(
     answers: List<QuestionCreationUiState.Answer>,
@@ -54,12 +53,12 @@ fun AddAnswerButton(
         Icon(
             imageVector = Icons.Filled.Add,
             contentDescription = null,
-            tint = Violet
+            tint = com.leoapps.design_system.theme.Violet
         )
         Text(
             text = "Add Answer",
             style = MaterialTheme.typography.labelLarge,
-            color = Violet
+            color = com.leoapps.design_system.theme.Violet
         )
     }
 }

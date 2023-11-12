@@ -1,4 +1,4 @@
-package com.leoapps.findout.design_system.components.input
+package com.leoapps.design_system.components.input
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -10,8 +10,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.leoapps.findout.design_system.components.input.model.InputFieldState
-import com.leoapps.findout.ui.theme.VioletLight
+import com.leoapps.design_system.components.input.model.InputFieldState
+import com.leoapps.design_system.theme.VioletLight
 
 @Composable
 fun InputField(

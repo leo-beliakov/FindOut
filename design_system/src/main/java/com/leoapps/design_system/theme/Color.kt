@@ -1,4 +1,4 @@
-package com.leoapps.findout.ui.theme
+package com.leoapps.design_system.theme
 
 import androidx.compose.ui.graphics.Color
 

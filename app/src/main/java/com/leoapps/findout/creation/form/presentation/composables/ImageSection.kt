@@ -22,9 +22,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.leoapps.findout.ui.theme.FindOutTheme
-import com.leoapps.findout.ui.theme.Violet
-import com.leoapps.findout.ui.theme.VioletLight
 
 internal fun LazyListScope.addImageSection(
     imageUri: Uri?,
@@ -51,20 +48,20 @@ private fun ImagePlaceholder(onClick: () -> Unit) {
             .fillMaxWidth()
             .heightIn(min = 250.dp)
             .clip(shape = RoundedCornerShape(12.dp))
-            .background(color = VioletLight)
+            .background(color = com.leoapps.design_system.theme.VioletLight)
             .clickable(onClick = onClick)
 
     ) {
         Icon(
             imageVector = Icons.Outlined.Image,
             contentDescription = null,
-            tint = Violet,
+            tint = com.leoapps.design_system.theme.Violet,
             modifier = Modifier.size(72.dp)
         )
         Text(
             text = "Add Cover Image",
             style = MaterialTheme.typography.titleLarge,
-            color = Violet
+            color = com.leoapps.design_system.theme.Violet
         )
     }
 }
@@ -72,7 +69,7 @@ private fun ImagePlaceholder(onClick: () -> Unit) {
 @Preview
 @Composable
 private fun AddImagePlaceholderPreview() {
-    FindOutTheme {
+    com.leoapps.design_system.theme.FindOutTheme {
         ImagePlaceholder(
             onClick = {}
         )
