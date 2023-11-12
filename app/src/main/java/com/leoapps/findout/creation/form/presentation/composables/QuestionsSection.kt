@@ -31,7 +31,9 @@ internal fun LazyListScope.questionsSection(
         key = { question -> question.id }
     ) {
         QuestionItem(
-            question = it
+            question = it,
+            onClick = { onAction(FormCreationUiAction.OnQuestionClicked(it)) },
+            onDismiss = { onAction(FormCreationUiAction.OnQuestionDismissed(it)) }
         )
     }
     item(key = "AddQuestionButton") {

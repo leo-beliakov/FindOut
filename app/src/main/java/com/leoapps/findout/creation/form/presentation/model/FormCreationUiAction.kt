@@ -14,4 +14,12 @@ sealed interface FormCreationUiAction {
     data class DescriptionUpdated(
         val newValue: String
     ) : FormCreationUiAction
+
+    data class OnQuestionClicked(
+        val question: FormCreationUiState.Question
+    ) : FormCreationUiAction
+
+    data class OnQuestionDismissed(
+        val question: FormCreationUiState.Question
+    ) : FormCreationUiAction
 }

@@ -84,6 +84,14 @@ class FormCreationViewModel @Inject constructor(
             is FormCreationUiAction.TitleUpdated -> {
                 repository.updateTitle(action.newValue)
             }
+
+            is FormCreationUiAction.OnQuestionClicked -> {
+
+            }
+
+            is FormCreationUiAction.OnQuestionDismissed -> {
+                repository.deleteQuestionById(action.question.id)
+            }
         }
     }
 }
@@ -91,7 +99,7 @@ class FormCreationViewModel @Inject constructor(
 private fun List<Survey.Question>.mapToUi(): List<FormCreationUiState.Question> {
     return this.map {
         FormCreationUiState.Question(
-            id = it.id.leastSignificantBits,
+            id = it.id,
             title = it.title,
         )
     }

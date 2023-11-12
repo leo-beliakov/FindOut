@@ -31,4 +31,8 @@ sealed interface QuestionCreationUiAction {
     data class OnEditAnswerClicked(
         val answer: QuestionCreationUiState.Answer
     ) : QuestionCreationUiAction
+
+    data class OnAnswerDismissed(
+        val answer: QuestionCreationUiState.Answer
+    ) : QuestionCreationUiAction
 }

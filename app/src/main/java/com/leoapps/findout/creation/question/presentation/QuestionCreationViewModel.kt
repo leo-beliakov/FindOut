@@ -72,6 +72,14 @@ class QuestionCreationViewModel @Inject constructor(
                 }
             }
 
+            is QuestionCreationUiAction.OnAnswerDismissed -> {
+                _state.update {
+                    it.copy(
+                        answers = it.answers.toMutableList().filter { it.id != action.answer.id },
+                    )
+                }
+            }
+
             QuestionCreationUiAction.CloseClicked -> {
                 viewModelScope.launch {
                     _navCommand.emit(QuestionCreationNavCommand.GoBack)

@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import java.util.UUID
 import javax.inject.Inject
 
 class FormRepositoryImpl @Inject constructor() : FormRepository {
@@ -31,6 +32,13 @@ class FormRepositoryImpl @Inject constructor() : FormRepository {
     override fun addQuestion(question: Survey.Question) {
         _cachedSurvey.update { survey ->
             survey.copy(questions = survey.questions.addOrUpdate(question))
+        }
+    }
+
+    override fun deleteQuestionById(id: UUID) {
+        _cachedSurvey.update { survey ->
+            val updatedQuestions = survey.questions.toMutableList().filter { it.id != id }
+            survey.copy(questions = updatedQuestions)
         }
     }
 }
