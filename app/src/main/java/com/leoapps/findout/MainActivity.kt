@@ -11,10 +11,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
-import com.leoapps.findout.add.navigation.AddNavigatorImpl
-import com.leoapps.findout.add.presentation.AddScreen
-import com.leoapps.findout.add_question.navigation.AddQuestionNavigatorImpl
-import com.leoapps.findout.add_question.presentation.AddQuestionScreen
+import com.leoapps.findout.creation.form.navigation.FormCreationNavigatorImpl
+import com.leoapps.findout.creation.form.presentation.FormCreationScreen
+import com.leoapps.findout.creation.question.navigation.QuestionCreationNavigatorImpl
+import com.leoapps.findout.creation.question.presentation.QuestionCreationScreen
 import com.leoapps.findout.root.navigation.rootScreen
 import com.leoapps.findout.ui.theme.FindOutTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,39 +33,35 @@ class MainActivity : ComponentActivity() {
                     startDestination = "root"
                 ) {
                     rootScreen(navController)
-                    addScreens(navController)
+                    creationFeature(navController)
                 }
             }
         }
     }
 
-    fun NavGraphBuilder.addScreens(
+    fun NavGraphBuilder.creationFeature(
         navController: NavController
     ) {
         navigation(
-            startDestination = "add_survey",
-            route = "add_feature"
+            startDestination = "form_creature",
+            route = "creation_feature"
         ) {
-            composable(route = "add_survey") {
-                AddScreen(
-                    navigator = AddNavigatorImpl(navController)
+            composable(
+                route = "form_creature",
+                enterTransition = { slideInVertically { it } },
+                exitTransition = { slideOutVertically { it } },
+            ) {
+                FormCreationScreen(
+                    navigator = FormCreationNavigatorImpl(navController)
                 )
             }
             composable(
-                route = "add_question",
-                enterTransition = {
-                    slideInVertically(
-                        initialOffsetY = { it }
-                    )
-                },
-                exitTransition = {
-                    slideOutVertically(
-                        targetOffsetY = { it }
-                    )
-                },
+                route = "question_creature",
+                enterTransition = { slideInVertically { it } },
+                exitTransition = { slideOutVertically { it } },
             ) {
-                AddQuestionScreen(
-                    navigator = AddQuestionNavigatorImpl(navController),
+                QuestionCreationScreen(
+                    navigator = QuestionCreationNavigatorImpl(navController),
                 )
             }
         }

@@ -10,7 +10,7 @@ class RootNavigatorImpl(
     private val navController: NavController
 ) : RootNavigator {
     override fun openAdd() {
-        navController.navigate("add_feature") {
+        navController.navigate("creation_feature") {
             launchSingleTop = true
         }
     }
