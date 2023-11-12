@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,6 +19,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.leoapps.findout.add.presentation.composables.addImageSection
 import com.leoapps.findout.add.presentation.composables.addTitleSection
 import com.leoapps.findout.add_answer.presentation.AddAnswerDialog
+import com.leoapps.findout.add_question.navigation.AddQuestionNavigator
 import com.leoapps.findout.add_question.presentation.composbles.AddQuestionTopBar
 import com.leoapps.findout.add_question.presentation.composbles.addAnswersSection
 import com.leoapps.findout.add_question.presentation.composbles.addQuestionTypeSection
@@ -27,9 +29,11 @@ import com.leoapps.findout.add_question.presentation.model.QuestionType
 import com.leoapps.findout.design_system.components.button.BOTTOM_GRADIENT_HEIGHT_DP
 import com.leoapps.findout.design_system.components.button.BottomButton
 import com.leoapps.findout.design_system.components.input.model.InputFieldState
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun AddQuestionScreen(
+    navigator: AddQuestionNavigator,
     viewModel: AddQuestionViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -44,6 +48,12 @@ fun AddQuestionScreen(
             state = it,
             onAction = viewModel::onAction
         )
+    }
+
+    LaunchedEffect(Unit) {
+        viewModel.navCommand.collectLatest { command ->
+            navigator.onNavCommand(command)
+        }
     }
 }
 

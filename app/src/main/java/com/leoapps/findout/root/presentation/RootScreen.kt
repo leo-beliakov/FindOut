@@ -19,14 +19,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.leoapps.findout.add.presentation.AddScreen
 import com.leoapps.findout.home.presentation.HomeScreen
 import com.leoapps.findout.profile.presentation.ProfileScreen
+import com.leoapps.findout.root.navigation.RootNavigatorImpl
 
 @Composable
-fun RootScreen(
-//    viewModel: RootViewModel = hiltViewModel()
-) {
+fun RootScreen(navigator: RootNavigatorImpl) {
     val navController = rememberNavController()
 
     Scaffold(
@@ -52,11 +50,16 @@ fun RootScreen(
                 )
                 NavigationBarItem(
                     selected = currentDestination?.hierarchy?.any { it.route == "add" } == true,
-                    onClick = { navController.navigate("add") },
+                    onClick = { navigator.openAdd() },
                     icon = {
                         Icon(
                             imageVector = Icons.Outlined.AddCircle,
                             contentDescription = null
+                        )
+                    },
+                    label = {
+                        Text(
+                            text = "Create"
                         )
                     }
                 )
@@ -85,9 +88,12 @@ fun RootScreen(
                     .fillMaxSize()
                     .padding(paddings)
             ) {
-                composable("home") { HomeScreen() }
-                composable("add") { AddScreen() }
-                composable("profile") { ProfileScreen() }
+                composable("home") {
+                    HomeScreen()
+                }
+                composable("profile") {
+                    ProfileScreen()
+                }
             }
         }
     )

@@ -1,14 +1,19 @@
 package com.leoapps.findout.add_question.presentation
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.leoapps.findout.add_answer.presentation.model.AnswerDialogState
+import com.leoapps.findout.add_question.navigation.model.AddQuestionNavCommand
 import com.leoapps.findout.add_question.presentation.model.AddQuestionUiAction
 import com.leoapps.findout.add_question.presentation.model.AddQuestionUiState
 import com.leoapps.findout.add_question.presentation.model.QuestionType
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import java.util.UUID
 import javax.inject.Inject
 
@@ -29,6 +34,9 @@ class AddQuestionViewModel @Inject constructor() : ViewModel() {
     }
 
     val state = _state.asStateFlow()
+
+    private val _navCommand = MutableSharedFlow<AddQuestionNavCommand>()
+    val navCommand = _navCommand.asSharedFlow()
 
     fun onAction(action: AddQuestionUiAction) {
         when (action) {
@@ -61,11 +69,15 @@ class AddQuestionViewModel @Inject constructor() : ViewModel() {
             }
 
             AddQuestionUiAction.CloseClicked -> {
-
+                viewModelScope.launch {
+                    _navCommand.emit(AddQuestionNavCommand.GoBack)
+                }
             }
 
             AddQuestionUiAction.OnAddQuestionClicked -> {
-
+                viewModelScope.launch {
+                    _navCommand.emit(AddQuestionNavCommand.GoBack)
+                }
             }
 
             is AddQuestionUiAction.DescriptionUpdated -> {
