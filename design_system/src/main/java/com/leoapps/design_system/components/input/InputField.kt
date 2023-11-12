@@ -1,6 +1,7 @@
 package com.leoapps.design_system.components.input
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
@@ -43,7 +44,8 @@ fun InputField(
                     text = state.placeholder,
                     style = MaterialTheme.typography.bodyLarge,
                 )
-            }
+            },
+            modifier = Modifier.fillMaxWidth()
         )
     }
 }

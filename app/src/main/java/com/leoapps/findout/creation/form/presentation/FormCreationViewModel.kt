@@ -63,14 +63,6 @@ class FormCreationViewModel @Inject constructor(
                         FormCreationNavCommand.OpenAddQuestionScreen(isEdit = false)
                     )
                 }
-//                _state.update {
-//                    it.copy(
-//                        questions = it.questions + AddUiState.Question(
-//                            id = it.questions.size.toLong(),
-//                            title = "This is a new question ${it.questions.size}"
-//                        )
-//                    )
-//                }
             }
 
             FormCreationUiAction.BackClicked -> {
