@@ -51,8 +51,18 @@ fun NavGraphBuilder.creationFeature(
     ) {
         composable(
             route = "form_creature",
-            enterTransition = { slideInVertically { it } },
-            exitTransition = { slideOutVertically { it } },
+            enterTransition = {
+                when (initialState.destination.route) {
+                    "root" -> slideInVertically { it }
+                    else -> null
+                }
+            },
+            exitTransition = {
+                when (targetState.destination.route) {
+                    "root" -> slideOutVertically { it }
+                    else -> null
+                }
+            },
         ) {
             FormCreationScreen(
                 navigator = FormCreationNavigatorImpl(navController)

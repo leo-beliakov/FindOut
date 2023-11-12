@@ -12,7 +12,7 @@ class FormCreationNavigatorImpl(
 ) : FormCreationNavigator {
     override fun onNavigationCommand(event: FormCreationNavCommand) {
         when (event) {
-            FormCreationNavCommand.GoBack -> navController.popBackStack()
+            FormCreationNavCommand.GoBack -> navController.navigateUp()
             is FormCreationNavCommand.OpenAddQuestionScreen -> navController.navigate("question_creature")
         }
     }

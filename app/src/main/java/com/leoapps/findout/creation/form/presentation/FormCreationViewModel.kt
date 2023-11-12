@@ -1,6 +1,5 @@
 package com.leoapps.findout.creation.form.presentation
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.leoapps.findout.creation.form.domain.FormRepository
@@ -33,7 +32,6 @@ class FormCreationViewModel @Inject constructor(
     init {
         repository.getFormDraftAsFlow()
             .onEach { savedSurvey ->
-                Log.d("MyTag", "onEach ${savedSurvey.questions.size}")
                 _state.update {
                     it.copy(
                         title = savedSurvey.title ?: "",
