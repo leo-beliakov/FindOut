@@ -4,11 +4,12 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.rememberNavController
 import com.leoapps.design_system.theme.FindOutTheme
-import com.leoapps.findout.creation.form.navigation.creationFeature
-import com.leoapps.findout.root.navigation.rootScreen
+import com.leoapps.findout.creation.form.navigation.FormCreationNavigatorImpl
+import com.leoapps.findout.creation.question.navigation.QuestionCreationNavigatorImpl
+import com.leoapps.findout.root.navigation.RootNavigatorImpl
+import com.ramcosta.composedestinations.DestinationsNavHost
+import com.ramcosta.composedestinations.navigation.dependency
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -20,15 +21,14 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             FindOutTheme {
-                val navController = rememberNavController()
-
-                NavHost(
-                    navController = navController,
-                    startDestination = "root"
-                ) {
-                    rootScreen(navController)
-                    creationFeature(navController)
-                }
+                DestinationsNavHost(
+                    navGraph = NavGraphs.root,
+                    dependenciesContainerBuilder = {
+                        dependency(RootNavigatorImpl(destinationsNavigator))
+                        dependency(FormCreationNavigatorImpl(destinationsNavigator))
+                        dependency(QuestionCreationNavigatorImpl(destinationsNavigator))
+                    }
+                )
             }
         }
     }

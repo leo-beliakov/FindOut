@@ -1,8 +1,12 @@
 package com.leoapps.findout.creation.form.navigation.model
 
+import java.util.UUID
+
 sealed interface FormCreationNavCommand {
     object GoBack : FormCreationNavCommand
-    data class OpenAddQuestionScreen(
-        val isEdit: Boolean
+    object OpenAddQuestion : FormCreationNavCommand
+
+    data class OpenQuestion(
+        val questionId: UUID
     ) : FormCreationNavCommand
 }

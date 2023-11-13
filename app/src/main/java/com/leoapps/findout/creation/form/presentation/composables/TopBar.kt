@@ -39,10 +39,10 @@ internal fun TopBar(
 
     Box(
         modifier = Modifier
-            .statusBarsPadding()
             .fillMaxWidth()
             .shadow(elevation)
             .background(MaterialTheme.colorScheme.surface)
+            .statusBarsPadding()
             .padding(16.dp)
     ) {
         Icon(

@@ -1,18 +1,19 @@
 package com.leoapps.findout.root.navigation
 
-import androidx.navigation.NavController
+import com.leoapps.findout.NavGraphs
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 interface RootNavigator {
     fun openAdd()
 }
 
 class RootNavigatorImpl(
-    private val navController: NavController
+    private val navController: DestinationsNavigator,
 ) : RootNavigator {
+
     override fun openAdd() {
-        navController.navigate("creation_feature") {
+        navController.navigate(NavGraphs.creationFeature) {
             launchSingleTop = true
         }
     }
-
 }

@@ -20,17 +20,22 @@ import com.leoapps.design_system.components.button.BOTTOM_GRADIENT_HEIGHT_DP
 import com.leoapps.design_system.components.button.BottomButton
 import com.leoapps.design_system.components.input.model.InputFieldState
 import com.leoapps.findout.creation.answer.presentation.AnswerCreationDialog
+import com.leoapps.findout.creation.form.navigation.CreationFeatureNavGraph
 import com.leoapps.findout.creation.form.presentation.composables.addImageSection
 import com.leoapps.findout.creation.form.presentation.composables.titleSection
 import com.leoapps.findout.creation.question.navigation.QuestionCreationNavigator
+import com.leoapps.findout.creation.question.navigation.QuestionCreationTransitions
 import com.leoapps.findout.creation.question.presentation.composbles.TopBar
 import com.leoapps.findout.creation.question.presentation.composbles.answersSection
 import com.leoapps.findout.creation.question.presentation.composbles.questionTypeSection
 import com.leoapps.findout.creation.question.presentation.model.QuestionCreationUiAction
 import com.leoapps.findout.creation.question.presentation.model.QuestionCreationUiState
 import com.leoapps.findout.creation.question.presentation.model.QuestionType
+import com.ramcosta.composedestinations.annotation.Destination
 import kotlinx.coroutines.flow.collectLatest
 
+@CreationFeatureNavGraph
+@Destination(style = QuestionCreationTransitions::class)
 @Composable
 fun QuestionCreationScreen(
     navigator: QuestionCreationNavigator,

@@ -58,7 +58,7 @@ class FormCreationViewModel @Inject constructor(
             FormCreationUiAction.AddQuestionClicked -> {
                 viewModelScope.launch {
                     _navCommand.emit(
-                        FormCreationNavCommand.OpenAddQuestionScreen(isEdit = false)
+                        FormCreationNavCommand.OpenAddQuestion
                     )
                 }
             }
@@ -84,7 +84,11 @@ class FormCreationViewModel @Inject constructor(
             }
 
             is FormCreationUiAction.OnQuestionClicked -> {
-
+                viewModelScope.launch {
+                    _navCommand.emit(
+                        FormCreationNavCommand.OpenQuestion(action.question.id)
+                    )
+                }
             }
 
             is FormCreationUiAction.OnQuestionDismissed -> {

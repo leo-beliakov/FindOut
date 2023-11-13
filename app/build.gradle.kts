@@ -3,6 +3,18 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
     id("com.google.dagger.hilt.android")
+    id("com.google.devtools.ksp")
+}
+
+kotlin {
+    sourceSets {
+        debug {
+            kotlin.srcDir("build/generated/ksp/debug/kotlin")
+        }
+        release {
+            kotlin.srcDir("build/generated/ksp/release/kotlin")
+        }
+    }
 }
 
 android {
@@ -66,6 +78,9 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
     implementation("androidx.compose.material:material-icons-extended")
+    implementation("io.github.raamcosta.compose-destinations:core:1.9.54")
+    implementation("io.github.raamcosta.compose-destinations:animations-core:1.9.54")
+    ksp("io.github.raamcosta.compose-destinations:ksp:1.9.54")
 
     //Navigation
     implementation("androidx.navigation:navigation-compose:2.7.5")

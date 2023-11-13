@@ -22,15 +22,20 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.leoapps.design_system.components.button.BOTTOM_GRADIENT_HEIGHT_DP
 import com.leoapps.design_system.components.button.BottomButton
 import com.leoapps.design_system.components.input.model.InputFieldState
+import com.leoapps.findout.creation.form.navigation.CreationFeatureNavGraph
 import com.leoapps.findout.creation.form.navigation.FormCreationNavigator
+import com.leoapps.findout.creation.form.navigation.FormCreationTransitions
 import com.leoapps.findout.creation.form.presentation.composables.TopBar
 import com.leoapps.findout.creation.form.presentation.composables.addImageSection
 import com.leoapps.findout.creation.form.presentation.composables.questionsSection
 import com.leoapps.findout.creation.form.presentation.composables.titleSection
 import com.leoapps.findout.creation.form.presentation.model.FormCreationUiAction
 import com.leoapps.findout.creation.form.presentation.model.FormCreationUiState
+import com.ramcosta.composedestinations.annotation.Destination
 import kotlinx.coroutines.flow.collectLatest
 
+@CreationFeatureNavGraph(start = true)
+@Destination(style = FormCreationTransitions::class)
 @Composable
 fun FormCreationScreen(
     navigator: FormCreationNavigator,
