@@ -1,5 +1,7 @@
 package com.leoapps.findout.creation.question.presentation
 
+import android.util.Log
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.leoapps.findout.creation.answer.presentation.model.AnswerCreationState
@@ -9,6 +11,7 @@ import com.leoapps.findout.creation.question.navigation.model.QuestionCreationNa
 import com.leoapps.findout.creation.question.presentation.model.QuestionCreationUiAction
 import com.leoapps.findout.creation.question.presentation.model.QuestionCreationUiState
 import com.leoapps.findout.creation.question.presentation.model.QuestionType
+import com.leoapps.findout.navArgs
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,8 +24,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class QuestionCreationViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     private val repository: FormRepository
 ) : ViewModel() {
+
+    private val args = savedStateHandle.navArgs<QuestionCreationParams>()
 
     private val _state = MutableStateFlow(getInitialState())
 
@@ -41,6 +47,10 @@ class QuestionCreationViewModel @Inject constructor(
 
     private val _navCommand = MutableSharedFlow<QuestionCreationNavCommand>()
     val navCommand = _navCommand.asSharedFlow()
+
+    init {
+        Log.d("MyTag", "id = ${args.questionId}")
+    }
 
     fun onAction(action: QuestionCreationUiAction) {
         when (action) {
@@ -102,6 +112,7 @@ class QuestionCreationViewModel @Inject constructor(
             }
 
             is QuestionCreationUiAction.OnTypeSelected -> {
+                Log.d("MyTag", "action.type = ${action.type}")
                 _state.update {
                     it.copy(
                         selectedQuestionType = action.type

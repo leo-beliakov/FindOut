@@ -19,7 +19,9 @@ internal fun LazyListScope.answersSection(
     answers: List<QuestionCreationUiState.Answer>,
     onAction: (QuestionCreationUiAction) -> Unit
 ) {
-    item(key = "AnswersTitle") {
+    item(
+        key = "AnswersTitle"
+    ) {
         Text(
             text = "Answers",
             style = MaterialTheme.typography.titleMedium,
