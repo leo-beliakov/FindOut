@@ -24,12 +24,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class QuestionCreationViewModel @Inject constructor(
-    savedStateHandle: SavedStateHandle,
+    savedStateHandle: SavedStateHandle?,
     private val repository: FormRepository
 ) : ViewModel() {
 
-    private val args = savedStateHandle.navArgs<QuestionCreationParams>()
-
+    private val questionId = savedStateHandle?.navArgs<QuestionCreationParams>()?.questionId
     private val _state = MutableStateFlow(getInitialState())
 
     private fun getInitialState(): QuestionCreationUiState {
@@ -49,7 +48,7 @@ class QuestionCreationViewModel @Inject constructor(
     val navCommand = _navCommand.asSharedFlow()
 
     init {
-        Log.d("MyTag", "id = ${args.questionId}")
+        Log.d("MyTag", "id = ${questionId}")
     }
 
     fun onAction(action: QuestionCreationUiAction) {
@@ -112,7 +111,6 @@ class QuestionCreationViewModel @Inject constructor(
             }
 
             is QuestionCreationUiAction.OnTypeSelected -> {
-                Log.d("MyTag", "action.type = ${action.type}")
                 _state.update {
                     it.copy(
                         selectedQuestionType = action.type

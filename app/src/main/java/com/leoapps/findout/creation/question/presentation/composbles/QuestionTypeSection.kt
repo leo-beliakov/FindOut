@@ -1,6 +1,5 @@
 package com.leoapps.findout.creation.question.presentation.composbles
 
-import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -36,8 +35,6 @@ internal fun LazyListScope.questionTypeSection(
                     )
                 },
                 onOptionSelected = { option ->
-                    Log.d("MyTag", "types = ${availableTypes}")
-                    Log.d("MyTag", "first = ${availableTypes.first { it.nameResId == option.id }}")
                     onTypeSelected(availableTypes.first { it.nameResId == option.id })
                 },
                 modifier = Modifier.align(Alignment.CenterStart)

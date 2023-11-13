@@ -16,11 +16,7 @@ class FormCreationNavigatorImpl(
         when (command) {
             FormCreationNavCommand.GoBack -> navController.navigateUp()
             FormCreationNavCommand.OpenAddQuestion -> {
-                navController.navigate(
-                    QuestionCreationScreenDestination(
-                        QuestionCreationParams()
-                    )
-                )
+                navController.navigate(QuestionCreationScreenDestination())
             }
 
             is FormCreationNavCommand.OpenQuestion -> {
