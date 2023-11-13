@@ -9,7 +9,9 @@ import androidx.compose.ui.graphics.Color
 
 @Composable
 fun HomeScreen() {
-    Box(modifier = Modifier
-        .fillMaxSize()
-        .background(Color.Green))
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Green)
+    )
 }

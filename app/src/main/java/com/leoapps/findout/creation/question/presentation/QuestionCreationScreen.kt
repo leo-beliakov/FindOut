@@ -23,7 +23,7 @@ import com.leoapps.findout.creation.answer.presentation.AnswerCreationDialog
 import com.leoapps.findout.creation.form.presentation.composables.addImageSection
 import com.leoapps.findout.creation.form.presentation.composables.titleSection
 import com.leoapps.findout.creation.question.navigation.QuestionCreationNavigator
-import com.leoapps.findout.creation.question.presentation.composbles.QuestionTopBar
+import com.leoapps.findout.creation.question.presentation.composbles.TopBar
 import com.leoapps.findout.creation.question.presentation.composbles.answersSection
 import com.leoapps.findout.creation.question.presentation.composbles.questionTypeSection
 import com.leoapps.findout.creation.question.presentation.model.QuestionCreationUiAction
@@ -71,7 +71,7 @@ fun QuestionCreationScreen(
 
     Scaffold(
         topBar = {
-            QuestionTopBar(
+            TopBar(
                 isContentScrolled = scrollState.canScrollBackward,
                 onAction = onAction
             )

@@ -86,7 +86,7 @@ fun RootScreen(navigator: RootNavigatorImpl) {
                 startDestination = "home",
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(paddings)
+                    .padding(bottom = paddings.calculateBottomPadding())
             ) {
                 composable("home") {
                     HomeScreen()
