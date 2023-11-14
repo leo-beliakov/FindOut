@@ -1,11 +1,15 @@
 package com.leoapps.findout.creation.question.presentation.model
 
 import android.net.Uri
+import androidx.annotation.StringRes
 import com.leoapps.findout.R
 import com.leoapps.findout.creation.answer.presentation.model.AnswerCreationState
 import java.util.UUID
 
 data class QuestionCreationUiState(
+    @StringRes val screenTitleResId: Int,
+    @StringRes val screenButtonResId: Int,
+    val id: UUID = UUID.randomUUID(),
     val title: String = "",
     val description: String = "",
     val hasDescription: Boolean = false,
@@ -13,7 +17,7 @@ data class QuestionCreationUiState(
     val dialogState: AnswerCreationState? = null,
     val answers: List<Answer> = emptyList(),
     val selectedQuestionType: QuestionType = QuestionType.SINGLE_ANSWER,
-    val avaliableQuestionTypes: List<QuestionType> = emptyList()
+    val availableQuestionTypes: List<QuestionType> = emptyList()
 ) {
 
     data class Answer(

@@ -1,6 +1,7 @@
 package com.leoapps.findout.creation.form.domain.model
 
 import android.net.Uri
+import com.leoapps.findout.creation.question.presentation.model.QuestionType
 import java.util.UUID
 
 data class Survey(
@@ -14,6 +15,7 @@ data class Survey(
         open val id: UUID,
         open val title: String,
         open val description: String?,
+        open val type: QuestionType
     ) {
         data class Choice(
             val isSingleChoice: Boolean,
@@ -21,16 +23,21 @@ data class Survey(
             override val id: UUID,
             override val title: String,
             override val description: String?,
-        ) : Question(id, title, description)
+        ) : Question(
+            id = id,
+            title = title,
+            description = description,
+            type = if (isSingleChoice) QuestionType.SINGLE_CHOICE else QuestionType.MULTIPLE_CHOICES
+        )
 
         data class Open(
             override val title: String,
             override val description: String?,
             override val id: UUID,
-        ) : Question(id, title, description)
+        ) : Question(id, title, description, QuestionType.OPEN_ANSWER)
 
         class Answer(
-            val id: String,
+            val id: UUID,
             val title: String,
         )
     }

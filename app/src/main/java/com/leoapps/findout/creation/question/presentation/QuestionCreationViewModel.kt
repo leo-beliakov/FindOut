@@ -1,9 +1,9 @@
 package com.leoapps.findout.creation.question.presentation
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.leoapps.findout.R
 import com.leoapps.findout.creation.answer.presentation.model.AnswerCreationState
 import com.leoapps.findout.creation.form.domain.FormRepository
 import com.leoapps.findout.creation.form.domain.model.Survey
@@ -33,8 +33,10 @@ class QuestionCreationViewModel @Inject constructor(
 
     private fun getInitialState(): QuestionCreationUiState {
         return QuestionCreationUiState(
+            screenTitleResId = R.string.question_screen_title_add,
+            screenButtonResId = R.string.question_screen_button_add,
             selectedQuestionType = QuestionType.SINGLE_CHOICE,
-            avaliableQuestionTypes = listOf(
+            availableQuestionTypes = listOf(
                 QuestionType.SINGLE_CHOICE,
                 QuestionType.MULTIPLE_CHOICES,
                 QuestionType.OPEN_ANSWER
@@ -48,7 +50,21 @@ class QuestionCreationViewModel @Inject constructor(
     val navCommand = _navCommand.asSharedFlow()
 
     init {
-        Log.d("MyTag", "id = ${questionId}")
+        val question = questionId?.let { repository.getQuestionById(it) }
+        question?.let { savedQuestion ->
+            _state.update {
+                it.copy(
+                    id = savedQuestion.id,
+                    screenTitleResId = R.string.question_screen_button_edit,
+                    screenButtonResId = R.string.question_screen_button_edit,
+                    title = savedQuestion.title,
+                    description = savedQuestion.description ?: "",
+                    selectedQuestionType = savedQuestion.type,
+                    hasDescription = !savedQuestion.description.isNullOrEmpty(),
+                    answers = getAnswersModels(savedQuestion)
+                )
+            }
+        }
     }
 
     fun onAction(action: QuestionCreationUiAction) {
@@ -97,7 +113,7 @@ class QuestionCreationViewModel @Inject constructor(
 
             QuestionCreationUiAction.OnAddQuestionClicked -> {
                 viewModelScope.launch {
-                    repository.addQuestion(getQuestionModel())
+                    repository.saveQuestion(getQuestionModel())
                     _navCommand.emit(QuestionCreationNavCommand.GoBack)
                 }
             }
@@ -151,7 +167,7 @@ class QuestionCreationViewModel @Inject constructor(
             QuestionType.SINGLE_CHOICE,
             QuestionType.MULTIPLE_CHOICES -> {
                 Survey.Question.Choice(
-                    id = UUID.randomUUID(),
+                    id = currentState.id,
                     title = currentState.title,
                     description = currentState.description,
                     isSingleChoice = currentState.selectedQuestionType == QuestionType.SINGLE_CHOICE,
@@ -161,7 +177,7 @@ class QuestionCreationViewModel @Inject constructor(
 
             else -> {
                 Survey.Question.Open(
-                    id = UUID.randomUUID(),
+                    id = currentState.id,
                     title = currentState.title,
                     description = currentState.description,
                 )
@@ -177,9 +193,28 @@ class QuestionCreationViewModel @Inject constructor(
     ): List<Survey.Question.Answer> {
         return answers.map {
             Survey.Question.Answer(
-                id = it.id.toString(),
+                id = it.id,
                 title = it.title,
             )
+        }
+    }
+
+    private fun getAnswersModels(
+        question: Survey.Question
+    ): List<QuestionCreationUiState.Answer> {
+        return when (question) {
+            is Survey.Question.Choice -> {
+                question.answers.map {
+                    QuestionCreationUiState.Answer(
+                        id = it.id,
+                        title = it.title,
+                    )
+                }
+            }
+
+            is Survey.Question.Open -> {
+                emptyList()
+            }
         }
     }
 }

@@ -27,6 +27,7 @@ import com.leoapps.findout.creation.question.presentation.model.QuestionCreation
 
 @Composable
 internal fun TopBar(
+    title: String,
     isContentScrolled: Boolean,
     onAction: (QuestionCreationUiAction) -> Unit
 ) {
@@ -60,7 +61,7 @@ internal fun TopBar(
                 ),
         )
         Text(
-            text = "Add Question",
+            text = title,
             style = MaterialTheme.typography.headlineMedium,
             modifier = Modifier.align(Alignment.Center)
         )

@@ -9,6 +9,7 @@ interface FormRepository {
     fun updateFormDraft(survey: Survey)
     fun updateDescription(description: String)
     fun updateTitle(title: String)
-    fun addQuestion(question: Survey.Question)
+    fun saveQuestion(question: Survey.Question)
     fun deleteQuestionById(id: UUID)
+    fun getQuestionById(id: UUID): Survey.Question?
 }

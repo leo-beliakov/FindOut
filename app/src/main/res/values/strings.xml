@@ -12,6 +12,11 @@
     <string name="question_type_multiple_choices">Multiple Choices</string>
     <string name="question_type_open">Open Answer</string>
 
+    <string name="question_screen_title_add">Add Question</string>
+    <string name="question_screen_title_edit">Edit Question</string>
+    <string name="question_screen_button_add">Add Question</string>
+    <string name="question_screen_button_edit">Save</string>
+
     <string name="answer_dialog_title_add">Add Answer</string>
     <string name="answer_dialog_title_edit">Edit Answer</string>
     <string name="answer_dialog_button_add">Add Answer</string>

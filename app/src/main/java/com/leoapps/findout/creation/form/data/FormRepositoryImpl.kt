@@ -29,7 +29,7 @@ class FormRepositoryImpl @Inject constructor() : FormRepository {
         _cachedSurvey.update { it.copy(title = title) }
     }
 
-    override fun addQuestion(question: Survey.Question) {
+    override fun saveQuestion(question: Survey.Question) {
         _cachedSurvey.update { survey ->
             survey.copy(questions = survey.questions.addOrUpdate(question))
         }
@@ -40,6 +40,10 @@ class FormRepositoryImpl @Inject constructor() : FormRepository {
             val updatedQuestions = survey.questions.toMutableList().filter { it.id != id }
             survey.copy(questions = updatedQuestions)
         }
+    }
+
+    override fun getQuestionById(id: UUID): Survey.Question? {
+        return _cachedSurvey.value.questions.firstOrNull { it.id == id }
     }
 }
 

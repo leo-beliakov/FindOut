@@ -15,6 +15,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -79,15 +80,11 @@ fun QuestionCreationScreen(
     val show by remember {
         derivedStateOf { state.selectedQuestionType != QuestionType.OPEN_ANSWER }
     }
-//    val isButtonEnabled by remember {
-//        derivedStateOf {
-//
-//        }
-//    }
 
     Scaffold(
         topBar = {
             TopBar(
+                title = stringResource(id = state.screenTitleResId),
                 isContentScrolled = scrollState.canScrollBackward,
                 onAction = onAction
             )
@@ -112,7 +109,7 @@ fun QuestionCreationScreen(
                     )
                     questionTypeSection(
                         selectedType = state.selectedQuestionType,
-                        availableTypes = state.avaliableQuestionTypes,
+                        availableTypes = state.availableQuestionTypes,
                         onTypeSelected = { onAction(QuestionCreationUiAction.OnTypeSelected(it)) }
                     )
                     titleSection(
@@ -147,7 +144,7 @@ fun QuestionCreationScreen(
                     }
                 }
                 BottomButton(
-                    text = "Add Question",
+                    text = stringResource(id = state.screenButtonResId),
                     enabled = state.title.isNotEmpty() &&
                             (state.selectedQuestionType == QuestionType.OPEN_ANSWER || state.answers.isNotEmpty()),
                     onClick = { onAction(QuestionCreationUiAction.OnAddQuestionClicked) },
