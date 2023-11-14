@@ -30,6 +30,7 @@ class QuestionCreationViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val questionId = savedStateHandle.navArgs<QuestionCreationArgs>().questionId
+    val formType = savedStateHandle.navArgs<QuestionCreationArgs>().formType
 
     private val _state = MutableStateFlow(QuestionCreationUiState())
     val state = _state.asStateFlow()
@@ -38,7 +39,7 @@ class QuestionCreationViewModel @Inject constructor(
     val navCommand = _navCommand.asSharedFlow()
 
     init {
-        readArguments(savedStateHandle)
+        readArguments()
         readSavedQuestion()
     }
 
@@ -54,7 +55,12 @@ class QuestionCreationViewModel @Inject constructor(
 
             QuestionCreationUiAction.AddAnswerClicked -> {
                 _state.update {
-                    it.copy(dialogState = AnswerCreationState.Create)
+                    it.copy(
+                        dialogState = AnswerCreationState.Create(
+                            isCorrectShown = it.selectedQuestionType == QuestionType.SINGLE_ANSWER ||
+                                    it.selectedQuestionType == QuestionType.MULTIPLE_CHOICES,
+                        )
+                    )
                 }
             }
 
@@ -67,7 +73,11 @@ class QuestionCreationViewModel @Inject constructor(
             is QuestionCreationUiAction.OnAnswerClicked -> {
                 _state.update {
                     it.copy(
-                        dialogState = AnswerCreationState.Edit(answer = action.answer)
+                        dialogState = AnswerCreationState.Edit(
+                            answer = action.answer,
+                            isCorrectShown = it.selectedQuestionType == QuestionType.SINGLE_ANSWER ||
+                                    it.selectedQuestionType == QuestionType.MULTIPLE_CHOICES,
+                        )
                     )
                 }
             }
@@ -136,9 +146,8 @@ class QuestionCreationViewModel @Inject constructor(
         }
     }
 
-    private fun readArguments(savedStateHandle: SavedStateHandle) {
+    private fun readArguments() {
         val question = questionId?.let { repository.getQuestionById(it) }
-        val formType = savedStateHandle.navArgs<QuestionCreationArgs>().formType
         _state.update {
             it.copy(
                 selectedQuestionType = question?.type ?: when (formType) {

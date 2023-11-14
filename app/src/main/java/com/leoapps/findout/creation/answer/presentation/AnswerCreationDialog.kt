@@ -3,16 +3,20 @@ package com.leoapps.findout.creation.answer.presentation
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -30,9 +34,7 @@ fun AnswerCreationDialog(
     onAction: (QuestionCreationUiAction) -> Unit,
 ) {
     var enteredAnswer by rememberSaveable { mutableStateOf(state.answerText) }
-//    var isCorrectAnswer by rememberSaveable {
-//        mutableStateOf(state.answer?.isCorrect ?: false)
-//    }
+    var isCorrectAnswer by rememberSaveable { mutableStateOf(state.isCorrect) }
 
     Dialog(onDismissRequest = { onAction(QuestionCreationUiAction.OnDialogDismissed) }) {
         Column(
@@ -50,20 +52,23 @@ fun AnswerCreationDialog(
                     label = stringResource(id = state.titleResId),
                 ),
             )
-//            Row(
-//                verticalAlignment = Alignment.CenterVertically,
-//                modifier = Modifier.fillMaxWidth()
-//            ) {
-//                Text(
-//                    text = "Correct Answer",
-//                    style = MaterialTheme.typography.titleMedium,
-//                    modifier = Modifier.weight(1f, true)
-//                )
-//                Switch(
-//                    checked = isCorrectAnswer,
-//                    onCheckedChange = { isCorrectAnswer = it }
-//                )
-//            }
+            if (state.isCorrectShown) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(
+                        text = "Correct Answer",
+                        style = MaterialTheme.typography.titleMedium,
+                        modifier = Modifier.weight(1f, true)
+                    )
+                    Switch(
+                        checked = isCorrectAnswer,
+                        onCheckedChange = { isCorrectAnswer = it }
+                    )
+                }
+
+            }
             Button(
                 onClick = {
                     when (state) {
@@ -85,7 +90,9 @@ fun AnswerCreationDialog(
                             )
                         }
                     }
-                }, enabled = enteredAnswer.isNotEmpty(), modifier = Modifier.fillMaxWidth()
+                },
+                enabled = enteredAnswer.isNotEmpty(),
+                modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
                     text = stringResource(id = state.buttonTextResId)
