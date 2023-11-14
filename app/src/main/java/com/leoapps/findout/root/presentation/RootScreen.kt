@@ -12,32 +12,41 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavDestination.Companion.hierarchy
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.leoapps.findout.add.presentation.AddScreen
-import com.leoapps.findout.home.presentation.HomeScreen
-import com.leoapps.findout.profile.presentation.ProfileScreen
+import com.leoapps.findout.NavGraphs
+import com.leoapps.findout.appCurrentDestinationAsState
+import com.leoapps.findout.destinations.FormCreationScreenDestination
+import com.leoapps.findout.destinations.HomeScreenDestination
+import com.leoapps.findout.destinations.ProfileScreenDestination
+import com.leoapps.findout.root.navigation.RootNavigator
+import com.leoapps.findout.startAppDestination
+import com.ramcosta.composedestinations.DestinationsNavHost
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.annotation.RootNavGraph
+import com.ramcosta.composedestinations.navigation.navigate
 
+@RootNavGraph(start = true)
+@Destination
 @Composable
 fun RootScreen(
-//    viewModel: RootViewModel = hiltViewModel()
+    navigator: RootNavigator
 ) {
     val navController = rememberNavController()
 
     Scaffold(
         bottomBar = {
             NavigationBar {
-                val navBackStackEntry by navController.currentBackStackEntryAsState()
-                val currentDestination = navBackStackEntry?.destination
+                val currentDestination = navController.appCurrentDestinationAsState().value
+                    ?: NavGraphs.root.startAppDestination
 
                 NavigationBarItem(
-                    selected = currentDestination?.hierarchy?.any { it.route == "home" } == true,
-                    onClick = { navController.navigate("home") },
+                    selected = currentDestination == HomeScreenDestination,
+                    onClick = {
+                        navController.navigate(HomeScreenDestination) {
+                            launchSingleTop = true
+                        }
+                    },
                     icon = {
                         Icon(
                             imageVector = Icons.Default.Home,
@@ -51,18 +60,27 @@ fun RootScreen(
                     }
                 )
                 NavigationBarItem(
-                    selected = currentDestination?.hierarchy?.any { it.route == "add" } == true,
-                    onClick = { navController.navigate("add") },
+                    selected = currentDestination == FormCreationScreenDestination,
+                    onClick = { navigator.openAdd() },
                     icon = {
                         Icon(
                             imageVector = Icons.Outlined.AddCircle,
                             contentDescription = null
                         )
+                    },
+                    label = {
+                        Text(
+                            text = "Create"
+                        )
                     }
                 )
                 NavigationBarItem(
-                    selected = currentDestination?.hierarchy?.any { it.route == "profile" } == true,
-                    onClick = { navController.navigate("profile") },
+                    selected = currentDestination == ProfileScreenDestination,
+                    onClick = {
+                        navController.navigate(ProfileScreenDestination) {
+                            launchSingleTop = true
+                        }
+                    },
                     icon = {
                         Icon(
                             imageVector = Icons.Default.Person,
@@ -78,17 +96,13 @@ fun RootScreen(
             }
         },
         content = { paddings ->
-            NavHost(
+            DestinationsNavHost(
+                navGraph = NavGraphs.myRoot,
                 navController = navController,
-                startDestination = "home",
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(paddings)
-            ) {
-                composable("home") { HomeScreen() }
-                composable("add") { AddScreen() }
-                composable("profile") { ProfileScreen() }
-            }
+                    .padding(bottom = paddings.calculateBottomPadding())
+            )
         }
     )
 }

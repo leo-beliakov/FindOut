@@ -1,3 +1,24 @@
 <resources>
     <string name="app_name">FindOut</string>
+
+    <string name="form_creation_title_quiz">Create Quiz</string>
+    <string name="form_creation_title_survey">Create Survey</string>
+
+    <string name="answer_creation_input_placeholder">Enter the answer</string>
+
+    <string name="question_type_single">Single Answer</string>
+    <string name="question_type_single_choice">Single Choice</string>
+    <string name="question_type_multiple">Multiple Answer</string>
+    <string name="question_type_multiple_choices">Multiple Choices</string>
+    <string name="question_type_open">Open Answer</string>
+
+    <string name="question_screen_title_add">Add Question</string>
+    <string name="question_screen_title_edit">Edit Question</string>
+    <string name="question_screen_button_add">Add Question</string>
+    <string name="question_screen_button_edit">Save</string>
+
+    <string name="answer_dialog_title_add">Add Answer</string>
+    <string name="answer_dialog_title_edit">Edit Answer</string>
+    <string name="answer_dialog_button_add">Add Answer</string>
+    <string name="answer_dialog_button_edit">Save</string>
 </resources>
