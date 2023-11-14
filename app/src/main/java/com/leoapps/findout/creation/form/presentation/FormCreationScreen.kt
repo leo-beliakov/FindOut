@@ -1,5 +1,8 @@
 package com.leoapps.findout.creation.form.presentation
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -35,7 +38,10 @@ import com.ramcosta.composedestinations.annotation.Destination
 import kotlinx.coroutines.flow.collectLatest
 
 @CreationFeatureNavGraph(start = true)
-@Destination(style = FormCreationTransitions::class)
+@Destination(
+    style = FormCreationTransitions::class,
+    navArgsDelegate = FormCreationArgs::class
+)
 @Composable
 fun FormCreationScreen(
     navigator: FormCreationNavigator,
@@ -65,6 +71,11 @@ private fun FormCreationScreen(
     val isButtonEnabled by remember {
         derivedStateOf { state.title.isNotEmpty() && state.questions.isNotEmpty() }
     }
+    val picker = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.PickVisualMedia()
+    ) {
+
+    }
 
     Scaffold(
         topBar = {
@@ -90,7 +101,10 @@ private fun FormCreationScreen(
                 ) {
                     addImageSection(
                         imageUri = state.coverUri,
-                        onClick = { onAction(FormCreationUiAction.AddImageClicked) }
+                        onClick = {
+                            picker.launch(PickVisualMediaRequest())
+                            onAction(FormCreationUiAction.AddImageClicked)
+                        }
                     )
                     titleSection(
                         titleState = InputFieldState(

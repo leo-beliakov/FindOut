@@ -4,8 +4,9 @@ import android.net.Uri
 import com.leoapps.findout.creation.question.presentation.model.QuestionType
 import java.util.UUID
 
-data class Survey(
-    val id: String,
+data class Form(
+    val id: UUID,
+    val type: FormType,
     val title: String? = null,
     val description: String? = null,
     val coverUri: Uri? = null,

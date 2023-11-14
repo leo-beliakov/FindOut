@@ -39,7 +39,7 @@ import kotlinx.coroutines.flow.collectLatest
 
 @CreationFeatureNavGraph
 @Destination(
-    navArgsDelegate = QuestionCreationParams::class,
+    navArgsDelegate = QuestionCreationArgs::class,
     style = QuestionCreationTransitions::class,
 )
 @Composable

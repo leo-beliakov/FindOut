@@ -6,7 +6,7 @@ import com.leoapps.findout.R
 import java.util.UUID
 
 data class FormCreationUiState(
-    @StringRes val pageNameResId: Int = R.string.form_creation_title_quiz,
+    @StringRes val pageNameResId: Int = R.string.form_creation_title_survey,
     val title: String = "",
     val description: String = "",
     val hasDescription: Boolean = false,

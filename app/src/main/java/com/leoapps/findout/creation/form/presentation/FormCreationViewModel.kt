@@ -1,12 +1,16 @@
 package com.leoapps.findout.creation.form.presentation
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.leoapps.findout.R
 import com.leoapps.findout.creation.form.domain.FormRepository
-import com.leoapps.findout.creation.form.domain.model.Survey
+import com.leoapps.findout.creation.form.domain.model.Form
+import com.leoapps.findout.creation.form.domain.model.FormType
 import com.leoapps.findout.creation.form.navigation.model.FormCreationNavCommand
 import com.leoapps.findout.creation.form.presentation.model.FormCreationUiAction
 import com.leoapps.findout.creation.form.presentation.model.FormCreationUiState
+import com.leoapps.findout.navArgs
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,8 +24,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FormCreationViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     private val repository: FormRepository
 ) : ViewModel() {
+
+    val formType = savedStateHandle.navArgs<FormCreationArgs>().type
 
     private val _state = MutableStateFlow(FormCreationUiState())
     val state = _state.asStateFlow()
@@ -30,6 +37,11 @@ class FormCreationViewModel @Inject constructor(
     val navCommand = _navCommand.asSharedFlow()
 
     init {
+        repository.createNewForm(type = formType)
+        subscribeToRepository()
+    }
+
+    private fun subscribeToRepository() {
         repository.getFormDraftAsFlow()
             .onEach { savedSurvey ->
                 _state.update {
@@ -37,7 +49,11 @@ class FormCreationViewModel @Inject constructor(
                         title = savedSurvey.title ?: "",
                         description = savedSurvey.description ?: "",
                         hasDescription = !savedSurvey.description.isNullOrEmpty() || it.hasDescription,
-                        questions = savedSurvey.questions.mapToUi()
+                        questions = savedSurvey.questions.mapToUi(),
+                        pageNameResId = when (savedSurvey.type) {
+                            FormType.SURVEY -> R.string.form_creation_title_survey
+                            FormType.QUIZ -> R.string.form_creation_title_quiz
+                        }
                     )
                 }
             }
@@ -58,7 +74,9 @@ class FormCreationViewModel @Inject constructor(
             FormCreationUiAction.AddQuestionClicked -> {
                 viewModelScope.launch {
                     _navCommand.emit(
-                        FormCreationNavCommand.OpenAddQuestion
+                        FormCreationNavCommand.OpenQuestion(
+                            formType = formType
+                        )
                     )
                 }
             }
@@ -86,7 +104,10 @@ class FormCreationViewModel @Inject constructor(
             is FormCreationUiAction.OnQuestionClicked -> {
                 viewModelScope.launch {
                     _navCommand.emit(
-                        FormCreationNavCommand.OpenQuestion(action.question.id)
+                        FormCreationNavCommand.OpenQuestion(
+                            formType = formType,
+                            questionId = action.question.id
+                        )
                     )
                 }
             }
@@ -98,7 +119,7 @@ class FormCreationViewModel @Inject constructor(
     }
 }
 
-private fun List<Survey.Question>.mapToUi(): List<FormCreationUiState.Question> {
+private fun List<Form.Question>.mapToUi(): List<FormCreationUiState.Question> {
     return this.map {
         FormCreationUiState.Question(
             id = it.id,

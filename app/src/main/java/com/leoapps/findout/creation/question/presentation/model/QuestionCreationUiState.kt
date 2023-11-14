@@ -7,8 +7,6 @@ import com.leoapps.findout.creation.answer.presentation.model.AnswerCreationStat
 import java.util.UUID
 
 data class QuestionCreationUiState(
-    @StringRes val screenTitleResId: Int,
-    @StringRes val screenButtonResId: Int,
     val id: UUID = UUID.randomUUID(),
     val title: String = "",
     val description: String = "",
@@ -17,7 +15,9 @@ data class QuestionCreationUiState(
     val dialogState: AnswerCreationState? = null,
     val answers: List<Answer> = emptyList(),
     val selectedQuestionType: QuestionType = QuestionType.SINGLE_ANSWER,
-    val availableQuestionTypes: List<QuestionType> = emptyList()
+    val availableQuestionTypes: List<QuestionType> = emptyList(),
+    @StringRes val screenTitleResId: Int = R.string.question_screen_title_add,
+    @StringRes val screenButtonResId: Int = R.string.question_screen_button_add,
 ) {
 
     data class Answer(
