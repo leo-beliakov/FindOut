@@ -4,9 +4,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import com.leoapps.creation.form.navigation.FormCreationNavigatorImpl
+import com.leoapps.creation.question.navigation.QuestionCreationNavigatorImpl
 import com.leoapps.design_system.theme.FindOutTheme
-import com.leoapps.findout.creation.form.navigation.FormCreationNavigatorImpl
-import com.leoapps.findout.creation.question.navigation.QuestionCreationNavigatorImpl
 import com.leoapps.findout.root.navigation.RootNavigatorImpl
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.navigation.dependency
@@ -22,7 +22,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             FindOutTheme {
                 DestinationsNavHost(
-                    navGraph = NavGraphs.root,
+                    navGraph = MainNavGraph,
                     dependenciesContainerBuilder = {
                         dependency(RootNavigatorImpl(destinationsNavigator))
                         dependency(FormCreationNavigatorImpl(destinationsNavigator))

@@ -16,7 +16,6 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.leoapps.findout.NavGraphs
 import com.leoapps.findout.appCurrentDestinationAsState
-import com.leoapps.findout.destinations.FormCreationScreenDestination
 import com.leoapps.findout.destinations.HomeScreenDestination
 import com.leoapps.findout.destinations.ProfileScreenDestination
 import com.leoapps.findout.root.navigation.RootNavigator
@@ -60,7 +59,7 @@ fun RootScreen(
                     }
                 )
                 NavigationBarItem(
-                    selected = currentDestination == FormCreationScreenDestination,
+                    selected = false,
                     onClick = { navigator.openAdd() },
                     icon = {
                         Icon(

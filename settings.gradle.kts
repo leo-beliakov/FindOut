@@ -16,3 +16,5 @@ dependencyResolutionManagement {
 rootProject.name = "FindOut"
 include(":app")
 include(":design_system")
+include(":features:media_picker")
+include(":features:creation")

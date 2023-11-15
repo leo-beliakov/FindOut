@@ -1,6 +1,6 @@
 package com.leoapps.findout.root.navigation
 
-import com.leoapps.findout.NavGraphs
+import com.leoapps.creation.CreationFeatureNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 interface RootNavigator {
@@ -12,7 +12,7 @@ class RootNavigatorImpl(
 ) : RootNavigator {
 
     override fun openAdd() {
-        navController.navigate(NavGraphs.creationFeature) {
+        navController.navigate(CreationFeatureNavGraph) {
             launchSingleTop = true
         }
     }
