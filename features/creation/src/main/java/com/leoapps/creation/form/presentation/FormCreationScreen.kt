@@ -1,8 +1,5 @@
 package com.leoapps.creation.form.presentation
 
-import android.util.Log
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -22,6 +19,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.isGranted
+import com.google.accompanist.permissions.rememberPermissionState
+import com.google.accompanist.permissions.shouldShowRationale
+import com.leoapps.creation.common.getImagesPermission
 import com.leoapps.creation.form.navigation.CreationFeatureNavGraph
 import com.leoapps.creation.form.navigation.FormCreationNavigator
 import com.leoapps.creation.form.navigation.FormCreationTransitions
@@ -48,15 +50,6 @@ fun FormCreationScreen(
     viewModel: FormCreationViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    val permissionLauncher = rememberLauncherForActivityResult(
-        ActivityResultContracts.RequestMultiplePermissions()
-    ) { granted ->
-        Log.d("MyTag", "granted = ${granted}")
-//        viewModel.onAction(CustomPickerAction.OnOpenClicked)
-//        if (granted) viewModel.onAction(PickerAction.OnOpenClicked)
-    }
-
-//    permissionLauncher.launch(getMediaPermissions(state.mediaType))
 
     FormCreationScreen(
         state = state,
@@ -71,12 +64,18 @@ fun FormCreationScreen(
 }
 
 
+@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 private fun FormCreationScreen(
     state: FormCreationUiState,
     onAction: (FormCreationUiAction) -> Unit
 ) {
     val scrollState = rememberLazyListState()
+    val imagesPermission = rememberPermissionState(getImagesPermission()) { granted ->
+        if (granted) {
+            onAction(FormCreationUiAction.AddImageClicked)
+        }
+    }
     val isButtonEnabled by remember {
         derivedStateOf { state.title.isNotEmpty() && state.questions.isNotEmpty() }
     }
@@ -105,7 +104,21 @@ private fun FormCreationScreen(
                 ) {
                     addImageSection(
                         imageUri = state.coverUri,
-                        onClick = { onAction(FormCreationUiAction.AddImageClicked) }
+                        onClick = {
+                            when {
+                                imagesPermission.status.isGranted -> onAction(
+                                    FormCreationUiAction.AddImageClicked
+                                )
+
+                                imagesPermission.status.shouldShowRationale -> {
+                                    imagesPermission.launchPermissionRequest()
+                                } // + show a rationale
+
+                                else -> {
+                                    imagesPermission.launchPermissionRequest()
+                                }
+                            }
+                        }
                     )
                     titleSection(
                         titleState = InputFieldState(

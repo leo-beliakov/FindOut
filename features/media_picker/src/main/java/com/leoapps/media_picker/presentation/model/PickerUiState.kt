@@ -4,23 +4,12 @@ import android.net.Uri
 
 data class PickerUiState(
     val allowMultipleSelection: Boolean = false,
-    val mediaItems: List<Item> = emptyList(),
+    val mediaItems: List<Photo> = emptyList(),
 ) {
-    sealed class Item(
-        open val uri: Uri,
-        open val selection: SelectionState
-    ) {
-        data class Video(
-            val durationText: String,
-            override val uri: Uri,
-            override val selection: SelectionState
-        ) : Item(uri, selection)
-
-        data class Photo(
-            override val uri: Uri,
-            override val selection: SelectionState
-        ) : Item(uri, selection)
-    }
+    data class Photo(
+        val uri: Uri,
+        val selection: SelectionState
+    )
 
     sealed interface SelectionState {
         object Unselected : SelectionState

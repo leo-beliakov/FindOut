@@ -9,7 +9,7 @@ import dagger.hilt.components.SingletonComponent
 
 @Module
 @InstallIn(SingletonComponent::class)
-interface CustomPickerModule {
+interface MediaPickerModule {
 
     @Binds
     fun bindRepo(impl: MediaRepositoryImpl): MediaRepository

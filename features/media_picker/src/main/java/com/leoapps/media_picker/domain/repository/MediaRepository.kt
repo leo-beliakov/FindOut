@@ -1,9 +1,7 @@
 package com.leoapps.media_picker.domain.repository
 
-import com.leoapps.media_picker.domain.model.Photo
-import com.leoapps.media_picker.domain.model.Video
+import com.leoapps.media_picker.domain.model.Image
 
 interface MediaRepository {
-    fun queryPhotos(): List<Photo>
-    fun queryVideos(): List<Video>
+    suspend fun queryImages(): List<Image>
 }

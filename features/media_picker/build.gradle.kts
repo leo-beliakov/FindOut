@@ -19,7 +19,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.leoapps.mediapicker"
+    namespace = "com.leoapps.media_picker"
     compileSdk = 34
 
     defaultConfig {
@@ -66,7 +66,6 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
     implementation("androidx.compose.material:material-icons-extended")
-    implementation("io.github.raamcosta.compose-destinations:core:1.9.54")
     implementation("io.github.raamcosta.compose-destinations:animations-core:1.9.54")
     ksp("io.github.raamcosta.compose-destinations:ksp:1.9.54")
 

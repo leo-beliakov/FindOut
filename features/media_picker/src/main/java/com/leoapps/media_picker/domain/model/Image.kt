@@ -2,8 +2,7 @@ package com.leoapps.media_picker.domain.model
 
 import android.net.Uri
 
-data class Photo(
+data class Image(
+    val id: Long,
     val uri: Uri,
-    val name: String,
-    val size: Int
 )

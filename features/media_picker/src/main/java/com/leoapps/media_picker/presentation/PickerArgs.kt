@@ -1,4 +1,9 @@
 package com.leoapps.media_picker.presentation
 
-class PickerArgs {
-}
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
+data class PickerArgs(
+    val type: String = ""
+) : Parcelable
