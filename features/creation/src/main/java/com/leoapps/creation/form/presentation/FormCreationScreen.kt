@@ -20,10 +20,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.google.accompanist.permissions.isGranted
-import com.google.accompanist.permissions.rememberPermissionState
-import com.google.accompanist.permissions.shouldShowRationale
-import com.leoapps.creation.common.getImagesPermission
 import com.leoapps.creation.form.navigation.CreationFeatureNavGraph
 import com.leoapps.creation.form.navigation.FormCreationNavigator
 import com.leoapps.creation.form.navigation.FormCreationTransitions
@@ -71,11 +67,6 @@ private fun FormCreationScreen(
     onAction: (FormCreationUiAction) -> Unit
 ) {
     val scrollState = rememberLazyListState()
-    val imagesPermission = rememberPermissionState(getImagesPermission()) { granted ->
-        if (granted) {
-            onAction(FormCreationUiAction.AddImageClicked)
-        }
-    }
     val isButtonEnabled by remember {
         derivedStateOf { state.title.isNotEmpty() && state.questions.isNotEmpty() }
     }
@@ -104,21 +95,7 @@ private fun FormCreationScreen(
                 ) {
                     addImageSection(
                         imageUri = state.coverUri,
-                        onClick = {
-                            when {
-                                imagesPermission.status.isGranted -> onAction(
-                                    FormCreationUiAction.AddImageClicked
-                                )
-
-                                imagesPermission.status.shouldShowRationale -> {
-                                    imagesPermission.launchPermissionRequest()
-                                } // + show a rationale
-
-                                else -> {
-                                    imagesPermission.launchPermissionRequest()
-                                }
-                            }
-                        }
+                        onClick = { onAction(FormCreationUiAction.AddImageClicked) }
                     )
                     titleSection(
                         titleState = InputFieldState(

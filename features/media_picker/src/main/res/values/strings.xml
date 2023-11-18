@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="no_permission_item_camera">Tap to allow access to your Camera</string>
+    <string name="no_permission_item_gallery">Tap to allow access to your Gallery</string>
+</resources>

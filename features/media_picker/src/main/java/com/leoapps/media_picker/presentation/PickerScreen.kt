@@ -3,25 +3,24 @@ package com.leoapps.media_picker.presentation
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,14 +31,21 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.PermissionState
+import com.google.accompanist.permissions.isGranted
+import com.google.accompanist.permissions.rememberPermissionState
+import com.leoapps.media_picker.R
 import com.leoapps.media_picker.navigation.PickerNavGraph
+import com.leoapps.media_picker.presentation.composables.NoPermissionItem
+import com.leoapps.media_picker.presentation.model.PickerUiAction
 import com.leoapps.media_picker.presentation.model.PickerUiState
+import com.leoapps.media_picker.utils.getImagesPermission
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.spec.DestinationStyleBottomSheet
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalPermissionsApi::class)
 @PickerNavGraph(start = true)
 @Destination(
     style = DestinationStyleBottomSheet::class,
@@ -50,10 +56,36 @@ fun PickerScreen(
     viewModel: PickerViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    val sheetState = rememberModalBottomSheetState()
-    val gridState = rememberLazyGridState()
+    val cameraPermission = rememberPermissionState(android.Manifest.permission.CAMERA)
+    val galleryPermission = rememberPermissionState(getImagesPermission()) { granted ->
+        if (granted) {
+            viewModel.onAction(PickerUiAction.OnGalleryPermissionGranted)
+        }
+    }
 
-//    sheetState.partialExpand()
+    PickerScreen(
+        state = state,
+        cameraPermission = cameraPermission,
+        galleryPermission = galleryPermission,
+        onAction = viewModel::onAction
+    )
+
+    LaunchedEffect(Unit) {
+        if (galleryPermission.status.isGranted) {
+            viewModel.onAction(PickerUiAction.OnGalleryPermissionGranted)
+        }
+    }
+}
+
+@OptIn(ExperimentalPermissionsApi::class)
+@Composable
+private fun PickerScreen(
+    state: PickerUiState,
+    galleryPermission: PermissionState,
+    cameraPermission: PermissionState,
+    onAction: (PickerUiAction) -> Unit,
+) {
+    val gridState = rememberLazyGridState()
 
     LazyVerticalGrid(
         columns = GridCells.Fixed(3),
@@ -70,25 +102,39 @@ fun PickerScreen(
                 .calculateBottomPadding() + 6.dp
         ),
         modifier = Modifier
-            .fillMaxWidth()
+            .wrapContentHeight()
+            .height(1000.dp) //https://github.com/google/accompanist/issues/657
             .background(Color.Red)
     ) {
-        items(
-            items = state.mediaItems,
-            key = { item -> item.hashCode() } // todo check if it works
-        ) { item ->
-            Image(
-                painter = rememberAsyncImagePainter(item.uri),
-                contentDescription = null,
-                modifier = Modifier
-                    .height(200.dp)
-                    .aspectRatio(1f),
-                contentScale = ContentScale.Crop
-            )
-//                ImageItem(
-//                    item = item,
-//                    isSelected = false //item.isSelected,
-//                )
+        if (!cameraPermission.status.isGranted) {
+            item {
+                NoPermissionItem(
+                    titleResId = R.string.no_permission_item_camera,
+                    iconResId = R.drawable.ic_perm_media,
+                    onClick = { cameraPermission.launchPermissionRequest() }
+                )
+            }
+        }
+        if (!galleryPermission.status.isGranted) {
+            item {
+                NoPermissionItem(
+                    titleResId = R.string.no_permission_item_gallery,
+                    iconResId = R.drawable.ic_perm_media,
+                    onClick = { galleryPermission.launchPermissionRequest() }
+                )
+            }
+        }
+        if (galleryPermission.status.isGranted) {
+            items(
+                items = state.mediaItems,
+                key = { item -> item.id }
+            ) { item ->
+                ImageItem(
+                    item = item,
+                    isSelected = item.isSelected,
+                    onClick = {}
+                )
+            }
         }
     }
 }
@@ -96,16 +142,21 @@ fun PickerScreen(
 @Composable
 fun ImageItem(
     item: PickerUiState.Photo,
-    isSelected: Boolean
+    isSelected: Boolean,
+    onClick: () -> Unit
 ) {
     Box(
-        modifier = Modifier.aspectRatio(1f),
+        modifier = Modifier
+            .aspectRatio(1f)
+            .clickable(onClick = onClick),
     ) {
-        AsyncImage(
-            model = item.uri,
-            modifier = Modifier.fillMaxSize(),
+        Image(
+            painter = rememberAsyncImagePainter(item.uri),
             contentScale = ContentScale.Crop,
             contentDescription = null,
+            modifier = Modifier
+                .height(200.dp)
+                .aspectRatio(1f),
         )
         SelectionIndicator(
             isSelected = isSelected,

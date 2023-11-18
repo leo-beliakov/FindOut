@@ -1,10 +1,10 @@
 package com.leoapps.media_picker.presentation
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.leoapps.media_picker.domain.repository.MediaRepository
+import com.leoapps.media_picker.presentation.model.PickerUiAction
 import com.leoapps.media_picker.presentation.model.PickerUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,20 +22,26 @@ class PickerViewModel @Inject constructor(
     private val _state = MutableStateFlow(PickerUiState())
     val state = _state.asStateFlow()
 
-    init {
-        Log.d("MyTag", "init")
-        viewModelScope.launch {
-            val results = mediaRepository.queryImages()
-            Log.d("MyTag", "results = ${results.size}")
-            _state.update {
-                it.copy(
-                    mediaItems = results.map { image ->
-                        PickerUiState.Photo(
-                            uri = image.uri,
-                            selection = PickerUiState.SelectionState.Unselected,
+    fun onAction(action: PickerUiAction) {
+        when (action) {
+            is PickerUiAction.OnImageSelected -> {
+
+            }
+
+            PickerUiAction.OnGalleryPermissionGranted -> {
+                viewModelScope.launch {
+                    val results = mediaRepository.queryImages()
+                    _state.update {
+                        it.copy(
+                            mediaItems = results.map { image ->
+                                PickerUiState.Photo(
+                                    id = image.id,
+                                    uri = image.uri,
+                                )
+                            }
                         )
                     }
-                )
+                }
             }
         }
     }

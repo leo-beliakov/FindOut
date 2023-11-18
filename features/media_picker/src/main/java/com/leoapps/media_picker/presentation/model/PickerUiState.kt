@@ -7,8 +7,9 @@ data class PickerUiState(
     val mediaItems: List<Photo> = emptyList(),
 ) {
     data class Photo(
+        val id: Long,
         val uri: Uri,
-        val selection: SelectionState
+        val isSelected: Boolean = false,
     )
 
     sealed interface SelectionState {

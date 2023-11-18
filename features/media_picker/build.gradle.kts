@@ -54,6 +54,8 @@ android {
 }
 
 dependencies {
+    implementation(project(":design_system"))
+
     implementation("androidx.core:core-ktx:1.9.10")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.2")
@@ -68,6 +70,9 @@ dependencies {
     implementation("androidx.compose.material:material-icons-extended")
     implementation("io.github.raamcosta.compose-destinations:animations-core:1.9.54")
     ksp("io.github.raamcosta.compose-destinations:ksp:1.9.54")
+
+    //Permissions
+    implementation("com.google.accompanist:accompanist-permissions:0.32.0")
 
     //Coil
     implementation("io.coil-kt:coil-compose:2.4.0")
