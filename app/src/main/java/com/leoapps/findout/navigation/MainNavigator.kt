@@ -8,7 +8,7 @@ import com.leoapps.creation.question.navigation.QuestionCreationNavigator
 import com.leoapps.creation.question.navigation.model.QuestionCreationNavCommand
 import com.leoapps.creation.question.presentation.QuestionCreationArgs
 import com.leoapps.findout.root.navigation.RootNavigator
-import com.leoapps.media_picker.presentation.PickerNavGraph
+//import com.leoapps.mediapicker.presentation.PickerNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 class MainNavigator(
@@ -28,7 +28,7 @@ class MainNavigator(
             }
 
             FormCreationNavCommand.OpenImagePicker -> {
-                navigator.navigate(PickerNavGraph)
+//                navigator.navigate(PickerNavGraph)
             }
 
             is FormCreationNavCommand.OpenQuestion -> {

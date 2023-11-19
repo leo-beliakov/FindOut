@@ -99,14 +99,14 @@ private fun FormCreationScreen(
                     )
                     titleSection(
                         titleState = InputFieldState(
-                            label = "Title",
+                            label = "Titleadqww",
                             value = state.title,
                             placeholder = "Enter survey title",
                         ),
                         descriptionState = InputFieldState(
-                            label = "Description",
+                            label = "Descriptioascaecn",
                             value = state.description,
-                            placeholder = "Enter survey description",
+                            placeholder = "Entear survey description",
                         ),
                         hasDescription = state.hasDescription,
                         onTitleChange = { onAction(FormCreationUiAction.TitleUpdated(it)) },
