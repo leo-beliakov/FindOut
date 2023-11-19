@@ -43,6 +43,14 @@ class PickerViewModel @Inject constructor(
                     }
                 }
             }
+
+            is PickerUiAction.OnImageClicked -> {
+
+            }
+
+            PickerUiAction.OnCancelClicked -> {
+
+            }
         }
     }
 }

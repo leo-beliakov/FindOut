@@ -1,17 +1,14 @@
 package com.leoapps.media_picker.presentation
 
+import android.util.Log
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -36,6 +33,10 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionState
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
+import com.leoapps.design_system.components.button.BOTTOM_GRADIENT_HEIGHT_DP
+import com.leoapps.design_system.components.button.BottomButton
+import com.leoapps.design_system.theme.BlackOpacity25
+import com.leoapps.design_system.theme.Purple40
 import com.leoapps.media_picker.R
 import com.leoapps.media_picker.navigation.PickerNavGraph
 import com.leoapps.media_picker.presentation.composables.NoPermissionItem
@@ -87,71 +88,78 @@ private fun PickerScreen(
 ) {
     val gridState = rememberLazyGridState()
 
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(3),
-        state = gridState,
-        verticalArrangement = Arrangement.spacedBy(6.dp),
-        horizontalArrangement = Arrangement.spacedBy(6.dp),
-        contentPadding = PaddingValues(
-            top = 6.dp,
-            start = 6.dp,
-            end = 6.dp,
-            bottom = WindowInsets
-                .navigationBars
-                .asPaddingValues()
-                .calculateBottomPadding() + 6.dp
-        ),
-        modifier = Modifier
-            .wrapContentHeight()
-            .height(1000.dp) //https://github.com/google/accompanist/issues/657
-            .background(Color.Red)
+
+    Box(
+        modifier = Modifier.wrapContentHeight()
     ) {
-        if (!cameraPermission.status.isGranted) {
-            item {
-                NoPermissionItem(
-                    titleResId = R.string.no_permission_item_camera,
-                    iconResId = R.drawable.ic_perm_media,
-                    onClick = { cameraPermission.launchPermissionRequest() }
-                )
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(3),
+            state = gridState,
+            verticalArrangement = Arrangement.spacedBy(6.dp),
+            horizontalArrangement = Arrangement.spacedBy(6.dp),
+            contentPadding = PaddingValues(
+                top = 6.dp,
+                start = 6.dp,
+                end = 6.dp,
+                bottom = BOTTOM_GRADIENT_HEIGHT_DP.dp
+//                WindowInsets
+//                    .navigationBars
+//                    .asPaddingValues()
+//                    .calculateBottomPadding() + 6.dp
+            )
+        ) {
+            if (!cameraPermission.status.isGranted) {
+                item {
+                    NoPermissionItem(
+                        titleResId = R.string.no_permission_item_camera,
+                        iconResId = R.drawable.ic_perm_media,
+                        onClick = { cameraPermission.launchPermissionRequest() }
+                    )
+                }
+            }
+            if (!galleryPermission.status.isGranted) {
+                item {
+                    NoPermissionItem(
+                        titleResId = R.string.no_permission_item_gallery,
+                        iconResId = R.drawable.ic_perm_media,
+                        onClick = { galleryPermission.launchPermissionRequest() }
+                    )
+                }
+            }
+            if (galleryPermission.status.isGranted) {
+                items(
+                    items = state.mediaItems,
+//                    key = { item -> item.id }
+                ) { item ->
+                    ImageItem(
+                        image = item,
+                        isSelected = item.isSelected,
+                        onAction = onAction
+                    )
+                }
             }
         }
-        if (!galleryPermission.status.isGranted) {
-            item {
-                NoPermissionItem(
-                    titleResId = R.string.no_permission_item_gallery,
-                    iconResId = R.drawable.ic_perm_media,
-                    onClick = { galleryPermission.launchPermissionRequest() }
-                )
-            }
-        }
-        if (galleryPermission.status.isGranted) {
-            items(
-                items = state.mediaItems,
-                key = { item -> item.id }
-            ) { item ->
-                ImageItem(
-                    item = item,
-                    isSelected = item.isSelected,
-                    onClick = {}
-                )
-            }
-        }
+        BottomButton(
+            text = "Cancel",
+            onClick = { onAction(PickerUiAction.OnCancelClicked) },
+            modifier = Modifier.align(Alignment.BottomCenter)
+        )
     }
 }
 
 @Composable
 fun ImageItem(
-    item: PickerUiState.Photo,
+    image: PickerUiState.Photo,
     isSelected: Boolean,
-    onClick: () -> Unit
+    onAction: (PickerUiAction) -> Unit
 ) {
     Box(
         modifier = Modifier
             .aspectRatio(1f)
-            .clickable(onClick = onClick),
+            .clickable { onAction(PickerUiAction.OnImageClicked(image.id)) },
     ) {
         Image(
-            painter = rememberAsyncImagePainter(item.uri),
+            painter = rememberAsyncImagePainter(image.uri),
             contentScale = ContentScale.Crop,
             contentDescription = null,
             modifier = Modifier
@@ -160,6 +168,7 @@ fun ImageItem(
         )
         SelectionIndicator(
             isSelected = isSelected,
+            onClick = { Log.d("MyTag", "selection") },
             modifier = Modifier
                 .align(Alignment.TopEnd)
                 .padding(6.dp)
@@ -171,13 +180,23 @@ fun ImageItem(
 private fun SelectionIndicator(
     isSelected: Boolean,
     modifier: Modifier = Modifier,
+    onClick: () -> Int,
 ) {
     if (isSelected) {
-
+        Canvas(modifier = modifier.size(22.dp)) {
+            drawCircle(
+                color = Purple40,
+                style = Fill
+            )
+//            drawCircle(
+//                color = Color.White,
+//                style = Stroke(width = 2.dp.toPx())
+//            )
+        }
     } else {
         Canvas(modifier = modifier.size(22.dp)) {
             drawCircle(
-                color = Color.Black,
+                color = BlackOpacity25,
                 style = Fill
             )
             drawCircle(
