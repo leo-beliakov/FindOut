@@ -1,4 +1,4 @@
-package com.leoapps.mediapicker.presentation
+package com.leoapps.mediapicker.root.presentation
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

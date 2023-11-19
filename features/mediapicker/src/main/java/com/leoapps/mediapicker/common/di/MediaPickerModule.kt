@@ -1,7 +1,7 @@
-package com.leoapps.mediapicker.di
+package com.leoapps.mediapicker.common.di
 
-import com.leoapps.mediapicker.data.MediaRepositoryImpl
-import com.leoapps.mediapicker.domain.repository.MediaRepository
+import com.leoapps.mediapicker.common.data.MediaRepositoryImpl
+import com.leoapps.mediapicker.common.domain.repository.MediaRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

@@ -1,4 +1,4 @@
-package com.leoapps.mediapicker.navigation
+package com.leoapps.mediapicker.root.navigation
 
 import com.ramcosta.composedestinations.annotation.NavGraph
 

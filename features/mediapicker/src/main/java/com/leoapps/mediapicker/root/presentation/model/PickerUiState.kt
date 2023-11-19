@@ -1,4 +1,4 @@
-package com.leoapps.mediapicker.presentation.model
+package com.leoapps.mediapicker.root.presentation.model
 
 import android.net.Uri
 

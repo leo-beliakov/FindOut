@@ -1,7 +1,7 @@
 package com.leoapps.findout
 
 import com.leoapps.creation.CreationFeatureNavGraph
-import com.leoapps.mediapicker.presentation.PickerNavGraph
+import com.leoapps.mediapicker.PickerNavGraph
 import com.ramcosta.composedestinations.spec.DestinationSpec
 import com.ramcosta.composedestinations.spec.NavGraphSpec
 import com.ramcosta.composedestinations.spec.Route

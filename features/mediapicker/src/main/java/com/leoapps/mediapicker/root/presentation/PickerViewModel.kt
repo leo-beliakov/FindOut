@@ -1,13 +1,16 @@
-package com.leoapps.mediapicker.presentation
+package com.leoapps.mediapicker.root.presentation
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.leoapps.mediapicker.domain.repository.MediaRepository
-import com.leoapps.mediapicker.presentation.model.PickerUiAction
-import com.leoapps.mediapicker.presentation.model.PickerUiState
+import com.leoapps.mediapicker.common.domain.repository.MediaRepository
+import com.leoapps.mediapicker.root.navigation.model.PickerNavCommand
+import com.leoapps.mediapicker.root.presentation.model.PickerUiAction
+import com.leoapps.mediapicker.root.presentation.model.PickerUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -21,6 +24,9 @@ class PickerViewModel @Inject constructor(
 
     private val _state = MutableStateFlow(PickerUiState())
     val state = _state.asStateFlow()
+
+    private val _navCommand = MutableSharedFlow<PickerNavCommand>()
+    val navCommand = _navCommand.asSharedFlow()
 
     fun onAction(action: PickerUiAction) {
         when (action) {
@@ -45,7 +51,9 @@ class PickerViewModel @Inject constructor(
             }
 
             is PickerUiAction.OnImageClicked -> {
-
+                viewModelScope.launch {
+                    _navCommand.emit(PickerNavCommand.OpenImageDetail(action.uri))
+                }
             }
 
             PickerUiAction.OnCancelClicked -> {

@@ -1,4 +1,6 @@
-package com.leoapps.mediapicker.presentation.model
+package com.leoapps.mediapicker.root.presentation.model
+
+import android.net.Uri
 
 sealed interface PickerUiAction {
     object OnGalleryPermissionGranted : PickerUiAction
@@ -9,6 +11,6 @@ sealed interface PickerUiAction {
     ) : PickerUiAction
 
     data class OnImageClicked(
-        val id: Long
+        val uri: Uri
     ) : PickerUiAction
 }

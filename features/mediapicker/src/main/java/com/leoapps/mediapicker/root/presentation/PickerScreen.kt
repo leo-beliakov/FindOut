@@ -1,4 +1,4 @@
-package com.leoapps.mediapicker.presentation
+package com.leoapps.mediapicker.root.presentation
 
 import android.util.Log
 import androidx.compose.foundation.Canvas
@@ -38,13 +38,15 @@ import com.leoapps.design_system.components.button.BottomButton
 import com.leoapps.design_system.theme.BlackOpacity25
 import com.leoapps.design_system.theme.Purple40
 import com.leoapps.mediapicker.R
-import com.leoapps.mediapicker.navigation.PickerNavGraph
-import com.leoapps.mediapicker.presentation.composables.NoPermissionItem
-import com.leoapps.mediapicker.presentation.model.PickerUiAction
-import com.leoapps.mediapicker.presentation.model.PickerUiState
-import com.leoapps.mediapicker.utils.getImagesPermission
+import com.leoapps.mediapicker.common.utils.getImagesPermission
+import com.leoapps.mediapicker.root.navigation.PickerNavGraph
+import com.leoapps.mediapicker.root.navigation.PickerNavigator
+import com.leoapps.mediapicker.root.presentation.composables.NoPermissionItem
+import com.leoapps.mediapicker.root.presentation.model.PickerUiAction
+import com.leoapps.mediapicker.root.presentation.model.PickerUiState
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.spec.DestinationStyleBottomSheet
+import kotlinx.coroutines.flow.collectLatest
 
 @OptIn(ExperimentalPermissionsApi::class)
 @PickerNavGraph(start = true)
@@ -54,6 +56,7 @@ import com.ramcosta.composedestinations.spec.DestinationStyleBottomSheet
 )
 @Composable
 fun PickerScreen(
+    navigator: PickerNavigator,
     viewModel: PickerViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -74,6 +77,12 @@ fun PickerScreen(
     LaunchedEffect(Unit) {
         if (galleryPermission.status.isGranted) {
             viewModel.onAction(PickerUiAction.OnGalleryPermissionGranted)
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        viewModel.navCommand.collectLatest { command ->
+            navigator.onNavCommand(command)
         }
     }
 }
@@ -156,7 +165,7 @@ fun ImageItem(
     Box(
         modifier = Modifier
             .aspectRatio(1f)
-            .clickable { onAction(PickerUiAction.OnImageClicked(image.id)) },
+            .clickable { onAction(PickerUiAction.OnImageClicked(image.uri)) },
     ) {
         Image(
             painter = rememberAsyncImagePainter(image.uri),

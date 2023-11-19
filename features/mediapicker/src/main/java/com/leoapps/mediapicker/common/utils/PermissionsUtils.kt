@@ -1,4 +1,4 @@
-package com.leoapps.mediapicker.utils
+package com.leoapps.mediapicker.common.utils
 
 import android.Manifest
 import android.os.Build

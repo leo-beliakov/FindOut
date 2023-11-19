@@ -1,11 +1,11 @@
-package com.leoapps.mediapicker.data
+package com.leoapps.mediapicker.common.data
 
 import android.content.Context
 import android.net.Uri
 import android.provider.MediaStore
-import com.leoapps.mediapicker.domain.model.Image
-import com.leoapps.mediapicker.domain.repository.MediaRepository
-import com.leoapps.mediapicker.utils.photoContentUri
+import com.leoapps.mediapicker.common.domain.model.Image
+import com.leoapps.mediapicker.common.domain.repository.MediaRepository
+import com.leoapps.mediapicker.common.utils.photoContentUri
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
