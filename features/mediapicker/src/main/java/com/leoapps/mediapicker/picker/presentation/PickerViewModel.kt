@@ -40,7 +40,7 @@ class PickerViewModel @Inject constructor(
                     _state.update {
                         it.copy(
                             mediaItems = results.map { image ->
-                                PickerUiState.Photo(
+                                PickerUiState.Image(
                                     id = image.id,
                                     uri = image.uri,
                                 )
@@ -52,17 +52,7 @@ class PickerViewModel @Inject constructor(
 
             is PickerUiAction.OnImageClicked -> {
                 viewModelScope.launch {
-                    _state.update {
-                        it.copy(
-                            clickedItemIndex = action.index
-                        )
-                    }
-                    _navCommand.emit(
-                        PickerNavCommand.OpenImageDetail(
-                            uri = action.uri,
-                            startBounds = action.elementBounds
-                        )
-                    )
+                    _state.update { it.copy(clickedItemId = action.id) }
                 }
             }
 

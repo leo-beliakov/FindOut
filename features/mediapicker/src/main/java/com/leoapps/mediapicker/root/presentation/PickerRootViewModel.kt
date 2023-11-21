@@ -3,12 +3,17 @@ package com.leoapps.mediapicker.root.presentation
 import android.net.Uri
 import androidx.compose.ui.geometry.Rect
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.leoapps.mediapicker.root.navigation.model.PickerNavCommand
 import com.leoapps.mediapicker.root.presentation.model.PickerRootUiState
 import com.leoapps.mediapicker.root.presentation.model.TransitionState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -17,7 +22,10 @@ class PickerRootViewModel @Inject constructor() : ViewModel() {
     private val _state = MutableStateFlow(PickerRootUiState())
     val state = _state.asStateFlow()
 
-    fun openDetail(uri: Uri, startBounds: Rect) {
+    private val _navCommand = MutableSharedFlow<PickerNavCommand>()
+    val navCommand = _navCommand.asSharedFlow()
+
+    fun openDetail(startBounds: Rect, uri: Uri) {
         _state.update {
             it.copy(
                 isDetailShown = true,
@@ -28,20 +36,30 @@ class PickerRootViewModel @Inject constructor() : ViewModel() {
         }
     }
 
-    fun onGoBackClickedDetail() {
+    fun onDismissedDetailScreen() {
         _state.update {
-            it.copy(
-                isDetailShown = false,
-                sharedElementUri = Uri.EMPTY,
-                sharedElementBounds = Rect.Zero,
-                sharedElementTransitionState = TransitionState.NONE,
-            )
+            it.copy(sharedElementTransitionState = TransitionState.BACKWARD)
+        }
+    }
+
+    fun onTransitionFinished() {
+        if (state.value.sharedElementTransitionState == TransitionState.BACKWARD) {
+            _state.update {
+                it.copy(
+                    isDetailShown = false,
+                    sharedElementUri = Uri.EMPTY,
+                    sharedElementBounds = Rect.Zero,
+                    sharedElementTransitionState = TransitionState.NONE,
+                )
+            }
         }
     }
 
     fun onBackClicked() {
-        _state.update {
-            it.copy(sharedElementTransitionState = TransitionState.BACKWARD)
+        viewModelScope.launch {
+            _navCommand.emit(
+                PickerNavCommand.GoBack
+            )
         }
     }
 }

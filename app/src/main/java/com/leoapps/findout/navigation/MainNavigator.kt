@@ -61,10 +61,6 @@ class MainNavigator(
             PickerNavCommand.GoBack -> {
                 navigator.popBackStack()
             }
-
-            is PickerNavCommand.OpenImageDetail -> {
-//                navigator.navigate(ImageDetailScreenDestination(command.uri))
-            }
         }
     }
 

@@ -1,5 +1,6 @@
 package com.leoapps.mediapicker.picker.presentation
 
+import android.net.Uri
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -9,13 +10,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Rect
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -30,15 +33,14 @@ import com.leoapps.mediapicker.picker.presentation.composables.ImageItem
 import com.leoapps.mediapicker.picker.presentation.composables.NoPermissionItem
 import com.leoapps.mediapicker.picker.presentation.model.PickerUiAction
 import com.leoapps.mediapicker.picker.presentation.model.PickerUiState
-import com.leoapps.mediapicker.root.navigation.PickerNavigator
 import com.leoapps.mediapicker.root.presentation.model.TransitionState
-import kotlinx.coroutines.flow.collectLatest
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun PickerScreen(
     transitionState: TransitionState,
-    navigator: PickerNavigator,
+    onCancelClicked: () -> Unit,
+    onImageClick: (Rect, Uri) -> Unit,
     viewModel: PickerViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -54,18 +56,16 @@ fun PickerScreen(
         transitionState = transitionState,
         cameraPermission = cameraPermission,
         galleryPermission = galleryPermission,
-        onAction = viewModel::onAction
+        onCancelClicked = onCancelClicked,
+        onImageClick = { bounds, image ->
+            viewModel.onAction(PickerUiAction.OnImageClicked(image.id))
+            onImageClick(bounds, image.uri)
+        },
     )
 
     LaunchedEffect(Unit) {
         if (galleryPermission.status.isGranted) {
             viewModel.onAction(PickerUiAction.OnGalleryPermissionGranted)
-        }
-    }
-
-    LaunchedEffect(Unit) {
-        viewModel.navCommand.collectLatest { command ->
-            navigator.onNavCommand(command)
         }
     }
 }
@@ -77,7 +77,8 @@ private fun PickerScreen(
     transitionState: TransitionState,
     galleryPermission: PermissionState,
     cameraPermission: PermissionState,
-    onAction: (PickerUiAction) -> Unit,
+    onCancelClicked: () -> Unit,
+    onImageClick: (Rect, PickerUiState.Image) -> Unit,
 ) {
     val gridState = rememberLazyGridState()
 
@@ -118,29 +119,23 @@ private fun PickerScreen(
                 }
             }
             if (galleryPermission.status.isGranted) {
-                itemsIndexed(
+                items(
                     items = state.mediaItems,
-//                    key = { item -> item.id }
-                ) { index, item ->
+                    key = { item -> item.id }
+                ) { item ->
+                    val shouldAlterAlpha = state.clickedItemId == item.id &&
+                            transitionState != TransitionState.NONE
                     ImageItem(
-                        alpha = if (state.clickedItemIndex == index && transitionState != TransitionState.NONE) 0.1f else 1f,
                         image = item,
-                        onClick = { bounds ->
-                            onAction(
-                                PickerUiAction.OnImageClicked(
-                                    index = index,
-                                    uri = item.uri,
-                                    elementBounds = bounds
-                                )
-                            )
-                        }
+                        alpha = if (shouldAlterAlpha) 0.1f else 1f,
+                        onClick = { bounds -> onImageClick(bounds, item) }
                     )
                 }
             }
         }
         BottomButton(
-            text = "Cancel",
-            onClick = { onAction(PickerUiAction.OnCancelClicked) },
+            text = stringResource(id = R.string.picker_cancel_button),
+            onClick = onCancelClicked,
             modifier = Modifier.align(Alignment.BottomCenter)
         )
     }
