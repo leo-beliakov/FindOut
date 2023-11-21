@@ -1,4 +1,4 @@
-package com.leoapps.mediapicker.root.presentation.composables
+package com.leoapps.mediapicker.picker.presentation.composables
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes

@@ -37,6 +37,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                     DestinationsNavHost(
                         navGraph = MainNavGraph,
+                        engine = engine,
                         navController = navController,
                         dependenciesContainerBuilder = {
                             dependency(MainNavigator(destinationsNavigator))

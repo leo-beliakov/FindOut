@@ -8,12 +8,11 @@ import com.leoapps.creation.question.navigation.QuestionCreationNavigator
 import com.leoapps.creation.question.navigation.model.QuestionCreationNavCommand
 import com.leoapps.creation.question.presentation.QuestionCreationArgs
 import com.leoapps.findout.root.navigation.RootNavigator
-import com.leoapps.mediapicker.PickerNavGraph
-import com.leoapps.mediapicker.destinations.ImageDetailScreenDestination
 import com.leoapps.mediapicker.detail.navigation.ImageDetailNavigator
 import com.leoapps.mediapicker.detail.navigation.model.ImageDetailNavCommand
 import com.leoapps.mediapicker.root.navigation.PickerNavigator
 import com.leoapps.mediapicker.root.navigation.model.PickerNavCommand
+import com.leoapps.mediapicker.root.presentation.MediapickerNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 class MainNavigator(
@@ -35,7 +34,7 @@ class MainNavigator(
             }
 
             FormCreationNavCommand.OpenImagePicker -> {
-                navigator.navigate(PickerNavGraph)
+                navigator.navigate(MediapickerNavGraph)
             }
 
             is FormCreationNavCommand.OpenQuestion -> {
@@ -64,7 +63,7 @@ class MainNavigator(
             }
 
             is PickerNavCommand.OpenImageDetail -> {
-                navigator.navigate(ImageDetailScreenDestination(command.uri))
+//                navigator.navigate(ImageDetailScreenDestination(command.uri))
             }
         }
     }

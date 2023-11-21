@@ -1,8 +1,9 @@
-package com.leoapps.mediapicker.root.presentation.model
+package com.leoapps.mediapicker.picker.presentation.model
 
 import android.net.Uri
 
 data class PickerUiState(
+    val clickedItemIndex: Int = -1,
     val allowMultipleSelection: Boolean = false,
     val mediaItems: List<Photo> = emptyList(),
 ) {
