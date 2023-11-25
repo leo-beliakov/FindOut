@@ -75,7 +75,7 @@ private fun FormCreationScreen(
         topBar = {
             TopBar(
                 title = stringResource(id = state.pageNameResId),
-                isContentScrolled = scrollState.canScrollBackward,
+                isElevated = scrollState.canScrollBackward,
                 onAction = onAction
             )
         },

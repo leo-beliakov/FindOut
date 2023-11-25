@@ -1,9 +1,9 @@
 package com.leoapps.mediapicker.root.presentation
 
-import android.net.Uri
 import androidx.compose.ui.geometry.Rect
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.leoapps.mediapicker.common.domain.model.Image
 import com.leoapps.mediapicker.root.navigation.model.PickerNavCommand
 import com.leoapps.mediapicker.root.presentation.model.PickerRootUiState
 import com.leoapps.mediapicker.root.presentation.model.TransitionState
@@ -25,11 +25,11 @@ class PickerRootViewModel @Inject constructor() : ViewModel() {
     private val _navCommand = MutableSharedFlow<PickerNavCommand>()
     val navCommand = _navCommand.asSharedFlow()
 
-    fun openDetail(startBounds: Rect, uri: Uri) {
+    fun openDetail(startBounds: Rect, image: Image) {
         _state.update {
             it.copy(
                 isDetailShown = true,
-                sharedElementUri = uri,
+                sharedElementImage = image,
                 sharedElementBounds = startBounds,
                 sharedElementTransitionState = TransitionState.FORWARD,
             )
@@ -47,7 +47,7 @@ class PickerRootViewModel @Inject constructor() : ViewModel() {
             _state.update {
                 it.copy(
                     isDetailShown = false,
-                    sharedElementUri = Uri.EMPTY,
+                    sharedElementImage = null,
                     sharedElementBounds = Rect.Zero,
                     sharedElementTransitionState = TransitionState.NONE,
                 )

@@ -10,6 +10,7 @@ import androidx.compose.ui.unit.dp
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
 import com.google.accompanist.navigation.material.ModalBottomSheetLayout
 import com.google.accompanist.navigation.material.rememberBottomSheetNavigator
+import com.leoapps.creation.form.navigation.FormCreationNavigatorImpl
 import com.leoapps.design_system.theme.FindOutTheme
 import com.leoapps.findout.navigation.MainNavigator
 import com.ramcosta.composedestinations.DestinationsNavHost
@@ -41,6 +42,7 @@ class MainActivity : ComponentActivity() {
                         navController = navController,
                         dependenciesContainerBuilder = {
                             dependency(MainNavigator(destinationsNavigator))
+                            dependency(FormCreationNavigatorImpl(destinationsNavigator))
                         }
                     )
                 }

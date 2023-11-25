@@ -1,11 +1,11 @@
-package com.leoapps.creation.form.presentation.composables
+package com.leoapps.mediapicker.detail.presentation.composables
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -23,13 +23,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.unit.dp
-import com.leoapps.creation.form.presentation.model.FormCreationUiAction
 
 @Composable
 internal fun TopBar(
     title: String,
     isElevated: Boolean,
-    onAction: (FormCreationUiAction) -> Unit
+    onBackClicked: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     val elevation by animateDpAsState(
         targetValue = if (isElevated) 8.dp else 0.dp,
@@ -37,11 +37,12 @@ internal fun TopBar(
         label = "",
     )
 
-    Box(
-        modifier = Modifier
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier
             .fillMaxWidth()
             .shadow(elevation)
-            .background(MaterialTheme.colorScheme.surface)
+            .background(color = MaterialTheme.colorScheme.surface)
             .statusBarsPadding()
             .padding(16.dp)
     ) {
@@ -49,10 +50,9 @@ internal fun TopBar(
             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
             contentDescription = "Go back",
             modifier = Modifier
-                .align(Alignment.CenterStart)
                 .size(24.dp)
                 .clickable(
-                    onClick = { onAction(FormCreationUiAction.BackClicked) },
+                    onClick = onBackClicked,
                     interactionSource = remember { MutableInteractionSource() },
                     indication = rememberRipple(
                         bounded = false,
@@ -62,8 +62,8 @@ internal fun TopBar(
         )
         Text(
             text = title,
-            style = MaterialTheme.typography.headlineMedium,
-            modifier = Modifier.align(Alignment.Center)
+            style = MaterialTheme.typography.headlineSmall,
+            modifier = Modifier.padding(start = 12.dp)
         )
     }
 }

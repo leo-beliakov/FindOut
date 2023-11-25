@@ -8,18 +8,36 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.navigation.NavBackStackEntry
-import com.leoapps.creation.CreationFeatureNavGraph
+import com.leoapps.creation.destinations.QuestionCreationScreenDestination
+import com.leoapps.mediapicker.root.presentation.MediapickerNavGraph
 import com.ramcosta.composedestinations.spec.DestinationStyle
-import com.ramcosta.composedestinations.utils.navGraph
+import com.ramcosta.composedestinations.utils.destination
+import com.ramcosta.composedestinations.utils.startDestination
 
 object FormCreationTransitions : DestinationStyle.Animated {
     override fun AnimatedContentTransitionScope<NavBackStackEntry>.enterTransition(): EnterTransition? {
-        val isEnteringFeature = initialState.navGraph() != CreationFeatureNavGraph
-        return if (isEnteringFeature) slideInVertically { it } else fadeIn()
+        return when (initialState.destination()) {
+            QuestionCreationScreenDestination,
+            MediapickerNavGraph.startDestination -> {
+                fadeIn()
+            }
+
+            else -> {
+                slideInVertically { it }
+            }
+        }
     }
 
     override fun AnimatedContentTransitionScope<NavBackStackEntry>.exitTransition(): ExitTransition? {
-        val isLeavingFeature = targetState.navGraph() != CreationFeatureNavGraph
-        return if (isLeavingFeature) slideOutVertically { it } else fadeOut()
+        return when (targetState.destination()) {
+            QuestionCreationScreenDestination,
+            MediapickerNavGraph.startDestination -> {
+                fadeOut()
+            }
+
+            else -> {
+                slideOutVertically { it }
+            }
+        }
     }
 }

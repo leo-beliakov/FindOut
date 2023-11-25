@@ -39,12 +39,13 @@ class PickerViewModel @Inject constructor(
                     val results = mediaRepository.queryImages()
                     _state.update {
                         it.copy(
-                            mediaItems = results.map { image ->
-                                PickerUiState.Image(
-                                    id = image.id,
-                                    uri = image.uri,
-                                )
-                            }
+                            mediaItems = results
+//                                .map { image ->
+//                                PickerUiState.Image(
+//                                    id = image.id,
+//                                    uri = image.uri,
+//                                )
+//                            }
                         )
                     }
                 }

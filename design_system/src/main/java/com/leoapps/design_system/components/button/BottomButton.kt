@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.leoapps.design_system.theme.GrayLight
 import com.leoapps.design_system.theme.GrayUltraLight
+import com.leoapps.design_system.theme.Purple40
 
 const val BOTTOM_GRADIENT_HEIGHT_DP = 140
 
@@ -48,6 +49,7 @@ fun BottomButton(
             enabled = enabled,
             onClick = onClick,
             colors = ButtonDefaults.buttonColors(
+                containerColor = Purple40,
                 disabledContainerColor = GrayUltraLight,
                 disabledContentColor = GrayLight
             ),

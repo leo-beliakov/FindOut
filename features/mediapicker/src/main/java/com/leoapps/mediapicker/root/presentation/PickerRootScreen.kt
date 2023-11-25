@@ -10,13 +10,14 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.leoapps.mediapicker.detail.presentation.ImageDetailScreen
 import com.leoapps.mediapicker.picker.presentation.PickerScreen
+import com.leoapps.mediapicker.root.navigation.MediaPickerTransitions
 import com.leoapps.mediapicker.root.navigation.PickerNavGraph
 import com.leoapps.mediapicker.root.navigation.PickerNavigator
 import com.ramcosta.composedestinations.annotation.Destination
 import kotlinx.coroutines.flow.collectLatest
 
 @PickerNavGraph(start = true)
-@Destination
+@Destination(style = MediaPickerTransitions::class)
 @Composable
 fun PickerRootScreen(
     navigator: PickerNavigator,
@@ -34,7 +35,7 @@ fun PickerRootScreen(
         )
         if (state.isDetailShown) {
             ImageDetailScreen(
-                uri = state.sharedElementUri,
+                image = state.sharedElementImage!!, //todo it's ugly
                 startBounds = state.sharedElementBounds,
                 transitionState = state.sharedElementTransitionState,
                 onBackClicked = viewModel::onDismissedDetailScreen,

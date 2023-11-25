@@ -1,17 +1,27 @@
 package com.leoapps.mediapicker.picker.presentation
 
-import android.net.Uri
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.PhotoCamera
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -27,10 +37,11 @@ import com.google.accompanist.permissions.PermissionState
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
 import com.leoapps.design_system.components.button.BottomButton
+import com.leoapps.design_system.theme.Purple40
 import com.leoapps.mediapicker.R
+import com.leoapps.mediapicker.common.domain.model.Image
 import com.leoapps.mediapicker.common.utils.getImagesPermission
 import com.leoapps.mediapicker.picker.presentation.composables.ImageItem
-import com.leoapps.mediapicker.picker.presentation.composables.NoPermissionItem
 import com.leoapps.mediapicker.picker.presentation.model.PickerUiAction
 import com.leoapps.mediapicker.picker.presentation.model.PickerUiState
 import com.leoapps.mediapicker.root.presentation.model.TransitionState
@@ -40,7 +51,7 @@ import com.leoapps.mediapicker.root.presentation.model.TransitionState
 fun PickerScreen(
     transitionState: TransitionState,
     onCancelClicked: () -> Unit,
-    onImageClick: (Rect, Uri) -> Unit,
+    onImageClick: (Rect, Image) -> Unit,
     viewModel: PickerViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -59,7 +70,7 @@ fun PickerScreen(
         onCancelClicked = onCancelClicked,
         onImageClick = { bounds, image ->
             viewModel.onAction(PickerUiAction.OnImageClicked(image.id))
-            onImageClick(bounds, image.uri)
+            onImageClick(bounds, image)
         },
     )
 
@@ -78,7 +89,7 @@ private fun PickerScreen(
     galleryPermission: PermissionState,
     cameraPermission: PermissionState,
     onCancelClicked: () -> Unit,
-    onImageClick: (Rect, PickerUiState.Image) -> Unit,
+    onImageClick: (Rect, Image) -> Unit,
 ) {
     val gridState = rememberLazyGridState()
 
@@ -91,7 +102,7 @@ private fun PickerScreen(
             verticalArrangement = Arrangement.spacedBy(6.dp),
             horizontalArrangement = Arrangement.spacedBy(6.dp),
             contentPadding = PaddingValues(
-                top = 6.dp,
+                top = WindowInsets.statusBars.asPaddingValues().calculateTopPadding() + 6.dp,
                 start = 6.dp,
                 end = 6.dp,
                 bottom = WindowInsets
@@ -100,24 +111,20 @@ private fun PickerScreen(
                     .calculateBottomPadding() + 6.dp
             )
         ) {
-            if (!cameraPermission.status.isGranted) {
-                item {
-                    NoPermissionItem(
-                        titleResId = R.string.no_permission_item_camera,
-                        iconResId = R.drawable.ic_perm_media,
-                        onClick = { cameraPermission.launchPermissionRequest() }
-                    )
-                }
+            item(span = { GridItemSpan(3) }) {
+                CameraSection(
+                    onClick = { }
+                )
             }
-            if (!galleryPermission.status.isGranted) {
-                item {
-                    NoPermissionItem(
-                        titleResId = R.string.no_permission_item_gallery,
-                        iconResId = R.drawable.ic_perm_media,
-                        onClick = { galleryPermission.launchPermissionRequest() }
-                    )
-                }
-            }
+//            if (!galleryPermission.status.isGranted) {
+//                item {
+//                    NoPermissionItem(
+//                        titleResId = R.string.no_permission_item_gallery,
+//                        iconResId = R.drawable.ic_perm_media,
+//                        onClick = { galleryPermission.launchPermissionRequest() }
+//                    )
+//                }
+//            }
             if (galleryPermission.status.isGranted) {
                 items(
                     items = state.mediaItems,
@@ -137,6 +144,29 @@ private fun PickerScreen(
             text = stringResource(id = R.string.picker_cancel_button),
             onClick = onCancelClicked,
             modifier = Modifier.align(Alignment.BottomCenter)
+        )
+    }
+}
+
+@Composable
+fun CameraSection(onClick: () -> Unit) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick)
+            .padding(vertical = 12.dp)
+    ) {
+        Icon(
+            imageVector = Icons.Filled.PhotoCamera,
+            tint = Purple40,
+            contentDescription = "null"
+        )
+        Text(
+            text = "Photo",
+            style = MaterialTheme.typography.bodyLarge,
+            color = Purple40,
         )
     }
 }
