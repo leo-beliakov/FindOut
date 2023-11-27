@@ -25,7 +25,7 @@ import com.leoapps.design_system.modifiers.consumeAllInput
 import com.leoapps.design_system.theme.GrayUltraLight2
 import com.leoapps.mediapicker.R
 import com.leoapps.mediapicker.common.domain.model.Image
-import com.leoapps.mediapicker.common.presentation.composables.BottomButton
+import com.leoapps.mediapicker.detail.presentation.composables.BottomButton
 import com.leoapps.mediapicker.detail.presentation.composables.SharedTransitionElement
 import com.leoapps.mediapicker.detail.presentation.composables.TopBar
 import com.leoapps.mediapicker.detail.presentation.composables.calculateEndBounds

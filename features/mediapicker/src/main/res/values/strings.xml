@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="no_permission_item_camera">Tap to allow access to your Camera</string>
-    <string name="no_permission_item_gallery">Tap to allow access to your Gallery</string>
+    <string name="no_permission_gallery_description">Allow access to your device\'s storage to save and upload photos</string>
+    <string name="no_permission_gallery_button">Allow access</string>
 
     <string name="picker_cancel_button">Cancel</string>
     <string name="image_detail_button">Attach</string>

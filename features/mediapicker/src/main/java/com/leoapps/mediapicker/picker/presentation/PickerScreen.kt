@@ -25,10 +25,10 @@ import com.google.accompanist.permissions.rememberPermissionState
 import com.leoapps.design_system.theme.GrayUltraLight2
 import com.leoapps.mediapicker.R
 import com.leoapps.mediapicker.common.domain.model.Image
-import com.leoapps.mediapicker.common.presentation.composables.BottomButton
 import com.leoapps.mediapicker.common.utils.getImagesPermission
+import com.leoapps.mediapicker.picker.presentation.composables.BottomButton
 import com.leoapps.mediapicker.picker.presentation.composables.ImageItem
-import com.leoapps.mediapicker.picker.presentation.composables.NoPermissionAlert
+import com.leoapps.mediapicker.picker.presentation.composables.NoPermissionDisclaimer
 import com.leoapps.mediapicker.picker.presentation.composables.TopBar
 import com.leoapps.mediapicker.picker.presentation.composables.cameraSection
 import com.leoapps.mediapicker.picker.presentation.model.PickerUiAction
@@ -99,8 +99,9 @@ private fun PickerScreen(
             onAlbumSelected = onAlbumSelected,
         )
         if (!galleryPermission.status.isGranted) {
-            NoPermissionAlert(
-                onClick = {}
+            NoPermissionDisclaimer(
+                onClick = { galleryPermission.launchPermissionRequest() },
+                modifier = Modifier.weight(1f, true)
             )
         } else {
             LazyVerticalGrid(
