@@ -48,8 +48,8 @@ fun AnswerCreationDialog(
                 onValueChange = { enteredAnswer = it },
                 state = InputFieldState(
                     value = enteredAnswer,
-                    placeholder = stringResource(id = R.string.answer_creation_input_placeholder),
-                    label = stringResource(id = state.titleResId),
+                    placeholderResId = R.string.answer_creation_input_placeholder,
+                    labelResId = state.titleResId,
                 ),
             )
             if (state.isCorrectShown) {

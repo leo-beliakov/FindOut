@@ -11,15 +11,14 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.leoapps.creation.R
 import com.leoapps.creation.answer.presentation.AnswerCreationDialog
 import com.leoapps.creation.form.navigation.CreationFeatureNavGraph
 import com.leoapps.creation.form.presentation.composables.addImageSection
@@ -88,12 +87,6 @@ fun QuestionCreationScreen(
 ) {
     val scrollState = rememberLazyListState()
 
-    //todo find out the reason, cuz without this additional state we're getting an IOBException
-    //todo Below is kinda strange:
-    val show by remember {
-        derivedStateOf { state.selectedQuestionType != QuestionType.OPEN_ANSWER }
-    }
-
     Scaffold(
         topBar = {
             TopBar(
@@ -127,14 +120,14 @@ fun QuestionCreationScreen(
                     )
                     titleSection(
                         titleState = InputFieldState(
-                            label = "Question",
+                            labelResId = R.string.question_creation_title_label,
                             value = state.title,
-                            placeholder = "Enter question title",
+                            placeholderResId = R.string.question_creation_title_placeholder,
                         ),
                         descriptionState = InputFieldState(
-                            label = "Description",
+                            labelResId = R.string.question_creation_description_label,
                             value = state.description,
-                            placeholder = "Enter question description",
+                            placeholderResId = R.string.question_creation_description_placeholder,
                         ),
                         hasDescription = state.hasDescription,
                         onTitleChange = { onAction(QuestionCreationUiAction.TitleUpdated(it)) },
@@ -147,7 +140,7 @@ fun QuestionCreationScreen(
                             )
                         },
                     )
-                    if (show) {
+                    if (state.selectedQuestionType != QuestionType.OPEN_ANSWER) {
                         answersSection(
                             answers = state.answers,
                             onAction = onAction

@@ -16,8 +16,8 @@ data class QuestionCreationUiState(
     val answers: List<Answer> = emptyList(),
     val selectedQuestionType: QuestionType = QuestionType.SINGLE_ANSWER,
     val availableQuestionTypes: List<QuestionType> = emptyList(),
-    @StringRes val screenTitleResId: Int = R.string.question_screen_title_add,
-    @StringRes val screenButtonResId: Int = R.string.question_screen_button_add,
+    @StringRes val screenTitleResId: Int = R.string.question_creation_title_add,
+    @StringRes val screenButtonResId: Int = R.string.question_creation_button_add,
 ) {
 
     data class Answer(

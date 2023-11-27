@@ -11,15 +11,14 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.leoapps.creation.R
 import com.leoapps.creation.form.navigation.CreationFeatureNavGraph
 import com.leoapps.creation.form.navigation.FormCreationNavigator
 import com.leoapps.creation.form.navigation.FormCreationTransitions
@@ -77,9 +76,9 @@ private fun FormCreationScreen(
     onAction: (FormCreationUiAction) -> Unit
 ) {
     val scrollState = rememberLazyListState()
-    val isButtonEnabled by remember {
-        derivedStateOf { state.title.isNotEmpty() && state.questions.isNotEmpty() }
-    }
+//    val isButtonEnabled by remember {
+//        derivedStateOf { state.title.isNotEmpty() && state.questions.isNotEmpty() }
+//    }
 
     Scaffold(
         topBar = {
@@ -109,14 +108,14 @@ private fun FormCreationScreen(
                     )
                     titleSection(
                         titleState = InputFieldState(
-                            label = "Title",
+                            labelResId = R.string.form_creation_title_label,
                             value = state.title,
-                            placeholder = "Enter survey title",
+                            placeholderResId = R.string.form_creation_title_placeholder,
                         ),
                         descriptionState = InputFieldState(
-                            label = "Description",
+                            labelResId = R.string.form_creation_description_label,
                             value = state.description,
-                            placeholder = "Enter survey description",
+                            placeholderResId = R.string.form_creation_description_placeholder,
                         ),
                         hasDescription = state.hasDescription,
                         onTitleChange = { onAction(FormCreationUiAction.TitleUpdated(it)) },
@@ -129,8 +128,8 @@ private fun FormCreationScreen(
                     )
                 }
                 BottomButton(
-                    text = "Create",
-                    enabled = isButtonEnabled,
+                    text = stringResource(id = R.string.form_creation_button),
+                    enabled = state.title.isNotEmpty() && state.questions.isNotEmpty(),
                     onClick = { onAction(FormCreationUiAction.OnCreateClicked) },
                     modifier = Modifier.align(Alignment.BottomCenter),
                 )

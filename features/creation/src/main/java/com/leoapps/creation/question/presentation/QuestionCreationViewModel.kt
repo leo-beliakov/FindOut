@@ -185,8 +185,8 @@ class QuestionCreationViewModel @Inject constructor(
             _state.update {
                 it.copy(
                     id = savedQuestion.id,
-                    screenTitleResId = R.string.question_screen_button_edit,
-                    screenButtonResId = R.string.question_screen_button_edit,
+                    screenTitleResId = R.string.question_creation_button_edit,
+                    screenButtonResId = R.string.question_creation_button_edit,
                     title = savedQuestion.title,
                     description = savedQuestion.description ?: "",
                     coverUri = savedQuestion.coverUri,

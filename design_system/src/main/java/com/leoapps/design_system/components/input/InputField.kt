@@ -10,6 +10,7 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.leoapps.design_system.components.input.model.InputFieldState
 import com.leoapps.design_system.theme.VioletLight
@@ -23,13 +24,11 @@ fun InputField(
     Column(
         modifier = modifier
     ) {
-        state.label?.let {
-            Text(
-                text = it,
-                style = MaterialTheme.typography.titleMedium,
-                modifier = Modifier.padding(bottom = 8.dp)
-            )
-        }
+        Text(
+            text = stringResource(id = state.labelResId),
+            style = MaterialTheme.typography.titleMedium,
+            modifier = Modifier.padding(bottom = 8.dp)
+        )
         OutlinedTextField(
             value = state.value,
             textStyle = MaterialTheme.typography.bodyLarge,
@@ -41,7 +40,7 @@ fun InputField(
             ),
             placeholder = {
                 Text(
-                    text = state.placeholder,
+                    text = stringResource(state.placeholderResId),
                     style = MaterialTheme.typography.bodyLarge,
                 )
             },
