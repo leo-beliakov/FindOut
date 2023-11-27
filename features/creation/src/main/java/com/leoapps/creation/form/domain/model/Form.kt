@@ -15,6 +15,7 @@ data class Form(
     sealed class Question(
         open val id: UUID,
         open val title: String,
+        open val coverUri: Uri? = null,
         open val description: String?,
         open val type: QuestionType
     ) {
@@ -23,19 +24,28 @@ data class Form(
             val answers: List<Answer>,
             override val id: UUID,
             override val title: String,
+            override val coverUri: Uri?,
             override val description: String?,
         ) : Question(
             id = id,
             title = title,
+            coverUri = coverUri,
             description = description,
             type = if (isSingleChoice) QuestionType.SINGLE_CHOICE else QuestionType.MULTIPLE_CHOICES
         )
 
         data class Open(
-            override val title: String,
-            override val description: String?,
             override val id: UUID,
-        ) : Question(id, title, description, QuestionType.OPEN_ANSWER)
+            override val title: String,
+            override val coverUri: Uri?,
+            override val description: String?,
+        ) : Question(
+            id = id,
+            title = title,
+            coverUri = coverUri,
+            description = description,
+            type = QuestionType.OPEN_ANSWER
+        )
 
         class Answer(
             val id: UUID,

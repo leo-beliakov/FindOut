@@ -1,5 +1,6 @@
 package com.leoapps.creation.question.presentation
 
+import android.net.Uri
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -35,6 +36,8 @@ import com.leoapps.design_system.components.button.BOTTOM_GRADIENT_HEIGHT_DP
 import com.leoapps.design_system.components.button.BottomButton
 import com.leoapps.design_system.components.input.model.InputFieldState
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.result.NavResult
+import com.ramcosta.composedestinations.result.OpenResultRecipient
 import kotlinx.coroutines.flow.collectLatest
 
 @CreationFeatureNavGraph
@@ -45,9 +48,19 @@ import kotlinx.coroutines.flow.collectLatest
 @Composable
 fun QuestionCreationScreen(
     navigator: QuestionCreationNavigator,
+    resultRecipient: OpenResultRecipient<Uri>,
     viewModel: QuestionCreationViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+
+    resultRecipient.onNavResult { result ->
+        when (result) {
+            NavResult.Canceled -> {}
+            is NavResult.Value -> {
+                viewModel.onAction(QuestionCreationUiAction.OnImageSelected(result.value))
+            }
+        }
+    }
 
     QuestionCreationScreen(
         state = state,

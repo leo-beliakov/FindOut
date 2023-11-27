@@ -1,5 +1,6 @@
 package com.leoapps.creation.form.data
 
+import android.net.Uri
 import com.leoapps.creation.form.domain.FormRepository
 import com.leoapps.creation.form.domain.model.Form
 import com.leoapps.creation.form.domain.model.FormType
@@ -53,6 +54,10 @@ class FormRepositoryImpl @Inject constructor() : FormRepository {
 
     override fun getQuestionById(id: UUID): Form.Question? {
         return _cachedSurvey.value?.questions?.firstOrNull { it.id == id }
+    }
+
+    override fun updateImage(uri: Uri) {
+        _cachedSurvey.update { it?.copy(coverUri = uri) }
     }
 }
 

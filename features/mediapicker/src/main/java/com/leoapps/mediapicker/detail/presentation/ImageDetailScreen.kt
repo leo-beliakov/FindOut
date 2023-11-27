@@ -41,6 +41,7 @@ fun ImageDetailScreen(
     transitionState: TransitionState,
     onBackClicked: () -> Unit,
     onTransitionFinished: () -> Unit,
+    onAttachClicked: (Image) -> Unit,
 ) {
     val sharedElementProgress = remember {
         Animatable(if (transitionState == TransitionState.FORWARD) 0f else 1f)
@@ -85,7 +86,7 @@ fun ImageDetailScreen(
         }
         BottomButton(
             text = stringResource(id = R.string.image_detail_button),
-            onClick = onBackClicked, //todo pass the result
+            onClick = { onAttachClicked(image) },
         )
     }
 

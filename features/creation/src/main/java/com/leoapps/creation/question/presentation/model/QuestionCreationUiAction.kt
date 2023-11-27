@@ -1,5 +1,7 @@
 package com.leoapps.creation.question.presentation.model
 
+import android.net.Uri
+
 sealed interface QuestionCreationUiAction {
     object CloseClicked : QuestionCreationUiAction
     object AddImageClicked : QuestionCreationUiAction
@@ -34,5 +36,9 @@ sealed interface QuestionCreationUiAction {
 
     data class OnAnswerDismissed(
         val answer: QuestionCreationUiState.Answer
+    ) : QuestionCreationUiAction
+
+    data class OnImageSelected(
+        val uri: Uri
     ) : QuestionCreationUiAction
 }

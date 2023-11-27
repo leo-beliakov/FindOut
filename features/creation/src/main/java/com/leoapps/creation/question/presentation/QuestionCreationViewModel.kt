@@ -50,7 +50,9 @@ class QuestionCreationViewModel @Inject constructor(
             }
 
             QuestionCreationUiAction.AddImageClicked -> {
-
+                viewModelScope.launch {
+                    _navCommand.emit(QuestionCreationNavCommand.OpenImagePicker)
+                }
             }
 
             QuestionCreationUiAction.AddAnswerClicked -> {
@@ -143,6 +145,12 @@ class QuestionCreationViewModel @Inject constructor(
                     )
                 }
             }
+
+            is QuestionCreationUiAction.OnImageSelected -> {
+                _state.update {
+                    it.copy(coverUri = action.uri)
+                }
+            }
         }
     }
 
@@ -181,6 +189,7 @@ class QuestionCreationViewModel @Inject constructor(
                     screenButtonResId = R.string.question_screen_button_edit,
                     title = savedQuestion.title,
                     description = savedQuestion.description ?: "",
+                    coverUri = savedQuestion.coverUri,
                     selectedQuestionType = savedQuestion.type,
                     hasDescription = !savedQuestion.description.isNullOrEmpty(),
                     answers = getAnswersModels(savedQuestion)
@@ -198,6 +207,7 @@ class QuestionCreationViewModel @Inject constructor(
                     id = currentState.id,
                     title = currentState.title,
                     description = currentState.description,
+                    coverUri = currentState.coverUri,
                     isSingleChoice = currentState.selectedQuestionType == QuestionType.SINGLE_CHOICE,
                     answers = getAnswersModels(currentState.answers),
                 )
@@ -206,6 +216,7 @@ class QuestionCreationViewModel @Inject constructor(
             else -> {
                 Form.Question.Open(
                     id = currentState.id,
+                    coverUri = currentState.coverUri,
                     title = currentState.title,
                     description = currentState.description,
                 )

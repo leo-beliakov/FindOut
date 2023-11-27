@@ -62,4 +62,12 @@ class PickerRootViewModel @Inject constructor() : ViewModel() {
             )
         }
     }
+
+    fun onImageSelected(image: Image) {
+        viewModelScope.launch {
+            _navCommand.emit(
+                PickerNavCommand.GoBackWithResult(image.uri)
+            )
+        }
+    }
 }

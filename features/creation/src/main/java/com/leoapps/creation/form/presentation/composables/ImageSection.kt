@@ -20,23 +20,49 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.leoapps.design_system.theme.Violet
+import com.leoapps.design_system.theme.VioletLight
 
 internal fun LazyListScope.addImageSection(
     imageUri: Uri?,
     onClick: () -> Unit
 ) {
     if (imageUri == null) {
-        item(key = "ImagePlaceholder") {
-            ImagePlaceholder(onClick = onClick)
+        item(key = "ImageCover") {
+            ImagePlaceholder(
+                onClick = onClick
+            )
         }
     } else {
         item(key = "ImagePlaceholder") {
-            ImagePlaceholder(onClick = onClick)
+            ImageCover(
+                imageUri = imageUri,
+                onClick = onClick
+            )
         }
     }
+}
+
+@Composable
+private fun ImageCover(
+    imageUri: Uri?,
+    onClick: () -> Unit,
+) {
+    AsyncImage(
+        model = imageUri,
+        contentDescription = "",
+        contentScale = ContentScale.Crop,
+        modifier = Modifier
+            .padding(horizontal = 16.dp)
+            .fillMaxWidth()
+            .heightIn(max = 250.dp)
+            .clip(shape = RoundedCornerShape(12.dp))
+            .clickable(onClick = onClick)
+    )
 }
 
 @Composable
@@ -49,7 +75,7 @@ private fun ImagePlaceholder(onClick: () -> Unit) {
             .fillMaxWidth()
             .heightIn(min = 250.dp)
             .clip(shape = RoundedCornerShape(12.dp))
-            .background(color = com.leoapps.design_system.theme.VioletLight)
+            .background(color = VioletLight)
             .clickable(onClick = onClick)
 
     ) {

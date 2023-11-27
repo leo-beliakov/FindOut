@@ -1,11 +1,13 @@
 package com.leoapps.mediapicker.picker.presentation.model
 
+import android.net.Uri
+
 sealed interface PickerUiAction {
     object OnGalleryPermissionGranted : PickerUiAction
     object OnCancelClicked : PickerUiAction
 
     data class OnImageSelected(
-        val id: Long
+        val uri: Uri
     ) : PickerUiAction
 
     data class OnImageClicked(

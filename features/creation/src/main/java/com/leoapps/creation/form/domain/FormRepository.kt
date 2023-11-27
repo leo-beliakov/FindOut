@@ -1,5 +1,6 @@
 package com.leoapps.creation.form.domain
 
+import android.net.Uri
 import com.leoapps.creation.form.domain.model.Form
 import com.leoapps.creation.form.domain.model.FormType
 import kotlinx.coroutines.flow.Flow
@@ -14,4 +15,5 @@ interface FormRepository {
     fun saveQuestion(question: Form.Question)
     fun deleteQuestionById(id: UUID)
     fun getQuestionById(id: UUID): Form.Question?
+    fun updateImage(uri: Uri)
 }

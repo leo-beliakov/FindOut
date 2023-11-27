@@ -48,6 +48,7 @@ class FormCreationViewModel @Inject constructor(
                     it.copy(
                         title = savedSurvey.title ?: "",
                         description = savedSurvey.description ?: "",
+                        coverUri = savedSurvey.coverUri,
                         hasDescription = !savedSurvey.description.isNullOrEmpty() || it.hasDescription,
                         questions = savedSurvey.questions.mapToUi(),
                         pageNameResId = when (savedSurvey.type) {
@@ -116,6 +117,10 @@ class FormCreationViewModel @Inject constructor(
 
             is FormCreationUiAction.OnQuestionDismissed -> {
                 repository.deleteQuestionById(action.question.id)
+            }
+
+            is FormCreationUiAction.OnImageSelected -> {
+                repository.updateImage(action.uri)
             }
         }
     }

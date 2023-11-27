@@ -70,8 +70,8 @@ dependencies {
     implementation("androidx.compose.material:material:1.6.0-beta01")
 
     implementation("androidx.compose.material:material-icons-extended")
-    implementation("io.github.raamcosta.compose-destinations:animations-core:1.9.54")
-    ksp("io.github.raamcosta.compose-destinations:ksp:1.9.54")
+    implementation("io.github.raamcosta.compose-destinations:animations-core:1.9.55")
+    ksp("io.github.raamcosta.compose-destinations:ksp:1.9.55")
 
     //Permissions
     implementation("com.google.accompanist:accompanist-permissions:0.32.0")
