@@ -53,9 +53,7 @@ fun SharedTransitionElement(
     dragState: DragVerticallyToDismissState
 ) {
     val scale by remember {
-        derivedStateOf {
-            1f - SCALE_CHANGE_ON_DRAG * dragState.dragProgress
-        }
+        derivedStateOf { 1f - SCALE_CHANGE_ON_DRAG * dragState.dragProgress }
     }
 
     val currentRect = lerp(

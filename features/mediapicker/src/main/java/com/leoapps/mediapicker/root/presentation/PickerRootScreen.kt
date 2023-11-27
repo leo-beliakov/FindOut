@@ -1,6 +1,5 @@
 package com.leoapps.mediapicker.root.presentation
 
-import android.net.Uri
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -15,7 +14,6 @@ import com.leoapps.mediapicker.root.navigation.MediaPickerTransitions
 import com.leoapps.mediapicker.root.navigation.PickerNavGraph
 import com.leoapps.mediapicker.root.navigation.PickerNavigator
 import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.result.ResultBackNavigator
 import kotlinx.coroutines.flow.collectLatest
 
 @PickerNavGraph(start = true)
@@ -23,7 +21,6 @@ import kotlinx.coroutines.flow.collectLatest
 @Composable
 fun PickerRootScreen(
     navigator: PickerNavigator,
-    resultBackNavigator: ResultBackNavigator<Uri>,
     viewModel: PickerRootViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()

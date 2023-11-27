@@ -4,6 +4,7 @@ import androidx.compose.ui.geometry.Rect
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.leoapps.mediapicker.common.domain.model.Image
+import com.leoapps.mediapicker.common.domain.repository.MediaRepository
 import com.leoapps.mediapicker.root.navigation.model.PickerNavCommand
 import com.leoapps.mediapicker.root.presentation.model.PickerRootUiState
 import com.leoapps.mediapicker.root.presentation.model.TransitionState
@@ -17,7 +18,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class PickerRootViewModel @Inject constructor() : ViewModel() {
+class PickerRootViewModel @Inject constructor(
+    private val repository: MediaRepository,
+) : ViewModel() {
 
     private val _state = MutableStateFlow(PickerRootUiState())
     val state = _state.asStateFlow()
@@ -65,9 +68,8 @@ class PickerRootViewModel @Inject constructor() : ViewModel() {
 
     fun onImageSelected(image: Image) {
         viewModelScope.launch {
-            _navCommand.emit(
-                PickerNavCommand.GoBackWithResult(image.uri)
-            )
+            val internalStorageUri = repository.copyImageToInternalStorage(image) ?: return@launch
+            _navCommand.emit(PickerNavCommand.GoBackWithResult(internalStorageUri))
         }
     }
 }
