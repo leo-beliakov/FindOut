@@ -11,4 +11,8 @@ sealed interface PickerUiAction {
     data class OnImageClicked(
         val id: Long
     ) : PickerUiAction
+
+    data class OnAlbumSelected(
+        val album: PickerUiState.Album
+    ) : PickerUiAction
 }

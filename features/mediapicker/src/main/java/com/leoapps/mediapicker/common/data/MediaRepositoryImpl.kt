@@ -22,7 +22,9 @@ class MediaRepositoryImpl @Inject constructor(
         val projection = arrayOf(
             MediaStore.Images.Media._ID,
             MediaStore.Images.Media.WIDTH,
-            MediaStore.Images.Media.HEIGHT
+            MediaStore.Images.Media.HEIGHT,
+            MediaStore.Images.Media.BUCKET_ID,
+            MediaStore.Images.Media.BUCKET_DISPLAY_NAME
         )
 
         contentResolver.query(
@@ -35,6 +37,9 @@ class MediaRepositoryImpl @Inject constructor(
             val idColumn = cursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID)
             val widthColumn = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.WIDTH)
             val heightColumn = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.HEIGHT)
+            val albumIdColumn = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.BUCKET_ID)
+            val albumColumn =
+                cursor.getColumnIndexOrThrow(MediaStore.Images.Media.BUCKET_DISPLAY_NAME)
 
             while (cursor.moveToNext()) {
                 val id = cursor.getLong(idColumn)
@@ -49,6 +54,8 @@ class MediaRepositoryImpl @Inject constructor(
                         uri = contentUri,
                         width = cursor.getInt(widthColumn),
                         height = cursor.getInt(heightColumn),
+                        albumId = cursor.getLong(albumIdColumn),
+                        albumName = cursor.getString(albumColumn)
                     )
                 )
             }

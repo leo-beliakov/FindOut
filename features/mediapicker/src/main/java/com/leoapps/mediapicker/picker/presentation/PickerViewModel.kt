@@ -3,7 +3,9 @@ package com.leoapps.mediapicker.picker.presentation
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.leoapps.mediapicker.common.domain.model.Image
 import com.leoapps.mediapicker.common.domain.repository.MediaRepository
+import com.leoapps.mediapicker.picker.presentation.mapper.PickerMapper
 import com.leoapps.mediapicker.picker.presentation.model.PickerUiAction
 import com.leoapps.mediapicker.picker.presentation.model.PickerUiState
 import com.leoapps.mediapicker.root.navigation.model.PickerNavCommand
@@ -17,8 +19,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class PickerViewModel @Inject constructor(
+internal class PickerViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
+    private val mapper: PickerMapper,
     private val mediaRepository: MediaRepository
 ) : ViewModel() {
 
@@ -37,17 +40,7 @@ class PickerViewModel @Inject constructor(
             PickerUiAction.OnGalleryPermissionGranted -> {
                 viewModelScope.launch {
                     val results = mediaRepository.queryImages()
-                    _state.update {
-                        it.copy(
-                            mediaItems = results
-//                                .map { image ->
-//                                PickerUiState.Image(
-//                                    id = image.id,
-//                                    uri = image.uri,
-//                                )
-//                            }
-                        )
-                    }
+                    _state.update { mapper.mapToUiState(results) }
                 }
             }
 
@@ -60,6 +53,26 @@ class PickerViewModel @Inject constructor(
             PickerUiAction.OnCancelClicked -> {
 
             }
+
+            is PickerUiAction.OnAlbumSelected -> {
+                _state.update {
+                    it.copy(
+                        selectedAlbum = action.album,
+                        selectedAlbumImages = getImagesOfAlbum(it.allImages, action.album)
+                    )
+                }
+            }
+        }
+    }
+
+    private fun getImagesOfAlbum(
+        images: List<Image>,
+        album: PickerUiState.Album
+    ): List<Image> {
+        return if (album.id == PickerUiState.Album.DEFAULT_ALBUM_ID) {
+            images
+        } else {
+            images.filter { it.albumId == album.id }
         }
     }
 }

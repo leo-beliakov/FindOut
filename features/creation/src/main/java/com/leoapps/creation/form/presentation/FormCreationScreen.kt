@@ -19,7 +19,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.leoapps.creation.form.navigation.CreationFeatureNavGraph
 import com.leoapps.creation.form.navigation.FormCreationNavigator
 import com.leoapps.creation.form.navigation.FormCreationTransitions
@@ -59,8 +58,6 @@ fun FormCreationScreen(
     }
 }
 
-
-@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 private fun FormCreationScreen(
     state: FormCreationUiState,

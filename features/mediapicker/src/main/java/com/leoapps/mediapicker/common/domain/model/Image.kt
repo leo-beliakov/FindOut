@@ -6,5 +6,7 @@ data class Image(
     val id: Long,
     val uri: Uri,
     val width: Int,
-    val height: Int
+    val height: Int,
+    val albumId: Long,
+    val albumName: String,
 )

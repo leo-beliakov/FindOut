@@ -63,7 +63,7 @@ dependencies {
     implementation("androidx.activity:activity-compose:1.8.1")
 
     //Compose
-    implementation(platform("androidx.compose:compose-bom:2023.10.01"))
+    implementation(platform("dev.chrisbanes.compose:compose-bom:2023.12.00-alpha01"))
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
