@@ -1,0 +1,31 @@
+<resources>
+    <string name="form_creation_title_quiz">Create Quiz</string>
+    <string name="form_creation_title_survey">Create Survey</string>
+    <string name="form_creation_title_label">Enter question title</string>
+    <string name="form_creation_title_placeholder">Enter question title</string>
+    <string name="form_creation_description_label">Description</string>
+    <string name="form_creation_description_placeholder">Description</string>
+    <string name="form_creation_button">Create</string>
+
+    <string name="answer_creation_input_placeholder">Enter the answer</string>
+
+    <string name="question_type_single">Single Answer</string>
+    <string name="question_type_single_choice">Single Choice</string>
+    <string name="question_type_multiple">Multiple Answer</string>
+    <string name="question_type_multiple_choices">Multiple Choices</string>
+    <string name="question_type_open">Open Answer</string>
+
+    <string name="question_creation_title_add">Add Question</string>
+    <string name="question_creation_title_edit">Edit Question</string>
+    <string name="question_creation_button_add">Add Question</string>
+    <string name="question_creation_title_label">Question</string>
+    <string name="question_creation_title_placeholder">Enter question title</string>
+    <string name="question_creation_description_label">Description</string>
+    <string name="question_creation_description_placeholder">Enter question description</string>
+    <string name="question_creation_button_edit">Save</string>
+
+    <string name="answer_dialog_title_add">Add Answer</string>
+    <string name="answer_dialog_title_edit">Edit Answer</string>
+    <string name="answer_dialog_button_add">Add Answer</string>
+    <string name="answer_dialog_button_edit">Save</string>
+</resources>
