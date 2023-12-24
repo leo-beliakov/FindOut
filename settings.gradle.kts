@@ -17,5 +17,6 @@ rootProject.name = "FindOut"
 include(":app")
 include(":design_system")
 include(":features:home")
+include(":features:profile")
 include(":features:creation")
 include(":features:mediapicker")

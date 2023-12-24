@@ -19,7 +19,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.leoapps.home"
+    namespace = "com.leoapps.profile"
     compileSdk = 34
 
     defaultConfig {
@@ -100,5 +100,5 @@ kapt {
 }
 ksp {
     arg("compose-destinations.mode", "navgraphs")
-    arg("compose-destinations.moduleName", "home")
+    arg("compose-destinations.moduleName", "profile")
 }

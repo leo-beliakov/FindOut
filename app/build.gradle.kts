@@ -67,6 +67,7 @@ android {
 dependencies {
     implementation(project(":design_system"))
     implementation(project(":features:home"))
+    implementation(project(":features:profile"))
     implementation(project(":features:creation"))
     implementation(project(":features:mediapicker"))
 

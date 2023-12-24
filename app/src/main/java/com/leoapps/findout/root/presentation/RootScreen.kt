@@ -17,11 +17,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.compose.rememberNavController
-import com.leoapps.findout.destinations.ProfileScreenDestination
 import com.leoapps.findout.root.navigation.RootNavigator
 import com.leoapps.home.navigation.HomeNavigatorImpl
+import com.leoapps.home.presentation.HomeNavGraph
 import com.leoapps.home.presentation.HomeScreen
 import com.leoapps.home.presentation.destinations.HomeScreenDestination
+import com.leoapps.profile.presentaion.ProfileNavGraph
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.manualcomposablecalls.composable
@@ -49,9 +50,9 @@ fun RootScreen(
                     navController.currentDestinationAsState().value ?: RootNavGraph.startDestination
 
                 NavigationBarItem(
-                    selected = currentDestination == HomeScreenDestination,
+                    selected = currentDestination == HomeNavGraph.startDestination,
                     onClick = {
-                        navController.navigate(HomeScreenDestination) {
+                        navController.navigate(HomeNavGraph) {
                             launchSingleTop = true
                         }
                     },
@@ -83,9 +84,9 @@ fun RootScreen(
                     }
                 )
                 NavigationBarItem(
-                    selected = currentDestination == ProfileScreenDestination,
+                    selected = currentDestination == ProfileNavGraph.startDestination,
                     onClick = {
-                        navController.navigate(ProfileScreenDestination) {
+                        navController.navigate(ProfileNavGraph) {
                             launchSingleTop = true
                         }
                     },
