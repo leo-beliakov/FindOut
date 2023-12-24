@@ -3,7 +3,7 @@ package com.leoapps.creation.form.navigation
 import com.leoapps.creation.destinations.QuestionCreationScreenDestination
 import com.leoapps.creation.form.navigation.model.FormCreationNavCommand
 import com.leoapps.creation.question.presentation.QuestionCreationArgs
-import com.leoapps.mediapicker.root.presentation.MediapickerNavGraph
+import com.leoapps.mediapicker.root.presentation.PickerNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import javax.inject.Inject
 
@@ -22,7 +22,7 @@ class FormCreationNavigatorImpl @Inject constructor(
             }
 
             FormCreationNavCommand.OpenImagePicker -> {
-                navigator.navigate(MediapickerNavGraph)
+                navigator.navigate(PickerNavGraph)
             }
 
             is FormCreationNavCommand.OpenQuestion -> {

@@ -6,10 +6,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import com.leoapps.findout.root.navigation.MyRootNavGraph
 import com.ramcosta.composedestinations.annotation.Destination
 
-@MyRootNavGraph
 @Destination
 @Composable
 fun ProfileScreen() {

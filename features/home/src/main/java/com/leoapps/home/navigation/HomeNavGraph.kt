@@ -1,8 +1,8 @@
-package com.leoapps.findout.root.navigation
+package com.leoapps.home.navigation
 
 import com.ramcosta.composedestinations.annotation.NavGraph
 
 @NavGraph
-annotation class MyRootNavGraph(
+annotation class HomeNavGraph(
     val start: Boolean = false
 )
