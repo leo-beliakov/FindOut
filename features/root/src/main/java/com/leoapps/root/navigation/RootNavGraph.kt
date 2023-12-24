@@ -1,4 +1,4 @@
-package com.leoapps.findout.root.presentation
+package com.leoapps.root.navigation
 
 import com.leoapps.home.presentation.HomeNavGraph
 import com.leoapps.profile.presentaion.ProfileNavGraph

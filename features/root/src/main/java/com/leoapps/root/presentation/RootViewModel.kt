@@ -1,4 +1,4 @@
-package com.leoapps.findout.root.presentation
+package com.leoapps.root.presentation
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel

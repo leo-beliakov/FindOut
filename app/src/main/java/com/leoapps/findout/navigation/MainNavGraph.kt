@@ -1,8 +1,8 @@
-package com.leoapps.findout
+package com.leoapps.findout.navigation
 
 import com.leoapps.creation.CreationFeatureNavGraph
-import com.leoapps.findout.root.presentation.destinations.RootScreenDestination
 import com.leoapps.mediapicker.root.presentation.PickerNavGraph
+import com.leoapps.root.presentation.destinations.RootScreenDestination
 import com.ramcosta.composedestinations.spec.NavGraphSpec
 import com.ramcosta.composedestinations.spec.Route
 

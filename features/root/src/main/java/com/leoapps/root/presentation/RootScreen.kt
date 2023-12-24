@@ -1,4 +1,4 @@
-package com.leoapps.findout.root.presentation
+package com.leoapps.root.presentation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -17,12 +17,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.compose.rememberNavController
-import com.leoapps.findout.root.navigation.RootNavigator
 import com.leoapps.home.navigation.HomeNavigatorImpl
 import com.leoapps.home.presentation.HomeNavGraph
 import com.leoapps.home.presentation.HomeScreen
 import com.leoapps.home.presentation.destinations.HomeScreenDestination
 import com.leoapps.profile.presentaion.ProfileNavGraph
+import com.leoapps.root.navigation.RootNavGraph
+import com.leoapps.root.navigation.RootNavigator
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.manualcomposablecalls.composable
@@ -30,7 +31,7 @@ import com.ramcosta.composedestinations.navigation.navigate
 import com.ramcosta.composedestinations.utils.currentDestinationAsState
 import com.ramcosta.composedestinations.utils.startDestination
 
-@Destination
+@Destination(start = true)
 @Composable
 fun RootScreen(
     navigator: RootNavigator
@@ -70,7 +71,7 @@ fun RootScreen(
                 )
                 NavigationBarItem(
                     selected = false,
-                    onClick = { navigator.openAdd() },
+                    onClick = { navigator.openFormCreation() },
                     icon = {
                         Icon(
                             imageVector = Icons.Outlined.AddCircle,
