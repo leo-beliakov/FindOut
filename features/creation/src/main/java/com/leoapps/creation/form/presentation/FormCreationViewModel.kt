@@ -5,12 +5,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.leoapps.creation.R
 import com.leoapps.creation.form.domain.FormRepository
-import com.leoapps.creation.form.domain.model.Form
-import com.leoapps.creation.form.domain.model.FormType
 import com.leoapps.creation.form.navigation.model.FormCreationNavCommand
 import com.leoapps.creation.form.presentation.model.FormCreationUiAction
 import com.leoapps.creation.form.presentation.model.FormCreationUiState
 import com.leoapps.creation.navArgs
+import com.leoapps.form.domain.model.Form
+import com.leoapps.form.domain.model.FormType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow

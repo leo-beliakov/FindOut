@@ -1,7 +1,6 @@
-package com.leoapps.creation.form.domain.model
+package com.leoapps.form.domain.model
 
 import android.net.Uri
-import com.leoapps.creation.question.presentation.model.QuestionType
 import java.util.UUID
 
 data class Form(

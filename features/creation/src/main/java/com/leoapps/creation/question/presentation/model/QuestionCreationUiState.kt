@@ -14,8 +14,8 @@ data class QuestionCreationUiState(
     val coverUri: Uri? = null,
     val dialogState: AnswerCreationState? = null,
     val answers: List<Answer> = emptyList(),
-    val selectedQuestionType: QuestionType = QuestionType.SINGLE_ANSWER,
-    val availableQuestionTypes: List<QuestionType> = emptyList(),
+    val selectedQuestionType: QuestionTypeUiModel = QuestionTypeUiModel.SINGLE_ANSWER,
+    val availableQuestionTypes: List<QuestionTypeUiModel> = emptyList(),
     @StringRes val screenTitleResId: Int = R.string.question_creation_title_add,
     @StringRes val screenButtonResId: Int = R.string.question_creation_button_add,
 ) {
@@ -27,10 +27,28 @@ data class QuestionCreationUiState(
     )
 }
 
-enum class QuestionType(val nameResId: Int) {
-    SINGLE_ANSWER(R.string.question_type_single),
-    SINGLE_CHOICE(R.string.question_type_single_choice),
-    MULTIPLE_ANSWER(R.string.question_type_multiple),
-    MULTIPLE_CHOICES(R.string.question_type_multiple_choices),
-    OPEN_ANSWER(R.string.question_type_open),
+enum class QuestionTypeUiModel(
+    val id: Int,
+    @StringRes val textResId: Int
+) {
+    SINGLE_ANSWER(
+        id = 1,
+        textResId = R.string.question_type_single
+    ),
+    SINGLE_CHOICE(
+        id = 2,
+        textResId = R.string.question_type_single_choice
+    ),
+    MULTIPLE_ANSWER(
+        id = 3,
+        textResId = R.string.question_type_multiple
+    ),
+    MULTIPLE_CHOICES(
+        id = 4,
+        textResId = R.string.question_type_multiple_choices
+    ),
+    OPEN_ANSWER(
+        id = 5,
+        textResId = R.string.question_type_open
+    ),
 }

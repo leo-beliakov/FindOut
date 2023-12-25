@@ -1,8 +1,8 @@
 package com.leoapps.creation.form.domain
 
 import android.net.Uri
-import com.leoapps.creation.form.domain.model.Form
-import com.leoapps.creation.form.domain.model.FormType
+import com.leoapps.form.domain.model.Form
+import com.leoapps.form.domain.model.FormType
 import kotlinx.coroutines.flow.Flow
 import java.util.UUID
 

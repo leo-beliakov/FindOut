@@ -55,7 +55,6 @@ android {
 
 dependencies {
     implementation(project(":design_system"))
-    implementation(project(":features:mediapicker"))
 
     implementation("androidx.core:core-ktx:1.9.20")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")

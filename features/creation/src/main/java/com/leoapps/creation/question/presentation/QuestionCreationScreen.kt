@@ -30,7 +30,7 @@ import com.leoapps.creation.question.presentation.composbles.answersSection
 import com.leoapps.creation.question.presentation.composbles.questionTypeSection
 import com.leoapps.creation.question.presentation.model.QuestionCreationUiAction
 import com.leoapps.creation.question.presentation.model.QuestionCreationUiState
-import com.leoapps.creation.question.presentation.model.QuestionType
+import com.leoapps.creation.question.presentation.model.QuestionTypeUiModel
 import com.leoapps.design_system.components.button.BOTTOM_GRADIENT_HEIGHT_DP
 import com.leoapps.design_system.components.button.BottomButton
 import com.leoapps.design_system.components.input.model.InputFieldState
@@ -140,7 +140,7 @@ fun QuestionCreationScreen(
                             )
                         },
                     )
-                    if (state.selectedQuestionType != QuestionType.OPEN_ANSWER) {
+                    if (state.selectedQuestionType != QuestionTypeUiModel.OPEN_ANSWER) {
                         answersSection(
                             answers = state.answers,
                             onAction = onAction
@@ -150,7 +150,7 @@ fun QuestionCreationScreen(
                 BottomButton(
                     text = stringResource(id = state.screenButtonResId),
                     enabled = state.title.isNotEmpty() &&
-                            (state.selectedQuestionType == QuestionType.OPEN_ANSWER || state.answers.isNotEmpty()),
+                            (state.selectedQuestionType == QuestionTypeUiModel.OPEN_ANSWER || state.answers.isNotEmpty()),
                     onClick = { onAction(QuestionCreationUiAction.OnAddQuestionClicked) },
                     modifier = Modifier.align(Alignment.BottomCenter),
                 )

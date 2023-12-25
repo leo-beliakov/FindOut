@@ -1,6 +1,6 @@
 package com.leoapps.creation.form.navigation.model
 
-import com.leoapps.creation.form.domain.model.FormType
+import com.leoapps.form.domain.model.FormType
 import java.util.UUID
 
 sealed interface FormCreationNavCommand {

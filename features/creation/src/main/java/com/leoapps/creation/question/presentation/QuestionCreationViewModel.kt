@@ -6,13 +6,14 @@ import androidx.lifecycle.viewModelScope
 import com.leoapps.creation.R
 import com.leoapps.creation.answer.presentation.model.AnswerCreationState
 import com.leoapps.creation.form.domain.FormRepository
-import com.leoapps.creation.form.domain.model.Form
-import com.leoapps.creation.form.domain.model.FormType
 import com.leoapps.creation.navArgs
 import com.leoapps.creation.question.navigation.model.QuestionCreationNavCommand
+import com.leoapps.creation.question.presentation.mapper.QuestionCreationUiMapper
 import com.leoapps.creation.question.presentation.model.QuestionCreationUiAction
 import com.leoapps.creation.question.presentation.model.QuestionCreationUiState
-import com.leoapps.creation.question.presentation.model.QuestionType
+import com.leoapps.creation.question.presentation.model.QuestionTypeUiModel
+import com.leoapps.form.domain.model.Form
+import com.leoapps.form.domain.model.FormType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,11 +27,12 @@ import javax.inject.Inject
 @HiltViewModel
 class QuestionCreationViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
+    private val mapper: QuestionCreationUiMapper,
     private val repository: FormRepository
 ) : ViewModel() {
 
     private val questionId = savedStateHandle.navArgs<QuestionCreationArgs>().questionId
-    val formType = savedStateHandle.navArgs<QuestionCreationArgs>().formType
+    private val formType = savedStateHandle.navArgs<QuestionCreationArgs>().formType
 
     private val _state = MutableStateFlow(QuestionCreationUiState())
     val state = _state.asStateFlow()
@@ -59,8 +61,8 @@ class QuestionCreationViewModel @Inject constructor(
                 _state.update {
                     it.copy(
                         dialogState = AnswerCreationState.Create(
-                            isCorrectShown = it.selectedQuestionType == QuestionType.SINGLE_ANSWER ||
-                                    it.selectedQuestionType == QuestionType.MULTIPLE_CHOICES,
+                            isCorrectShown = it.selectedQuestionType == QuestionTypeUiModel.SINGLE_ANSWER ||
+                                    it.selectedQuestionType == QuestionTypeUiModel.MULTIPLE_CHOICES,
                         )
                     )
                 }
@@ -77,8 +79,8 @@ class QuestionCreationViewModel @Inject constructor(
                     it.copy(
                         dialogState = AnswerCreationState.Edit(
                             answer = action.answer,
-                            isCorrectShown = it.selectedQuestionType == QuestionType.SINGLE_ANSWER ||
-                                    it.selectedQuestionType == QuestionType.MULTIPLE_CHOICES,
+                            isCorrectShown = it.selectedQuestionType == QuestionTypeUiModel.SINGLE_ANSWER ||
+                                    it.selectedQuestionType == QuestionTypeUiModel.MULTIPLE_CHOICES,
                         )
                     )
                 }
@@ -158,21 +160,22 @@ class QuestionCreationViewModel @Inject constructor(
         val question = questionId?.let { repository.getQuestionById(it) }
         _state.update {
             it.copy(
-                selectedQuestionType = question?.type ?: when (formType) {
-                    FormType.SURVEY -> QuestionType.SINGLE_CHOICE
-                    FormType.QUIZ -> QuestionType.SINGLE_ANSWER
-                },
+                selectedQuestionType = question?.type?.let { mapper.map(it) }
+                    ?: when (formType) { //todo doesnt look nice
+                        FormType.SURVEY -> QuestionTypeUiModel.SINGLE_CHOICE
+                        FormType.QUIZ -> QuestionTypeUiModel.SINGLE_ANSWER
+                    },
                 availableQuestionTypes = when (formType) {
                     FormType.SURVEY -> listOf(
-                        QuestionType.SINGLE_CHOICE,
-                        QuestionType.MULTIPLE_CHOICES,
-                        QuestionType.OPEN_ANSWER
+                        QuestionTypeUiModel.SINGLE_CHOICE,
+                        QuestionTypeUiModel.MULTIPLE_CHOICES,
+                        QuestionTypeUiModel.OPEN_ANSWER
                     )
 
                     FormType.QUIZ -> listOf(
-                        QuestionType.SINGLE_ANSWER,
-                        QuestionType.MULTIPLE_ANSWER,
-                        QuestionType.OPEN_ANSWER
+                        QuestionTypeUiModel.SINGLE_ANSWER,
+                        QuestionTypeUiModel.MULTIPLE_ANSWER,
+                        QuestionTypeUiModel.OPEN_ANSWER
                     )
                 },
             )
@@ -190,7 +193,7 @@ class QuestionCreationViewModel @Inject constructor(
                     title = savedQuestion.title,
                     description = savedQuestion.description ?: "",
                     coverUri = savedQuestion.coverUri,
-                    selectedQuestionType = savedQuestion.type,
+                    selectedQuestionType = mapper.map(savedQuestion.type),
                     hasDescription = !savedQuestion.description.isNullOrEmpty(),
                     answers = getAnswersModels(savedQuestion)
                 )
@@ -201,14 +204,14 @@ class QuestionCreationViewModel @Inject constructor(
     private fun getQuestionModel(): Form.Question {
         val currentState = state.value
         return when (currentState.selectedQuestionType) {
-            QuestionType.SINGLE_CHOICE,
-            QuestionType.MULTIPLE_CHOICES -> {
+            QuestionTypeUiModel.SINGLE_CHOICE,
+            QuestionTypeUiModel.MULTIPLE_CHOICES -> {
                 Form.Question.Choice(
                     id = currentState.id,
                     title = currentState.title,
                     description = currentState.description,
                     coverUri = currentState.coverUri,
-                    isSingleChoice = currentState.selectedQuestionType == QuestionType.SINGLE_CHOICE,
+                    isSingleChoice = currentState.selectedQuestionType == QuestionTypeUiModel.SINGLE_CHOICE,
                     answers = getAnswersModels(currentState.answers),
                 )
             }

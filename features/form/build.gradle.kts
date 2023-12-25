@@ -1,10 +1,9 @@
 plugins {
-    id("com.android.application")
+    id("com.android.library")
     id("org.jetbrains.kotlin.android")
-    id("kotlin-kapt")
-    id("com.google.dagger.hilt.android")
-    id("com.google.devtools.ksp")
-    id("kotlin-parcelize")
+//    id("kotlin-kapt")
+//    id("com.google.dagger.hilt.android")
+//    id("kotlin-parcelize")
 }
 
 kotlin {
@@ -19,20 +18,14 @@ kotlin {
 }
 
 android {
-    namespace = "com.leoapps.findout"
+    namespace = "com.leoapps.form"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.leoapps.findout"
         minSdk = 26
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary = true
-        }
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -57,22 +50,9 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.4"
     }
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
-    }
 }
 
 dependencies {
-    implementation(project(":design_system"))
-    implementation(project(":features:root"))
-    implementation(project(":features:form"))
-    implementation(project(":features:home"))
-    implementation(project(":features:profile"))
-    implementation(project(":features:creation"))
-    implementation(project(":features:mediapicker"))
-
     implementation("androidx.core:core-ktx:1.9.20")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.2")
@@ -85,8 +65,6 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
     implementation("androidx.compose.material:material-icons-extended")
-    implementation("io.github.raamcosta.compose-destinations:animations-core:1.9.55")
-    ksp("io.github.raamcosta.compose-destinations:ksp:1.9.55")
 
     //Permissions
     implementation("com.google.accompanist:accompanist-permissions:0.32.0")
@@ -98,9 +76,9 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:2.7.5")
 
     //Hilt DI
-    implementation("com.google.dagger:hilt-android:2.48.1")
-    implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
-    kapt("com.google.dagger:hilt-compiler:2.48.1")
+//    implementation("com.google.dagger:hilt-android:2.48.1")
+//    implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
+//    kapt("com.google.dagger:hilt-compiler:2.48.1")
 
     //Tests
     testImplementation("junit:junit:4.13.2")
@@ -112,10 +90,6 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 }
 
-ksp {
-    arg("compose-destinations.generateNavGraphs", "false")
-}
-
-kapt {
-    correctErrorTypes = true
-}
+//kapt {
+//    correctErrorTypes = true
+//}

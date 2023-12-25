@@ -11,7 +11,7 @@ sealed interface QuestionCreationUiAction {
     object OnDialogDismissed : QuestionCreationUiAction
 
     data class OnTypeSelected(
-        val type: QuestionType
+        val type: QuestionTypeUiModel
     ) : QuestionCreationUiAction
 
     data class TitleUpdated(

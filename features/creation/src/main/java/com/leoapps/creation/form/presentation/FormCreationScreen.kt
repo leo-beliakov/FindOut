@@ -76,9 +76,6 @@ private fun FormCreationScreen(
     onAction: (FormCreationUiAction) -> Unit
 ) {
     val scrollState = rememberLazyListState()
-//    val isButtonEnabled by remember {
-//        derivedStateOf { state.title.isNotEmpty() && state.questions.isNotEmpty() }
-//    }
 
     Scaffold(
         topBar = {
@@ -129,7 +126,7 @@ private fun FormCreationScreen(
                 }
                 BottomButton(
                     text = stringResource(id = R.string.form_creation_button),
-                    enabled = state.title.isNotEmpty() && state.questions.isNotEmpty(),
+                    enabled = state.title.isNotEmpty() && state.questions.isNotEmpty(), //todo check if derived state would be better
                     onClick = { onAction(FormCreationUiAction.OnCreateClicked) },
                     modifier = Modifier.align(Alignment.BottomCenter),
                 )

@@ -8,14 +8,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.leoapps.creation.question.presentation.model.QuestionType
+import com.leoapps.creation.question.presentation.model.QuestionTypeUiModel
 import com.leoapps.design_system.components.picker.OptionsPicker
 import com.leoapps.design_system.components.picker.model.Option
 
 internal fun LazyListScope.questionTypeSection(
-    selectedType: QuestionType,
-    availableTypes: List<QuestionType>,
-    onTypeSelected: (QuestionType) -> Unit
+    selectedType: QuestionTypeUiModel,
+    availableTypes: List<QuestionTypeUiModel>,
+    onTypeSelected: (QuestionTypeUiModel) -> Unit
 ) {
     item(key = "QuestionTypePicker") {
         Box(
@@ -25,17 +25,17 @@ internal fun LazyListScope.questionTypeSection(
         ) {
             OptionsPicker(
                 selectedOption = Option(
-                    id = selectedType.nameResId,
-                    text = stringResource(id = selectedType.nameResId)
+                    id = selectedType.textResId,
+                    text = stringResource(id = selectedType.id)
                 ),
                 options = availableTypes.map {
                     Option(
-                        id = it.nameResId,
-                        text = stringResource(id = it.nameResId)
+                        id = it.textResId,
+                        text = stringResource(id = it.textResId)
                     )
                 },
                 onOptionSelected = { option ->
-                    onTypeSelected(availableTypes.first { it.nameResId == option.id })
+                    onTypeSelected(availableTypes.first { it.id == option.id })
                 },
                 modifier = Modifier.align(Alignment.CenterStart)
             )
