@@ -1,7 +1,7 @@
 package com.leoapps.creation.di
 
-import com.leoapps.creation.form.data.FormRepositoryImpl
-import com.leoapps.creation.form.domain.FormRepository
+import com.leoapps.creation.form.data.FormCreationRepositoryImpl
+import com.leoapps.creation.form.domain.FormCreationRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -14,5 +14,5 @@ interface CreationModule {
 
     @Binds
     @Singleton
-    fun bindFormRepository(impl: FormRepositoryImpl): FormRepository
+    fun bindFormRepository(impl: FormCreationRepositoryImpl): FormCreationRepository
 }

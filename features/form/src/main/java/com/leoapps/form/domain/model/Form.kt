@@ -1,10 +1,9 @@
 package com.leoapps.form.domain.model
 
 import android.net.Uri
-import java.util.UUID
 
 data class Form(
-    val id: UUID,
+    val id: FormId,
     val type: FormType,
     val title: String? = null,
     val description: String? = null,
@@ -12,7 +11,7 @@ data class Form(
     val questions: List<Question> = emptyList()
 ) {
     sealed class Question(
-        open val id: UUID,
+        open val id: QuestionId,
         open val title: String,
         open val coverUri: Uri? = null,
         open val description: String?,
@@ -21,7 +20,7 @@ data class Form(
         data class Choice(
             val isSingleChoice: Boolean,
             val answers: List<Answer>,
-            override val id: UUID,
+            override val id: QuestionId,
             override val title: String,
             override val coverUri: Uri?,
             override val description: String?,
@@ -34,7 +33,7 @@ data class Form(
         )
 
         data class Open(
-            override val id: UUID,
+            override val id: QuestionId,
             override val title: String,
             override val coverUri: Uri?,
             override val description: String?,
@@ -47,8 +46,13 @@ data class Form(
         )
 
         class Answer(
-            val id: UUID,
+            val id: AnswerId,
             val title: String,
         )
     }
 }
+
+//Typealiases for convenience in case we want to change the types
+typealias FormId = Int
+typealias QuestionId = Int
+typealias AnswerId = Int

@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.leoapps.creation.R
 import com.leoapps.creation.answer.presentation.model.AnswerCreationState
-import com.leoapps.creation.form.domain.FormRepository
+import com.leoapps.creation.form.domain.FormCreationRepository
 import com.leoapps.creation.navArgs
 import com.leoapps.creation.question.navigation.model.QuestionCreationNavCommand
 import com.leoapps.creation.question.presentation.mapper.QuestionCreationUiMapper
@@ -21,14 +21,13 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
 class QuestionCreationViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
     private val mapper: QuestionCreationUiMapper,
-    private val repository: FormRepository
+    private val repository: FormCreationRepository
 ) : ViewModel() {
 
     private val questionId = savedStateHandle.navArgs<QuestionCreationArgs>().questionId
@@ -116,17 +115,13 @@ class QuestionCreationViewModel @Inject constructor(
             }
 
             is QuestionCreationUiAction.OnTypeSelected -> {
-                _state.update {
-                    it.copy(
-                        selectedQuestionType = action.type
-                    )
-                }
+                _state.update { it.copy(selectedQuestionType = action.type) }
             }
 
             is QuestionCreationUiAction.OnAddAnswerClicked -> {
                 _state.update {
                     val answerModel = QuestionCreationUiState.Answer(
-                        id = UUID.randomUUID(),
+                        id = it.answers.size,
                         title = action.answer,
                     )
                     it.copy(
@@ -158,13 +153,14 @@ class QuestionCreationViewModel @Inject constructor(
 
     private fun readArguments() {
         val question = questionId?.let { repository.getQuestionById(it) }
+        val questionTypeUi = question?.type?.let { mapper.map(it) }
+
         _state.update {
             it.copy(
-                selectedQuestionType = question?.type?.let { mapper.map(it) }
-                    ?: when (formType) { //todo doesnt look nice
-                        FormType.SURVEY -> QuestionTypeUiModel.SINGLE_CHOICE
-                        FormType.QUIZ -> QuestionTypeUiModel.SINGLE_ANSWER
-                    },
+                selectedQuestionType = questionTypeUi ?: when (formType) {
+                    FormType.SURVEY -> QuestionTypeUiModel.SINGLE_CHOICE
+                    FormType.QUIZ -> QuestionTypeUiModel.SINGLE_ANSWER
+                },
                 availableQuestionTypes = when (formType) {
                     FormType.SURVEY -> listOf(
                         QuestionTypeUiModel.SINGLE_CHOICE,

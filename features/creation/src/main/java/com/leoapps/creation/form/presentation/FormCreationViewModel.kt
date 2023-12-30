@@ -4,7 +4,8 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.leoapps.creation.R
-import com.leoapps.creation.form.domain.FormRepository
+import com.leoapps.creation.form.domain.FormCreationRepository
+import com.leoapps.creation.form.domain.SaveFormUseCase
 import com.leoapps.creation.form.navigation.model.FormCreationNavCommand
 import com.leoapps.creation.form.presentation.model.FormCreationUiAction
 import com.leoapps.creation.form.presentation.model.FormCreationUiState
@@ -25,10 +26,11 @@ import javax.inject.Inject
 @HiltViewModel
 class FormCreationViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val repository: FormRepository
+    private val saveForm: SaveFormUseCase,
+    private val repository: FormCreationRepository
 ) : ViewModel() {
 
-    val formType = savedStateHandle.navArgs<FormCreationArgs>().type
+    private val formType = savedStateHandle.navArgs<FormCreationArgs>().type
 
     private val _state = MutableStateFlow(FormCreationUiState())
     val state = _state.asStateFlow()
@@ -92,6 +94,7 @@ class FormCreationViewModel @Inject constructor(
 
             FormCreationUiAction.OnCreateClicked -> {
                 viewModelScope.launch {
+                    saveForm()
                     _navCommand.emit(FormCreationNavCommand.GoBack)
                 }
             }

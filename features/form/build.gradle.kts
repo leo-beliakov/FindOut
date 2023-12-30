@@ -1,9 +1,11 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
-//    id("kotlin-kapt")
-//    id("com.google.dagger.hilt.android")
-//    id("kotlin-parcelize")
+    id("kotlin-kapt")
+    id("com.google.dagger.hilt.android")
+    id("com.google.devtools.ksp")
+    id("kotlin-parcelize")
+    kotlin("plugin.serialization")
 }
 
 kotlin {
@@ -76,9 +78,18 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:2.7.5")
 
     //Hilt DI
-//    implementation("com.google.dagger:hilt-android:2.48.1")
-//    implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
-//    kapt("com.google.dagger:hilt-compiler:2.48.1")
+    implementation("com.google.dagger:hilt-android:2.48.1")
+    implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
+    kapt("com.google.dagger:hilt-compiler:2.48.1")
+
+    //Room
+    implementation("androidx.room:room-runtime:2.6.1")
+    annotationProcessor("androidx.room:room-compiler:2.6.1")
+    implementation("androidx.room:room-ktx:2.6.1")
+    ksp("androidx.room:room-compiler:2.6.1")
+
+    //Serialization to Json
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
 
     //Tests
     testImplementation("junit:junit:4.13.2")
@@ -90,6 +101,6 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 }
 
-//kapt {
-//    correctErrorTypes = true
-//}
+kapt {
+    correctErrorTypes = true
+}

@@ -25,12 +25,12 @@ internal fun LazyListScope.questionTypeSection(
         ) {
             OptionsPicker(
                 selectedOption = Option(
-                    id = selectedType.textResId,
-                    text = stringResource(id = selectedType.id)
+                    id = selectedType.id,
+                    text = stringResource(id = selectedType.textResId)
                 ),
                 options = availableTypes.map {
                     Option(
-                        id = it.textResId,
+                        id = it.id,
                         text = stringResource(id = it.textResId)
                     )
                 },
