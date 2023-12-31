@@ -21,6 +21,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
@@ -121,7 +122,7 @@ class QuestionCreationViewModel @Inject constructor(
             is QuestionCreationUiAction.OnAddAnswerClicked -> {
                 _state.update {
                     val answerModel = QuestionCreationUiState.Answer(
-                        id = it.answers.size,
+                        id = UUID.randomUUID(),
                         title = action.answer,
                     )
                     it.copy(

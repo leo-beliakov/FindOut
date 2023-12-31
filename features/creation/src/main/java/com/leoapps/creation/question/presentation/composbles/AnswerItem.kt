@@ -152,7 +152,7 @@ private fun AddQuestionItemPreview() {
     FindOutTheme {
         AnswerItem(
             answer = QuestionCreationUiState.Answer(
-                id = 1,
+                id = UUID.randomUUID(),
                 title = "Who's your daddy?"
             ),
             onClick = {},

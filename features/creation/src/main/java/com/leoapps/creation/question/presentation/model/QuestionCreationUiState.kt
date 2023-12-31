@@ -4,11 +4,10 @@ import android.net.Uri
 import androidx.annotation.StringRes
 import com.leoapps.creation.R
 import com.leoapps.creation.answer.presentation.model.AnswerCreationState
-import com.leoapps.form.domain.model.AnswerId
-import com.leoapps.form.domain.model.QuestionId
+import java.util.UUID
 
 data class QuestionCreationUiState(
-    val id: QuestionId = QUESTION_NO_ID,
+    val id: UUID = UUID.randomUUID(),
     val title: String = "",
     val description: String = "",
     val hasDescription: Boolean = false,
@@ -22,15 +21,10 @@ data class QuestionCreationUiState(
 ) {
 
     data class Answer(
-        val id: AnswerId,
+        val id: UUID,
         val title: String,
         val isCorrect: Boolean = false,
     )
-
-    companion object {
-        //unique ID for new forms is generated in the repository, not in the VM
-        private const val QUESTION_NO_ID = -1
-    }
 }
 
 enum class QuestionTypeUiModel(

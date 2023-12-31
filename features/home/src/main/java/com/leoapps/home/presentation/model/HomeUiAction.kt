@@ -1,9 +1,9 @@
 package com.leoapps.home.presentation.model
 
-import com.leoapps.form.domain.model.FormId
+import java.util.UUID
 
 sealed interface HomeUiAction {
     data class OnQuizClicked(
-        val id: FormId
+        val id: UUID
     )
 }

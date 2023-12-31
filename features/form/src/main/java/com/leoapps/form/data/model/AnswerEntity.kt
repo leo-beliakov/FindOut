@@ -1,9 +1,12 @@
 package com.leoapps.form.data.model
 
+import com.leoapps.form.data.model.converters.UuidSerializer
 import kotlinx.serialization.Serializable
+import java.util.UUID
 
 @Serializable
 data class AnswerEntity(
-    val id: Int,
+    @Serializable(with = UuidSerializer::class)
+    val id: UUID,
     val title: String,
 )

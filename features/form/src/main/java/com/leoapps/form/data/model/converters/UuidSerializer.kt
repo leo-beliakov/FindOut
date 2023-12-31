@@ -1,20 +1,21 @@
 package com.leoapps.form.data.model.converters
 
-import android.net.Uri
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.descriptors.PrimitiveKind
 import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
+import java.util.UUID
 
-class UriSerializer : KSerializer<Uri> {
-    override val descriptor = PrimitiveSerialDescriptor("Uri", PrimitiveKind.STRING)
+class UuidSerializer : KSerializer<UUID> {
 
-    override fun deserialize(decoder: Decoder): Uri {
-        return Uri.parse(decoder.decodeString())
+    override val descriptor = PrimitiveSerialDescriptor("UUID", PrimitiveKind.STRING)
+
+    override fun deserialize(decoder: Decoder): UUID {
+        return UUID.fromString(decoder.decodeString())
     }
 
-    override fun serialize(encoder: Encoder, value: Uri) {
+    override fun serialize(encoder: Encoder, value: UUID) {
         encoder.encodeString(value.toString())
     }
 }

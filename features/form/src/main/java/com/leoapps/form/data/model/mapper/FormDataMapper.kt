@@ -5,6 +5,7 @@ import com.leoapps.form.data.model.FormEntity
 import com.leoapps.form.data.model.QuestionEntity
 import com.leoapps.form.domain.model.Form
 import com.leoapps.form.domain.model.FormType
+import com.leoapps.form.domain.model.QuestionType
 import javax.inject.Inject
 
 class FormDataMapper @Inject constructor() {
@@ -17,6 +18,17 @@ class FormDataMapper @Inject constructor() {
             description = form.description,
             coverUri = form.coverUri,
             questions = form.questions.map { mapQuestionToEntity(it) },
+        )
+    }
+
+    fun mapToDomain(form: FormEntity): Form {
+        return Form(
+            id = form.id,
+            type = FormType.QUIZ,
+            title = form.title,
+            description = form.description,
+            coverUri = form.coverUri,
+            questions = form.questions.map { mapQuestionToDomain(it) },
         )
     }
 
@@ -40,10 +52,37 @@ class FormDataMapper @Inject constructor() {
         )
     }
 
-    fun mapToDomain(form: FormEntity): Form {
-        return Form(
-            id = form.id,
-            type = FormType.QUIZ,
+    private fun mapQuestionToDomain(question: QuestionEntity): Form.Question {
+        return when (question.type) {
+            QuestionType.SINGLE_ANSWER,
+            QuestionType.MULTIPLE_ANSWER,
+            QuestionType.SINGLE_CHOICE,
+            QuestionType.MULTIPLE_CHOICES -> {
+                Form.Question.Choice(
+                    id = question.id,
+                    title = question.title,
+                    coverUri = question.coverUri,
+                    description = question.description,
+                    isSingleChoice = question.isSingleChoice,
+                    answers = question.answers.map { mapAnswerToDomain(it) },
+                )
+            }
+
+            QuestionType.OPEN_ANSWER -> {
+                Form.Question.Open(
+                    id = question.id,
+                    title = question.title,
+                    coverUri = question.coverUri,
+                    description = question.description,
+                )
+            }
+        }
+    }
+
+    private fun mapAnswerToDomain(answer: AnswerEntity): Form.Question.Answer {
+        return Form.Question.Answer(
+            id = answer.id,
+            title = answer.title,
         )
     }
 }

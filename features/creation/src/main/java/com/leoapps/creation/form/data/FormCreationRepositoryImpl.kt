@@ -4,11 +4,11 @@ import android.net.Uri
 import com.leoapps.creation.form.domain.FormCreationRepository
 import com.leoapps.form.domain.model.Form
 import com.leoapps.form.domain.model.FormType
-import com.leoapps.form.domain.model.QuestionId
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.update
+import java.util.UUID
 import javax.inject.Inject
 
 class FormCreationRepositoryImpl @Inject constructor() : FormCreationRepository {
@@ -17,7 +17,7 @@ class FormCreationRepositoryImpl @Inject constructor() : FormCreationRepository 
 
     override fun createNewForm(type: FormType) {
         _cachedSurvey.value = Form(
-            id = DRAFT_ID,
+            id = UUID.randomUUID(),
             type = type
         )
     }
@@ -44,7 +44,7 @@ class FormCreationRepositoryImpl @Inject constructor() : FormCreationRepository 
         }
     }
 
-    override fun deleteQuestionById(id: QuestionId) {
+    override fun deleteQuestionById(id: UUID) {
         _cachedSurvey.update { survey ->
             val updatedQuestions = survey?.questions?.toMutableList()
                 ?.filter { it.id != id }
@@ -53,7 +53,7 @@ class FormCreationRepositoryImpl @Inject constructor() : FormCreationRepository 
         }
     }
 
-    override fun getQuestionById(id: QuestionId): Form.Question? {
+    override fun getQuestionById(id: UUID): Form.Question? {
         return _cachedSurvey.value?.questions?.firstOrNull { it.id == id }
     }
 
@@ -64,10 +64,6 @@ class FormCreationRepositoryImpl @Inject constructor() : FormCreationRepository 
     override suspend fun getFormDraft(): Form? {
         return _cachedSurvey.value
     }
-
-    companion object {
-        private const val DRAFT_ID = 0
-    }
 }
 
 private fun List<Form.Question>.addOrUpdate(question: Form.Question): List<Form.Question> {
@@ -75,19 +71,11 @@ private fun List<Form.Question>.addOrUpdate(question: Form.Question): List<Form.
 
     val index = updatedQuestions.indexOfFirst { it.id == question.id }
     if (index == -1) {
-        val updatedQuestion = question.withUpdatedId(updatedQuestions.size)
-        updatedQuestions.add(updatedQuestion)
+        updatedQuestions.add(question)
     } else {
         updatedQuestions.removeAt(index)
         updatedQuestions.add(index, question)
     }
 
     return updatedQuestions.toList()
-}
-
-private fun Form.Question.withUpdatedId(newId: QuestionId): Form.Question {
-    return when (this) {
-        is Form.Question.Choice -> this.copy(id = newId)
-        is Form.Question.Open -> this.copy(id = newId)
-    }
 }

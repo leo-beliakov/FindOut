@@ -3,7 +3,7 @@ package com.leoapps.creation.form.presentation.model
 import android.net.Uri
 import androidx.annotation.StringRes
 import com.leoapps.creation.R
-import com.leoapps.form.domain.model.QuestionId
+import java.util.UUID
 
 data class FormCreationUiState(
     @StringRes val pageNameResId: Int = R.string.form_creation_title_survey,
@@ -14,7 +14,7 @@ data class FormCreationUiState(
     val questions: List<Question> = emptyList(),
 ) {
     data class Question(
-        val id: QuestionId,
+        val id: UUID,
         val title: String,
     )
 }

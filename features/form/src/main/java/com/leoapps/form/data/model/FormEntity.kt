@@ -5,11 +5,12 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.leoapps.form.data.model.FormEntity.Companion.TABLE_NAME
 import com.leoapps.form.domain.model.FormType
+import java.util.UUID
 
 @Entity(tableName = TABLE_NAME)
 data class FormEntity(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
+    @PrimaryKey
+    val id: UUID,
     val type: FormType,
     val title: String? = null,
     val description: String? = null,
